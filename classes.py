@@ -38,8 +38,7 @@ class MyPreprocessing:
   def remove_punctuation(self):
     print("Removing punctuation...")
     self.__data['text'] = self.__data['text'].str.replace('[^\w\s]', '')
-    # self.__data['text'] = self.__data['text'].apply(
-    #  lambda text: text.translate(str.maketrans('', '', string.punctuation)))
+    
 
   def remove_numbers(self):
     print("Removing numbers...")
@@ -128,4 +127,19 @@ class MyPreprocessing:
     sym_spell.load_bigram_dictionary(bigram_path, term_index=0, count_index=2)
 
     self.__data['text'] = self.__data['text'].apply(
-      lambda text: str(sym_spell.lookup_compound(text, max_edit_distance=2)[0]).split(',')[0])
+      lambda text: sym_spell.lookup_compound(text, max_edit_distance=2)[0].term)
+
+  def correct_spacing(self):
+    '''Deletes double or more spaces.
+
+    Must be called after calling the above methods.
+    Most of the above methods just delete a token. However since tokens are
+    surrounded by whitespaces, they will often result in having more than one
+    space between words.
+    '''
+    self.__data['text'] = self.__data['text'].str.replace('\s{2,}', ' ')
+
+  def logging(self):
+    '''Prints the first 10 rows in the dataframe stored in self.__data.'''
+    print('Logging:')
+    print(self.__data['text'].head(10))

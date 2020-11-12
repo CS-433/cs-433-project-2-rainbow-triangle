@@ -30,8 +30,7 @@ if __name__ == '__main__':
   preprocessing.emoticons_to_words()
   preprocessing.correct_spelling()
   preprocessing.remove_punctuation()
-  preprocessing.remove_rare_words()
-  preprocessing.remove_stopwords()
+  preprocessing.correct_spacing()
 
   # Saving preprocessed data
   preprocessing.get().to_csv('out.csv')
