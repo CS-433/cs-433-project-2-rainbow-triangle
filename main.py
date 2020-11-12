@@ -10,27 +10,19 @@ from classes import *
 
 if __name__ == '__main__':
 
-  """
-    Other methods available
-    
-    preprocessing.remove_numbers()
-    preprocessing.remove_stopwords()
-    preprocessing.remove_frequent_words()
-    preprocessing.remove_rare_words()
-    preprocessing.lemmatize() # or preprocessing.stemming()
-      
-  """
-
   # Performing preprocessing
-  preprocessing = MyPreprocessing([FILE_NEGATIVE, FILE_POSITIVE])
+  preprocessing = MyPreprocessing([FILE_NEGATIVE_FULL, FILE_POSITIVE_FULL])
 
+  preprocessing.drop_duplicates()
   preprocessing.to_lower()
   preprocessing.remove_tags()
-  preprocessing.slangs_to_words()
-  preprocessing.emoticons_to_words()
-  preprocessing.correct_spelling()
-  preprocessing.remove_punctuation()
   preprocessing.correct_spacing()
+
+  # preprocessing.correct_spelling()
+  # preprocessing.slangs_to_words()
+  # preprocessing.emoticons_to_words()
+  # preprocessing.remove_punctuation()
+
 
   # Saving preprocessed data
   preprocessing.get().to_csv('out.csv')
@@ -43,6 +35,8 @@ if __name__ == '__main__':
   # Some rows are composed only by <user> and <url> tags, so after preprocessing are NaN
   tweets.dropna(inplace=True)
   tweets.info()
+
+  print(tweets)
 
   X = tweets['text'].values
   Y = tweets['label'].values

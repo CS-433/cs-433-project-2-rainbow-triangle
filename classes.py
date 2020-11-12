@@ -31,6 +31,9 @@ class MyPreprocessing:
   def get(self):
     return self.__data
 
+  def drop_duplicates(self):
+    self.__data = self.__data.drop_duplicates(subset=['text'])
+
   def to_lower(self):
     print("Converting to lowercase...")
     self.__data['text'] = self.__data['text'].str.lower()
