@@ -14,7 +14,7 @@ for i in range(N_SPLITS):
   X = train_preprocessed['text'].values
   Y = train_preprocessed['label'].values
 
-  classifier.fit(X, Y, batch_size=BATCH_SIZE, load_weights=(not i == 0))
+  classifier.fit(X, Y, batch_size=BATCH_SIZE)
 
 # Making the predictions
 test_preprocessed = pd.read_csv(PREPROCESSED_TEST_DATA, usecols=['ids', 'text'])

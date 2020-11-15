@@ -30,8 +30,9 @@ class Bert:
     self.__model = TFBertForSequenceClassification.from_pretrained("bert-base-uncased")
     self.__tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
     self.__weights_path = weights_path
+    self.__n = 0
 
-  def fit(self, X, Y, batch_size, load_weights):
+  def fit(self, X, Y, batch_size):
     """
     Fits the model.
 
@@ -54,11 +55,13 @@ class Bert:
 
     self.__model.compile(optimizer=optimizer, loss=loss, metrics=[metric])
 
-    if load_weights:
-      self.__model.load_weights(self.__weights_path)
+    if self.__n > 0:
+      self.__model.load_weights(f'{self.__weights_path}model_{self.__n - 1}')
 
     self.__model.fit(train_data, epochs=1, validation_data=validation_data)
-    self.__model.save_weights(self.__weights_path)
+
+    self.__model.save_weights(f'{self.__weights_path}model_{self.__n}')
+    self.__n += 1
 
   def predict(self, ids, X, path):
     """
@@ -68,6 +71,10 @@ class Bert:
     :param X: new data to predict
     :param path: specifies where to store the submission file
     """
+
+    if self.__n > 0:
+      self.__model.load_weights(f'{self.__weights_path}model_{self.__n - 1}')
+
     predictions = []
 
     for i, tweet in enumerate(X):
