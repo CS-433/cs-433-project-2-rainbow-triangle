@@ -1,3 +1,4 @@
+import pandas as pd
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.layers.experimental.preprocessing import TextVectorization
@@ -6,37 +7,12 @@ from tensorflow.keras import losses
 from tensorflow.keras import optimizers
 from constants import *
 
-from classes import *
 
 if __name__ == '__main__':
 
-  # Performing preprocessing
-  preprocessing = MyPreprocessing([FILE_NEGATIVE_FULL, FILE_POSITIVE_FULL])
-
-  preprocessing.drop_duplicates()
-  preprocessing.to_lower()
-  preprocessing.remove_tags()
-  preprocessing.correct_spacing()
-
-  # preprocessing.correct_spelling()
-  # preprocessing.slangs_to_words()
-  # preprocessing.emoticons_to_words()
-  # preprocessing.remove_punctuation()
-
-
-  # Saving preprocessed data
-  preprocessing.get().to_csv('out.csv')
-
-  # Preprocessing takes much time (expecally for correcting spelling), so read from previous CSV
-  # preprocessing = MyPreprocessing(['out.csv'])
-
-  tweets = preprocessing.get()
-
-  # Some rows are composed only by <user> and <url> tags, so after preprocessing are NaN
+  tweets = pd.read_csv(f'{PREPROCESSED_TRAIN_DATA_PREFIX}{0}{PREPROCESSED_TRAIN_DATA_SUFFIX}',
+                                   usecols=['text', 'label'])
   tweets.dropna(inplace=True)
-  tweets.info()
-
-  print(tweets)
 
   X = tweets['text'].values
   Y = tweets['label'].values
