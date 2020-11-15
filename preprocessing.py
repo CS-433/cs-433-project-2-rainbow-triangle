@@ -3,7 +3,7 @@ from constants import *
 import numpy as np
 
 
-def bert_preprocessing(preprocessing):
+def bert_preprocessing(preprocessing, istest=False):
   """
   Define the preprocessing operations to train the model with Bert.
 
@@ -12,7 +12,8 @@ def bert_preprocessing(preprocessing):
   :return: preprocessed data
   :rtype: MyPreprocessing
   """
-  preprocessing.drop_duplicates()
+  if not istest:
+    preprocessing.drop_duplicates()
   preprocessing.to_lower()
   preprocessing.remove_tags()
   preprocessing.correct_spacing()
@@ -32,5 +33,5 @@ for i, df in enumerate(np.array_split(train_df, N_SPLITS)):
 
 # Preprocessing the test data
 test_preprocessing = MyPreprocessing([TEST_DATA], submission=True)
-train_preprocessing = bert_preprocessing(test_preprocessing)
+test_preprocessing = bert_preprocessing(test_preprocessing, istest=True)
 test_preprocessing.get().to_csv(PREPROCESSED_TEST_DATA)
