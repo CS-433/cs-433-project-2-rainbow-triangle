@@ -1,0 +1,191 @@
+2020-11-15 18:39:19.154128: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.11.0
+[nltk_data] Downloading package stopwords to /home/mapa/nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!
+[nltk_data] Downloading package wordnet to /home/mapa/nltk_data...
+[nltk_data]   Package wordnet is already up-to-date!
+2020-11-15 18:39:21.686161: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcuda.so.1
+2020-11-15 18:39:22.020495: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returni
+ng NUMA node zero
+2020-11-15 18:39:22.021519: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties:
+pciBusID: 0000:00:04.0 name: Tesla P100-PCIE-16GB computeCapability: 6.0
+coreClock: 1.3285GHz coreCount: 56 deviceMemorySize: 15.90GiB deviceMemoryBandwidth: 681.88GiB/s
+2020-11-15 18:39:22.021590: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.11.0
+2020-11-15 18:39:22.024594: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.11
+2020-11-15 18:39:22.026095: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
+2020-11-15 18:39:22.026478: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
+2020-11-15 18:39:22.029659: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
+2020-11-15 18:39:22.030456: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.11
+2020-11-15 18:39:22.030744: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.8
+2020-11-15 18:39:22.030943: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returni
+ng NUMA node zero
+2020-11-15 18:39:22.032019: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returni
+ng NUMA node zero
+2020-11-15 18:39:22.032950: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
+2020-11-15 18:39:22.041726: I tensorflow/core/platform/profile_utils/cpu_utils.cc:104] CPU Frequency: 2300000000 Hz
+2020-11-15 18:39:22.041971: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55c707ba38a0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2020-11-15 18:39:22.042147: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2020-11-15 18:39:22.137751: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returni
+ng NUMA node zero
+2020-11-15 18:39:22.138882: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55c707bb75d0 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2020-11-15 18:39:22.138916: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Tesla P100-PCIE-16GB, Compute Capability 6.0
+2020-11-15 18:39:22.139224: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returni
+ng NUMA node zero
+2020-11-15 18:39:22.140220: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties:
+pciBusID: 0000:00:04.0 name: Tesla P100-PCIE-16GB computeCapability: 6.0
+coreClock: 1.3285GHz coreCount: 56 deviceMemorySize: 15.90GiB deviceMemoryBandwidth: 681.88GiB/s
+2020-11-15 18:39:22.140335: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.11.0
+2020-11-15 18:39:22.140404: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.11
+2020-11-15 18:39:22.140467: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
+2020-11-15 18:39:22.140521: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
+2020-11-15 18:39:22.140579: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
+2020-11-15 18:39:22.140639: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.11
+2020-11-15 18:39:22.140700: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.8
+2020-11-15 18:39:22.140827: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-11-15 18:39:22.141824: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-11-15 18:39:22.142735: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
+2020-11-15 18:39:22.142812: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.11.0
+2020-11-15 18:39:22.573018: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1257] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-11-15 18:39:22.573080: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1263]      0
+2020-11-15 18:39:22.573097: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1276] 0:   N
+2020-11-15 18:39:22.573534: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returni
+ng NUMA node zero
+2020-11-15 18:39:22.574671: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returni
+ng NUMA node zero
+2020-11-15 18:39:22.575672: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1402] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 14975 MB memory) -> physical GPU (device
+: 0, name: Tesla P100-PCIE-16GB, pci bus id: 0000:00:04.0, compute capability: 6.0)
+2020-11-15 18:39:23.034310: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.11
+Some layers from the model checkpoint at bert-base-uncased were not used when initializing TFBertForSequenceClassification: ['nsp___cls', 'mlm___cls']
+- This IS expected if you are initializing TFBertForSequenceClassification from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing TFBertForSequenceClassification from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Some layers of TFBertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['dropout_37', 'classifier']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+convert_data_to_examples done
+^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[Bconvert_examples_to_tf done
+shuffle done
+convert_examples_to_tf_dataset done 
+22686/22686 [==============================] - 11571s 510ms/step - loss: 0.2770 - accuracy: 0.8801 - val_loss: 0.3109 - val_accuracy: 0.8735
+Fit done
+convert_data_to_examples done
+convert_examples_to_tf done
+shuffle done
+convert_examples_to_tf_dataset done 
+22686/22686 [==============================] - 11560s 510ms/step - loss: 0.2483 - accuracy: 0.8952 - val_loss: 0.3174 - val_accuracy: 0.8774
+Fit done
+convert_data_to_examples done
+convert_examples_to_tf done
+shuffle done
+convert_examples_to_tf_dataset done 
+22686/22686 [==============================] - 11561s 510ms/step - loss: 0.2450 - accuracy: 0.8963 - val_loss: 0.3209 - val_accuracy: 0.8801
+Fit done
+convert_data_to_examples done
+convert_examples_to_tf done
+shuffle done
+convert_examples_to_tf_dataset done 
+22686/22686 [==============================] - 11565s 510ms/step - loss: 0.2409 - accuracy: 0.8988 - val_loss: 0.3292 - val_accuracy: 0.8765
+Fit done
+convert_data_to_examples done
+convert_examples_to_tf done
+shuffle done
+convert_examples_to_tf_dataset done 
+22686/22686 [==============================] - 11572s 510ms/step - loss: 0.2387 - accuracy: 0.8994 - val_loss: 0.3130 - val_accuracy: 0.8791
+Fit done
+Step: 0
+Step: 100
+Step: 200
+Step: 300
+Step: 400
+Step: 500
+Step: 600
+Step: 700
+Step: 800
+Step: 900
+Step: 1000
+Step: 1100
+Step: 1200
+Step: 1300
+Step: 1400
+Step: 1500
+Step: 1600
+Step: 1700
+Step: 1800
+Step: 1900
+Step: 2000
+Step: 2100
+Step: 2200
+Step: 2300
+Step: 2400
+Step: 2500
+Step: 2600
+Step: 2700
+Step: 2800
+Step: 2900
+Step: 3000
+Step: 3100
+Step: 3200
+Step: 3300
+Step: 3400
+Step: 3500
+Step: 3600
+Step: 3700
+Step: 3800
+Step: 3900
+Step: 4000
+Step: 4100
+Step: 4200
+Step: 4300
+Step: 4400
+Step: 4500
+Step: 4600
+Step: 4700
+Step: 4800
+Step: 4900
+Step: 5000
+Step: 5100
+Step: 5200
+Step: 5300
+Step: 5400
+Step: 5500
+Step: 5600
+Step: 5700
+Step: 5800
+Step: 5900
+Step: 6000
+Step: 6100
+Step: 6200
+Step: 6300
+Step: 6400
+Step: 6500
+Step: 6600
+Step: 6700
+Step: 6800
+Step: 6900
+Step: 7000
+Step: 7100
+Step: 7200
+Step: 7300
+Step: 7400
+Step: 7500
+Step: 7600
+Step: 7700
+Step: 7800
+Step: 7900
+Step: 8000
+Step: 8100
+Step: 8200
+Step: 8300
+Step: 8400
+Step: 8500
+Step: 8600
+Step: 8700
+Step: 8800
+Step: 8900
+Step: 9000
+Step: 9100
+Step: 9200
+Step: 9300
+Step: 9400
+Step: 9500
+Step: 9600
+Step: 9700
+Step: 9800
+Step: 9900
