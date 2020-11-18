@@ -13,6 +13,7 @@ from symspellpy import SymSpell
 nltk.download('stopwords')
 nltk.download('wordnet')
 
+
 class Preprocessing:
   def __init__(self, list_: list, submission=False):
     if not submission:
@@ -22,7 +23,9 @@ class Preprocessing:
         for i, file_name in enumerate(list_):
           with open(file_name) as f:
             content = f.read().splitlines()
-          df = pd.DataFrame(columns=['text', 'label'], data={'text': content, 'label': np.ones(len(content)) * i})
+          df = pd.DataFrame(columns=['text', 'label'],
+                            data={'text': content,
+                                  'label': np.ones(len(content)) * i})
           self.__data = self.__data.append(df).reset_index(drop=True)
 
     else:
@@ -33,7 +36,8 @@ class Preprocessing:
         ids = [line.split(',')[0] for line in content]
         texts = [",".join(line.split(',')[1:]) for line in content]
 
-        self.__data = pd.DataFrame(columns=['ids', 'text'], data={'ids': ids, 'text': texts})
+        self.__data = pd.DataFrame(columns=['ids', 'text'],
+                                   data={'ids': ids, 'text': texts})
 
   def get(self):
     return self.__data
@@ -91,10 +95,12 @@ class Preprocessing:
 
     def convert_emoticons(text):
       for emot in EMOTICONS:
-        text = re.sub(u'(' + emot + ')', "_".join(EMOTICONS[emot].replace(",", "").split()), text)
+        text = re.sub(u'(' + emot + ')',
+                      "_".join(EMOTICONS[emot].replace(",", "").split()), text)
       return text
 
-    self.__data['text'] = self.__data['text'].apply(lambda text: convert_emoticons(str(text)))
+    self.__data['text'] = self.__data['text'].apply(
+        lambda text: convert_emoticons(str(text)))
 
   def remove_tags(self):
     print("Removing tags...")
@@ -125,7 +131,8 @@ class Preprocessing:
           new_text.append(w)
       return " ".join(new_text)
 
-    self.__data['text'] = self.__data['text'].apply(lambda text: chat_words_conversion(str(text)))
+    self.__data['text'] = self.__data['text'].apply(
+        lambda text: chat_words_conversion(str(text)))
 
   def correct_spelling(self):
     print("Correcting spelling...")

@@ -9,6 +9,8 @@ def bert_preprocessing(preprocessing, istest=False):
 
   :param preprocessing: specifies data
   :type preprocessing: Preprocessing
+  :param istest: specifies if it is test data or not
+  :type istest: bool
   :return: preprocessed data
   :rtype: Preprocessing
   """

@@ -4,6 +4,7 @@ from transformers import InputExample, InputFeatures
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
 
+
 class Bert:
 
   def __init__(self, weights_path):
@@ -27,14 +28,17 @@ class Bert:
     :param load_weights: specifies whether to load the weights
     """
     # Converting the tweets to have a good input for BERT
-    train_input_examples, validation_input_examples = self.__convert_data_to_examples(X=X, Y=Y, split_size=0.2)
+    train_input_examples, validation_input_examples = 
+        self.__convert_data_to_examples(X=X, Y=Y, split_size=0.2)
     train_data = self.__convert_examples_to_tf_dataset(list(train_input_examples))
     train_data = train_data.shuffle(100).batch(batch_size).repeat(2)
 
-    validation_data = self.__convert_examples_to_tf_dataset(list(validation_input_examples))
+    validation_data = self.__convert_examples_to_tf_dataset(
+        list(validation_input_examples))
     validation_data = validation_data.batch(batch_size)
 
-    optimizer = tf.keras.optimizers.Adam(learning_rate=3e-5, epsilon=1e-08, clipnorm=1.0)
+    optimizer = tf.keras.optimizers.Adam(learning_rate=3e-5, epsilon=1e-08,
+                                         clipnorm=1.0)
     loss = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
     metric = tf.keras.metrics.SparseCategoricalAccuracy('accuracy')
 
@@ -70,7 +74,8 @@ class Bert:
       if i % 100 == 0:
         print(f"Step: {i}")
 
-    submission = pd.DataFrame(columns=['Id', 'Prediction'], data={'Id': ids, 'Prediction': predictions})
+    submission = pd.DataFrame(columns=['Id', 'Prediction'],
+                              data={'Id': ids, 'Prediction': predictions})
     submission['Prediction'].replace(0, -1, inplace=True)
 
     submission.to_csv(path, index=False)
@@ -99,11 +104,13 @@ class Bert:
       )
 
       input_ids, token_type_ids, attention_mask = (
-        input_dict["input_ids"], input_dict["token_type_ids"], input_dict['attention_mask'])
+        input_dict["input_ids"], input_dict["token_type_ids"],
+        input_dict['attention_mask'])
 
       features.append(
         InputFeatures(
-          input_ids=input_ids, attention_mask=attention_mask, token_type_ids=token_type_ids, label=e.label
+          input_ids=input_ids, attention_mask=attention_mask,
+          token_type_ids=token_type_ids, label=e.label
         )
       )
 
@@ -120,7 +127,14 @@ class Bert:
 
     return tf.data.Dataset.from_generator(
       gen,
-      ({"input_ids": tf.int32, "attention_mask": tf.int32, "token_type_ids": tf.int32}, tf.int64),
+      (
+        {
+          "input_ids": tf.int32,
+          "attention_mask": tf.int32,
+          "token_type_ids": tf.int32
+        },
+        tf.int64
+      ),
       (
         {
           "input_ids": tf.TensorShape([None]),
@@ -141,17 +155,20 @@ class Bert:
     :param split_size: specifies the ratio to split data in train/test
     :return: transformed data
     """
-    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=split_size)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y,
+                                                        test_size=split_size)
 
     train_input_examples = []
 
     for text, label in zip(X_train, Y_train):
-      train_input_examples.append(InputExample(guid=None, text_a=text, text_b=None, label=label))
+      train_input_examples.append(
+          InputExample(guid=None, text_a=text, text_b=None, label=label))
 
     validation_input_examples = []
 
     for text, label in zip(X_test, Y_test):
-      validation_input_examples.append(InputExample(guid=None, text_a=text, text_b=None, label=label))
+      validation_input_examples.append(
+          InputExample(guid=None, text_a=text, text_b=None, label=label))
 
     return train_input_examples, validation_input_examples
 
