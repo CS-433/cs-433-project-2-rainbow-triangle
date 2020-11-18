@@ -13,8 +13,8 @@ class Bert:
 
     :param weights_path: specifies where load/store weights of the model
     """
-    self.__model = TFBertForSequenceClassification.from_pretrained("bert-base-uncased")
-    self.__tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+    self.__model = TFBertForSequenceClassification.from_pretrained('bert-base-uncased')
+    self.__tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
     self.__weights_path = weights_path
     self.__n = 0
 
@@ -67,12 +67,12 @@ class Bert:
     predictions = []
 
     for i, tweet in enumerate(X):
-      feature = self.__tokenizer.encode_plus(text=tweet, return_tensors="tf")
+      feature = self.__tokenizer.encode_plus(text=tweet, return_tensors='tf')
       output = self.__model(feature)[0].numpy().squeeze().argmax()
       predictions.append(output)
 
       if i % 100 == 0:
-        print(f"Step: {i}")
+        print(f'Step: {i}')
 
     submission = pd.DataFrame(columns=['Id', 'Prediction'],
                               data={'Id': ids, 'Prediction': predictions})
@@ -104,7 +104,7 @@ class Bert:
       )
 
       input_ids, token_type_ids, attention_mask = (
-        input_dict["input_ids"], input_dict["token_type_ids"],
+        input_dict['input_ids'], input_dict['token_type_ids'],
         input_dict['attention_mask'])
 
       features.append(
@@ -118,9 +118,9 @@ class Bert:
       for f in features:
         yield (
           {
-            "input_ids": f.input_ids,
-            "attention_mask": f.attention_mask,
-            "token_type_ids": f.token_type_ids,
+            'input_ids': f.input_ids,
+            'attention_mask': f.attention_mask,
+            'token_type_ids': f.token_type_ids,
           },
           f.label,
         )
@@ -129,17 +129,17 @@ class Bert:
       gen,
       (
         {
-          "input_ids": tf.int32,
-          "attention_mask": tf.int32,
-          "token_type_ids": tf.int32
+          'input_ids': tf.int32,
+          'attention_mask': tf.int32,
+          'token_type_ids': tf.int32
         },
         tf.int64
       ),
       (
         {
-          "input_ids": tf.TensorShape([None]),
-          "attention_mask": tf.TensorShape([None]),
-          "token_type_ids": tf.TensorShape([None]),
+          'input_ids': tf.TensorShape([None]),
+          'attention_mask': tf.TensorShape([None]),
+          'token_type_ids': tf.TensorShape([None]),
         },
         tf.TensorShape([]),
       ),
