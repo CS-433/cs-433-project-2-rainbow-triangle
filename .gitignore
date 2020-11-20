@@ -1,6 +1,12 @@
-./data
+data
 __pycache__
 .idea
 .DS_Store
-./data/.DS_Store
+data/.DS_Store
 .vscode
+preprocessed_files/gru*.csv
+preprocessed_files/bert*.csv
+gru_weights/model*.*
+gru_weights/checkpoint
+bert_weights/model*.*
+bert_weights/checkpoint

@@ -1,3 +1,4 @@
+from abstract_model import AbstractModel
 import pandas as pd
 from transformers import BertTokenizer, TFBertForSequenceClassification
 from transformers import InputExample, InputFeatures
@@ -5,7 +6,7 @@ import tensorflow as tf
 from sklearn.model_selection import train_test_split
 
 
-class Bert:
+class Bert(AbstractModel):
 
   def __init__(self, weights_path):
     """
@@ -13,12 +14,13 @@ class Bert:
 
     :param weights_path: specifies where load/store weights of the model
     """
+    super().__init__(weights_path)
+
     self.__model = TFBertForSequenceClassification.from_pretrained('bert-base-uncased')
     self.__tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-    self.__weights_path = weights_path
     self.__n = 0
 
-  def fit(self, X, Y, batch_size):
+  def fit(self, X, Y, batch_size, epochs=1):
     """
     Fits the model.
 
@@ -28,8 +30,9 @@ class Bert:
     :param load_weights: specifies whether to load the weights
     """
     # Converting the tweets to have a good input for BERT
-    train_input_examples, validation_input_examples = 
-        self.__convert_data_to_examples(X=X, Y=Y, split_size=0.2)
+    train_input_examples, validation_input_examples = \
+      self.__convert_data_to_examples(X=X, Y=Y, split_size=0.2)
+
     train_data = self.__convert_examples_to_tf_dataset(list(train_input_examples))
     train_data = train_data.shuffle(100).batch(batch_size).repeat(2)
 
@@ -45,11 +48,11 @@ class Bert:
     self.__model.compile(optimizer=optimizer, loss=loss, metrics=[metric])
 
     if self.__n > 0:
-      self.__model.load_weights(f'{self.__weights_path}model_{self.__n - 1}')
+      self.__model.load_weights(f'{self._weights_path}model_{self.__n - 1}')
 
-    self.__model.fit(train_data, epochs=1, validation_data=validation_data)
+    self.__model.fit(train_data, epochs=epochs, validation_data=validation_data)
 
-    self.__model.save_weights(f'{self.__weights_path}model_{self.__n}')
+    self.__model.save_weights(f'{self._weights_path}model_{self.__n}')
     self.__n += 1
 
   def predict(self, ids, X, path):
@@ -62,7 +65,7 @@ class Bert:
     """
 
     if self.__n > 0:
-      self.__model.load_weights(f'{self.__weights_path}model_{self.__n - 1}')
+      self.__model.load_weights(f'{self._weights_path}model_{self.__n - 1}')
 
     predictions = []
 
@@ -74,12 +77,7 @@ class Bert:
       if i % 100 == 0:
         print(f'Step: {i}')
 
-    submission = pd.DataFrame(columns=['Id', 'Prediction'],
-                              data={'Id': ids, 'Prediction': predictions})
-    submission['Prediction'].replace(0, -1, inplace=True)
-
-    submission.to_csv(path, index=False)
-    submission.head(10)
+    AbstractModel._create_submission(ids, predictions, path)
 
   def __convert_examples_to_tf_dataset(self, data, max_length=128):
     """
@@ -92,7 +90,8 @@ class Bert:
     features = []  # -> will hold InputFeatures to be converted later
 
     for e in data:
-      # Documentation is really strong for this method, so please take a look at it
+      # Documentation is really strong for this method, so please take a look
+      # at it
       input_dict = self.__tokenizer.encode_plus(
         e.text_a,
         add_special_tokens=True,
@@ -155,8 +154,10 @@ class Bert:
     :param split_size: specifies the ratio to split data in train/test
     :return: transformed data
     """
-    X_train, X_test, Y_train, Y_test = train_test_split(X, Y,
-                                                        test_size=split_size)
+    X_train, X_test, Y_train, Y_test = AbstractModel._split_data(
+      X=X,
+      Y=Y,
+      split_size=AbstractModel)
 
     train_input_examples = []
 
