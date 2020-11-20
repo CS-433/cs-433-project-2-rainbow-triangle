@@ -15,5 +15,6 @@ PREPROCESSED_TRAIN_DATA_PREFIX = 'train_preprocessed_full_'
 N_SPLITS = 5
 PREPROCESSED_TRAIN_DATA_SUFFIX = '.csv'
 PREPROCESSED_TEST_DATA = 'test_preprocessed.csv'
+PREPROCESSED_TRAIN_DATA = 'train_preprocessed.csv'
 
 SUBMISSION_FILE = 'submission.csv'

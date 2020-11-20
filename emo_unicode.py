@@ -1,4 +1,6 @@
 #TODO: add reference
+#TODO: I'm afraid these will add more frequency to certain words
+#like laughing, big grin or laugh with glasses. (laugh x 2 after lemmatization)
 # -*- coding: UTF-8 -*-
 
 

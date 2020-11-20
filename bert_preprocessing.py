@@ -18,8 +18,7 @@ def bert_preprocessing(preprocessing, istest=False):
     preprocessing.drop_duplicates()
   preprocessing.to_lower()
   preprocessing.remove_tags()
-  preprocessing.correct_spacing()
-
+  preprocessing.correct_spacing_indexing()
   return preprocessing
 
 
