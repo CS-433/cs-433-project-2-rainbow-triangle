@@ -1,5 +1,5 @@
 import pandas as pd
-from classes import Bert
+from bert import Bert
 from constants import *
 
 # Instantiating the classifier (be sure to create the folder!)

@@ -1,4 +1,4 @@
-from classes import Preprocessing
+from preprocessing import Preprocessing
 from constants import *
 import numpy as np
 
