@@ -8,7 +8,7 @@ from tensorflow.keras import layers
 
 class Gru(AbstractModel):
 
-  def __init__(self, weights_path, max_tweet_length=120, embedding_dim=16):
+  def __init__(self, weights_path, max_tweet_length=120, embedding_dim=100):
     super().__init__(weights_path)
 
     self.__tokenizer = Tokenizer()
@@ -58,7 +58,7 @@ class Gru(AbstractModel):
     # first one is used for the first operation on the inputs (when data
     # "enters" in GRU) the second one is used for the recurrences Units:
     # dimensionality of the output space
-    self.__model.add(layers.GRU(units=16, dropout=0.2, recurrent_dropout=0.2))
+    self.__model.add(layers.GRU(units=64, dropout=0.2, recurrent_dropout=0.2))
     self.__model.add(layers.Dense(1, activation='sigmoid'))
 
     self.__model.compile(
@@ -68,7 +68,7 @@ class Gru(AbstractModel):
 
     print(self.__model.summary())
 
-  def fit(self, X, Y, batch_size=128, epochs=1):
+  def fit(self, X, Y, batch_size=128, epochs=10):
     # Updating vocabulary
     self.__update_vocabulary(X)
 
