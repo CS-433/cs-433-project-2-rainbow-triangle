@@ -79,8 +79,6 @@ class Gru(AbstractModel):
     X_train_pad = self.__convert_data(X_train)
     X_test_pad = self.__convert_data(X_test)
 
-    print(X_train_pad[0])
-
     self.__build_model()
 
     print('Training the model...')

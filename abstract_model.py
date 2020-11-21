@@ -1,15 +1,18 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from abc import ABC, abstractmethod
 
 
-class AbstractModel:
+class AbstractModel(ABC):
 
   def __init__(self, weights_path):
     self._weights_path = weights_path
 
+  @abstractmethod
   def fit(self, X, Y, batch_size, epochs):
     pass
 
+  @abstractmethod
   def predict(self, ids, X, path):
     pass
 
