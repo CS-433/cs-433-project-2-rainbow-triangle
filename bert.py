@@ -157,7 +157,7 @@ class Bert(AbstractModel):
     X_train, X_test, Y_train, Y_test = AbstractModel._split_data(
       X=X,
       Y=Y,
-      split_size=AbstractModel)
+      split_size=split_size)
 
     train_input_examples = []
 
