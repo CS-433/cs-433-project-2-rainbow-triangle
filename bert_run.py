@@ -19,7 +19,7 @@ if __name__ == '__main__':
     X = train_preprocessed['text'].values
     Y = train_preprocessed['label'].values
 
-    classifier.fit(X, Y, batch_size=64)
+    classifier.fit(X, Y, batch_size=24)
 
   # Making the predictions
   test_preprocessed = pd.read_csv(

@@ -90,24 +90,24 @@ class Bert(AbstractModel):
     for e in data:
       # Documentation is really strong for this method, so please take a look
       # at it
-      input_dict = self.__tokenizer.encode_plus(
+      input_dict = self.__tokenizer(
         e.text_a,
         add_special_tokens=True,
         max_length=max_length,  # truncates if len(s) > max_length
-        return_token_type_ids=True,
+        return_token_type_ids=False,
         return_attention_mask=True,
         padding='max_length',  # pads to the right by default
         truncation=True
       )
 
-      input_ids, token_type_ids, attention_mask = (
-        input_dict['input_ids'], input_dict['token_type_ids'],
+      input_ids, attention_mask = (
+        input_dict['input_ids'],
         input_dict['attention_mask'])
 
       features.append(
         InputFeatures(
           input_ids=input_ids, attention_mask=attention_mask,
-          token_type_ids=token_type_ids, label=e.label
+          label=e.label
         )
       )
 
@@ -117,7 +117,6 @@ class Bert(AbstractModel):
           {
             'input_ids': f.input_ids,
             'attention_mask': f.attention_mask,
-            'token_type_ids': f.token_type_ids,
           },
           f.label,
         )
@@ -128,7 +127,6 @@ class Bert(AbstractModel):
         {
           'input_ids': tf.int32,
           'attention_mask': tf.int32,
-          'token_type_ids': tf.int32
         },
         tf.int64
       ),
@@ -136,7 +134,6 @@ class Bert(AbstractModel):
         {
           'input_ids': tf.TensorShape([None]),
           'attention_mask': tf.TensorShape([None]),
-          'token_type_ids': tf.TensorShape([None]),
         },
         tf.TensorShape([]),
       ),
