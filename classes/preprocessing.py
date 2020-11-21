@@ -127,7 +127,7 @@ class Preprocessing:
 
   def slangs_to_words(self):
     print('Converting slangs to words...')
-    with open('utility/slang.txt') as f:
+    with open('../utility/slang.txt') as f:
       chat_words_str = f.read().splitlines()
     chat_words_map_dict = {}
     chat_words_list = []

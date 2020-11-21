@@ -1,6 +1,5 @@
-from preprocessing import Preprocessing
+from classes.preprocessing import Preprocessing
 from constants import *
-import numpy as np
 
 
 def gru_preprocessing(preprocessing, istest=False):
@@ -30,9 +29,9 @@ train_preprocessing = gru_preprocessing(train_preprocessing)
 train_df = train_preprocessing.get()
 
 train_df = train_df.sample(frac=1)
-train_df.to_csv(f'{PREPROCESSED_FILES_PATH}{PREPROCESSED_TRAIN_DATA_GRU}')
+train_df.to_csv(f'{PREPROCESSED_DATA_PATH_GRU}{PREPROCESSED_TRAIN_DATA_GRU}')
 
 # Preprocessing the test data
 test_preprocessing = Preprocessing([TEST_DATA], submission=True)
 test_preprocessing = gru_preprocessing(test_preprocessing, istest=True)
-test_preprocessing.get().to_csv(f'{PREPROCESSED_FILES_PATH}{PREPROCESSED_TEST_DATA_GRU}')
+test_preprocessing.get().to_csv(f'{PREPROCESSED_DATA_PATH_GRU}{PREPROCESSED_TEST_DATA_GRU}')

@@ -1,4 +1,4 @@
-from abstract_model import AbstractModel
+from classes.abstract_model import AbstractModel
 
 import tensorflow as tf
 from tensorflow.keras.preprocessing.text import Tokenizer

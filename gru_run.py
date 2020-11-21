@@ -1,12 +1,13 @@
 import pandas as pd
-from gru import Gru
+from classes.gru import Gru
 from constants import *
+from time import strftime
 
 if __name__ == '__main__':
     classifier = Gru(GRU_WEIGHTS_PATH)
 
     train_preprocessed = pd.read_csv(
-        f'{PREPROCESSED_FILES_PATH}{PREPROCESSED_TRAIN_DATA_GRU}',
+        f'{PREPROCESSED_DATA_PATH_GRU}{PREPROCESSED_TRAIN_DATA_GRU}',
         usecols=['text', 'label'])
 
     train_preprocessed.dropna(inplace=True)
@@ -18,10 +19,10 @@ if __name__ == '__main__':
 
     # Making the predictions
     test_preprocessed = pd.read_csv(
-        f'{PREPROCESSED_FILES_PATH}{PREPROCESSED_TEST_DATA_GRU}',
+        f'{PREPROCESSED_DATA_PATH_GRU}{PREPROCESSED_TEST_DATA_GRU}',
         usecols=['ids', 'text'])
 
     ids = test_preprocessed['ids'].values
     X = test_preprocessed['text'].values
 
-    classifier.predict(ids, X, f'{SUBMISSION_PATH}gru_submission.csv')
+    classifier.predict(ids, X, f'{SUBMISSION_PATH_GRU}submission-{strftime("%Y-%m-%d %H:%M:%S")}.csv')

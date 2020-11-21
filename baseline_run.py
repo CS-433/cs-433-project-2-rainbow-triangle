@@ -1,9 +1,7 @@
 """Reads raw data, preprocesses it and does feature extraction."""
 
-import numpy as np
-
 from constants import *
-from preprocessing import Preprocessing
+from classes.preprocessing import Preprocessing
 
 
 def run_preprocessing(data_preprocessing, istest=False):

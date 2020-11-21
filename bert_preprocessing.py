@@ -1,4 +1,4 @@
-from preprocessing import Preprocessing
+from classes.preprocessing import Preprocessing
 from constants import *
 import numpy as np
 
@@ -32,9 +32,9 @@ train_df = train_preprocessing.get()
 train_df = train_df.sample(frac=1)
 
 for i, df in enumerate(np.array_split(train_df, N_SPLITS)):
-  df.to_csv(f'{PREPROCESSED_FILES_PATH}{PREPROCESSED_TRAIN_DATA_PREFIX_BERT}{i}{PREPROCESSED_TRAIN_DATA_SUFFIX_BERT}')
+  df.to_csv(f'{PREPROCESSED_DATA_PATH_BERT}{PREPROCESSED_TRAIN_DATA_PREFIX_BERT}{i}{PREPROCESSED_TRAIN_DATA_SUFFIX_BERT}')
 
 # Preprocessing the test data
 test_preprocessing = Preprocessing([TEST_DATA], submission=True)
 test_preprocessing = bert_preprocessing(test_preprocessing, istest=True)
-test_preprocessing.get().to_csv(f'{PREPROCESSED_FILES_PATH}{PREPROCESSED_TEST_DATA_BERT}')
+test_preprocessing.get().to_csv(f'{PREPROCESSED_DATA_PATH_BERT}{PREPROCESSED_TEST_DATA_BERT}')

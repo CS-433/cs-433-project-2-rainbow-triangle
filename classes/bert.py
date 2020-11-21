@@ -1,9 +1,7 @@
-from abstract_model import AbstractModel
-import pandas as pd
+from classes.abstract_model import AbstractModel
 from transformers import BertTokenizer, TFBertForSequenceClassification
 from transformers import InputExample, InputFeatures
 import tensorflow as tf
-from sklearn.model_selection import train_test_split
 
 
 class Bert(AbstractModel):

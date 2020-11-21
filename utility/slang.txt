@@ -78,3 +78,4 @@ SN=Social network
 YT=Youtube
 AB=About
 ABT=About
+DON'T=do not
