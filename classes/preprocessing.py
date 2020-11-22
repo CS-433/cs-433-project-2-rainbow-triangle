@@ -122,8 +122,8 @@ class Preprocessing:
     self.__data['text'] = self.__data['text'].str.replace('<[\w]*>', '')
 
   def remove_hashtags(self):
-    print('Removing hashtags...')
-    self.__data['text'] = self.__data['text'].str.replace('#\w+', '')
+    print('Removing hashtag symbol...')
+    self.__data['text'] = self.__data['text'].str.replace('#', '')
 
   def slangs_to_words(self):
     print('Converting slangs to words...')
@@ -152,20 +152,26 @@ class Preprocessing:
 
   def correct_spelling(self):
     print('Correcting spelling...')
-    sym_spell = SymSpell(max_dictionary_edit_distance=2, prefix_length=7)
-
-    dictionary_path = pkg_resources.resource_filename(
-      'symspellpy',
-      'frequency_dictionary_en_82_765.txt')
-
-    bigram_path = pkg_resources.resource_filename(
-      'symspellpy',
-      'frequency_bigramdictionary_en_243_342.txt')
-
-    sym_spell.load_dictionary(dictionary_path, term_index=0, count_index=1)
-    sym_spell.load_bigram_dictionary(bigram_path, term_index=0, count_index=2)
+    sym_spell = _get_symspell(2)
     self.__data['text'] = self.__data['text'].apply(
       lambda text: sym_spell.lookup_compound(text, max_edit_distance=2)[0].term)
+
+  def word_segmentation(self):
+    print('Splitting words...')
+    sym_sepll=_get_symspell(0)
+    self.__data['text'] = self.__data['text'].apply(
+        lambda text: sym_spell.word_segmentation(text))
+
+  def final_paranthesis(self):
+    print('Substituting final final paranthesis...')
+    self.__data['text'] = self.__data['text'].str.replace('\)\)+$', ':))')
+    self.__data['text'] = self.__data['text'].str.replace('\)$', ':)')
+    self.__data['text'] = self.__data['text'].str.replace('\(\(+$', ':((')
+    self.__data['text'] = self.__data['text'].str.replace('\($', ':(')
+
+  def emoticons_to_sentiment(self):
+    print('Substituting emoticons with sentiment...')
+    pass
 
   def correct_spacing_indexing(self):
     """Deletes double or more spaces and corrects indexing.
@@ -177,6 +183,20 @@ class Preprocessing:
     """
     self.__data['text'] = self.__data['text'].str.replace('\s{2,}', ' ')
     self.__data.reset_index(inplace=True, drop=True)
+
+  def _get_symspell(max_dictionary_edit_distance):
+    sym_spell = SymSpell(
+        max_dictionary_edit_distance=max_dictionary_edit_distance,
+        prefix_length=7)
+    dictionary_path = pkg_resources.resource_filename(
+      'symspellpy',
+      'frequency_dictionary_en_82_765.txt')
+    sym_spell.load_dictionary(dictionary_path, term_index=0, count_index=1)
+    bigram_path = pkg_resources.resource_filename(
+      'symspellpy',
+      'frequency_bigramdictionary_en_243_342.txt')
+    sym_spell.load_bigram_dictionary(bigram_path, term_index=0, count_index=2)
+    return sym_spell
 
   def add_tfidf(self):
     """Adds tfidf vectorization to the data"""
