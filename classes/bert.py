@@ -47,11 +47,11 @@ class Bert(AbstractModel):
     self.__model.compile(optimizer=optimizer, loss=loss, metrics=[metric])
 
     if self.__n > 0:
-      self.__model = tf.keras.models.load_model(f'{self._weights_path}model_{self.__n - 1}.h5')
+      self.__model = tf.keras.models.load_model(f'{self._weights_path}model_{self.__n - 1}')
 
     self.__model.fit(train_data, epochs=epochs, validation_data=validation_data)
 
-    self.__model.save(f'{self._weights_path}model_{self.__n}.h5')
+    self.__model.save(f'{self._weights_path}model_{self.__n}')
     self.__n += 1
 
   def predict(self, ids, X, path):

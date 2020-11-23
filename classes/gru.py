@@ -87,7 +87,7 @@ class Gru(AbstractModel):
 
     print('Saving the model...')
 
-    self.__model.save(f'{self._weights_path}model.h5')
+    self.__model.save(f'{self._weights_path}model')
 
   def predict(self, ids, X, path):
     """
@@ -99,7 +99,7 @@ class Gru(AbstractModel):
     """
 
     # Loading weights
-    self.__model = tf.keras.models.load_model(f'{self._weights_path}model.h5')
+    self.__model = tf.keras.models.load_model(f'{self._weights_path}model')
 
     # Converting input data
     X_pad = self.__convert_data(X)
