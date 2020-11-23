@@ -64,6 +64,12 @@ class Preprocessing:
     print('Removing punctuation...')
     self.__data['text'] = self.__data['text'].str.replace('[^\w\s]', '')
 
+  def remove_elongs(self):
+    print('Removing elongs...')
+
+    self.__data['text'].apply(
+      lambda text: str(re.sub(r'([a-zA-Z])\1{2,}', r'\1', text)))
+
   def remove_numbers(self):
     print('Removing numbers...')
     self.__data['text'] = self.__data['text'].str.replace('\d', '')
@@ -108,22 +114,38 @@ class Preprocessing:
   def emoticons_to_words(self):
     print('Converting emoticons to words...')
 
-    def convert_emoticons(text):
-      for emot in EMOTICONS:
-        text = re.sub(u'(' + emot + ')',
-                      '_'.join(EMOTICONS[emot].replace(',', '').split()), text)
+    def inner(text):
+      for emo in EMOTICONS:
+        emo_with_spaces = " ".join(
+          [re.escape(ch) for ch in emo if not ch == '\\'])
+
+        text = re.sub(
+          f'( {emo}( |$))|( {emo_with_spaces}( |$))|( < \\\ 3( |$))',
+          ' ' + EMOTICONS[emo].lower() + ' ',
+          text)
+
       return text
 
     self.__data['text'] = self.__data['text'].apply(
-      lambda text: convert_emoticons(str(text)))
+      lambda text: inner(str(text)))
 
   def remove_tags(self):
     print('Removing tags...')
-    self.__data['text'] = self.__data['text'].str.replace('<[\w]*>', '')
 
-  def remove_hashtags(self):
-    print('Removing hashtags...')
-    self.__data['text'] = self.__data['text'].str.replace('#\w+', '')
+    def inner(text):
+      text = re.sub('<[\w]*>', '', text).strip()
+      text = re.sub('\.{3}$', '', text).strip()
+      text = re.sub(' (\(|\))$', r' :\1', text).strip()
+
+      return text
+
+    self.__data['text'] = self.__data['text'].apply(
+      lambda text: inner(str(text)))
+
+  def remove_parenthesis(self):
+    print('Removing parenthesis...')
+    self.__data['text'] = self.__data['text'].apply(
+      lambda text: str(re.sub('(\(|\))', '', text)))
 
   def slangs_to_words(self):
     print('Converting slangs to words...')
@@ -150,24 +172,44 @@ class Preprocessing:
     self.__data['text'] = self.__data['text'].apply(
       lambda text: chat_words_conversion(str(text)))
 
-  def correct_spelling(self):
-    print('Correcting spelling...')
-    sym_spell = SymSpell(max_dictionary_edit_distance=2, prefix_length=7)
+  def convert_hashtags(self):
+    print('Converting hashtags...')
+    self.__data['text'] = self.__data['text'].apply(
+      lambda text: str(re.sub(
+        '(#)(\w+)',
+        lambda x: Preprocessing.__word_segmentation(str(x.group(2)),
+                                                    correct_words=False),
+        text)))
+
+  def convert_negation(self):
+    print('Converting negations...')
+
+    # a sentence without any spaces
+    self.__data['text'] = self.__data['text'].apply(
+      lambda text: str(re.sub("n't", ' not', text)))
+
+  @staticmethod
+  def __word_segmentation(text, correct_words):
+    max_dictionary_edit_distance = 0
+    if correct_words:
+      max_dictionary_edit_distance = 2
+
+    sym_spell = SymSpell(
+      max_dictionary_edit_distance=max_dictionary_edit_distance)
 
     dictionary_path = pkg_resources.resource_filename(
-      'symspellpy',
-      'frequency_dictionary_en_82_765.txt')
-
-    bigram_path = pkg_resources.resource_filename(
-      'symspellpy',
-      'frequency_bigramdictionary_en_243_342.txt')
-
+      "symspellpy", "frequency_dictionary_en_82_765.txt")
+    # term_index is the column of the term and count_index is the
+    # column of the term frequency
     sym_spell.load_dictionary(dictionary_path, term_index=0, count_index=1)
-    sym_spell.load_bigram_dictionary(bigram_path, term_index=0, count_index=2)
-    self.__data['text'] = self.__data['text'].apply(
-      lambda text: sym_spell.lookup_compound(text, max_edit_distance=2)[0].term)
+
+    result = sym_spell.word_segmentation(text)
+
+    return result.corrected_string
 
   def correct_spacing_indexing(self):
+    print('Correcting spacing...')
+
     """Deletes double or more spaces and corrects indexing.
 
     Must be called after calling the above methods.
@@ -176,6 +218,8 @@ class Preprocessing:
     space between words.
     """
     self.__data['text'] = self.__data['text'].str.replace('\s{2,}', ' ')
+    self.__data['text'] = self.__data['text'].apply(lambda text: text.strip())
+
     self.__data.reset_index(inplace=True, drop=True)
 
   def add_tfidf(self):

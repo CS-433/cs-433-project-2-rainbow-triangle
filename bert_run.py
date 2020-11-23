@@ -19,7 +19,7 @@ if __name__ == '__main__':
     X = train_preprocessed['text'].values
     Y = train_preprocessed['label'].values
 
-    classifier.fit(X, Y, batch_size=64)
+    classifier.fit(X, Y, batch_size=24)
 
   # Making the predictions
   test_preprocessed = pd.read_csv(
@@ -29,4 +29,4 @@ if __name__ == '__main__':
   ids = test_preprocessed['ids'].values
   X = test_preprocessed['text'].values
 
-  classifier.predict(ids, X, f'{SUBMISSION_PATH_BERT}submission-{strftime("%Y-%m-%d %H:%M:%S")}.csv')
+  classifier.predict(ids, X, f'{SUBMISSION_PATH_BERT}submission-{strftime("%Y-%m-%d_%H:%M:%S")}.csv')

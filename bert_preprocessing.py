@@ -17,6 +17,7 @@ def bert_preprocessing(preprocessing, istest=False):
 
   if not istest:
     preprocessing.drop_duplicates()
+
   preprocessing.to_lower()
   preprocessing.remove_tags()
   preprocessing.correct_spacing_indexing()
@@ -25,7 +26,7 @@ def bert_preprocessing(preprocessing, istest=False):
 
 
 # Preprocessing the train data
-train_preprocessing = Preprocessing([TRAIN_DATA_NEGATIVE_FULL, TRAIN_DATA_POSITIVE_FULL], submission=False)
+train_preprocessing = Preprocessing([TRAIN_DATA_NEGATIVE, TRAIN_DATA_POSITIVE], submission=False)
 train_preprocessing = bert_preprocessing(train_preprocessing)
 train_df = train_preprocessing.get()
 

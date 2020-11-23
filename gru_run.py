@@ -25,4 +25,4 @@ if __name__ == '__main__':
     ids = test_preprocessed['ids'].values
     X = test_preprocessed['text'].values
 
-    classifier.predict(ids, X, f'{SUBMISSION_PATH_GRU}submission-{strftime("%Y-%m-%d %H:%M:%S")}.csv')
+    classifier.predict(ids, X, f'{SUBMISSION_PATH_GRU}submission-{strftime("%Y-%m-%d_%H:%M:%S")}.csv')
