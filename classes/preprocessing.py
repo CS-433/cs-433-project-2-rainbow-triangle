@@ -198,14 +198,33 @@ class Preprocessing:
       max_dictionary_edit_distance=max_dictionary_edit_distance)
 
     dictionary_path = pkg_resources.resource_filename(
-      "symspellpy", "frequency_dictionary_en_82_765.txt")
-    # term_index is the column of the term and count_index is the
-    # column of the term frequency
+      'symspellpy',
+      'frequency_dictionary_en_82_765.txt')
     sym_spell.load_dictionary(dictionary_path, term_index=0, count_index=1)
+    bigram_path = pkg_resources.resource_filename(
+      'symspellpy',
+      'frequency_bigramdictionary_en_243_342.txt')
+    sym_spell.load_bigram_dictionary(bigram_path, term_index=0, count_index=2)
 
     result = sym_spell.word_segmentation(text)
 
     return result.corrected_string
+
+  def word_segmentation(self):
+    print('Splitting words...')
+    self.__data['text'] = self.__data['text'].apply(
+        lambda text: Preprocessing.__word_segmentation(text, correct_words=False))
+
+  def final_paranthesis(self):
+    print('Substituting final final paranthesis...')
+    self.__data['text'] = self.__data['text'].str.replace('\)\)+$', ':))')
+    self.__data['text'] = self.__data['text'].str.replace('\)$', ':)')
+    self.__data['text'] = self.__data['text'].str.replace('\(\(+$', ':((')
+    self.__data['text'] = self.__data['text'].str.replace('\($', ':(')
+
+  def emoticons_to_sentiment(self):
+    print('Substituting emoticons with sentiment...')
+    pass
 
   def correct_spacing_indexing(self):
     print('Correcting spacing...')
