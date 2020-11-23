@@ -1,6 +1,6 @@
 from classes.abstract_model import AbstractModel
 from transformers import BertTokenizer, TFBertForSequenceClassification
-from transformers import InputExample, InputFeatures
+from transformers import InputExample, InputFeatures, AdamWeightDecay
 import tensorflow as tf
 
 
@@ -27,6 +27,11 @@ class Bert(AbstractModel):
     :param batch_size: specifies how many datapoints to use for each step
     :param load_weights: specifies whether to load the weights
     """
+
+    if self.__n > 0:
+      self.__model = TFBertForSequenceClassification.from_pretrained(
+        f'{self._weights_path}model_{self.__n - 1}')
+
     # Converting the tweets to have a good input for BERT
     train_input_examples, validation_input_examples = \
       self.__convert_data_to_examples(X=X, Y=Y, split_size=0.1)
@@ -38,20 +43,16 @@ class Bert(AbstractModel):
         list(validation_input_examples))
     validation_data = validation_data.batch(batch_size)
 
-    optimizer = tf.keras.optimizers.Adam(learning_rate=1e-5, epsilon=1e-08,
-                                         clipnorm=1.0)
+    optimizer = AdamWeightDecay(learning_rate=1e-5, epsilon=1e-08, clipnorm=1.0)
 
     loss = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
     metric = tf.keras.metrics.SparseCategoricalAccuracy('accuracy')
 
     self.__model.compile(optimizer=optimizer, loss=loss, metrics=[metric])
 
-    if self.__n > 0:
-      self.__model = tf.keras.models.load_model(f'{self._weights_path}model_{self.__n - 1}')
-
     self.__model.fit(train_data, epochs=epochs, validation_data=validation_data)
 
-    self.__model.save(f'{self._weights_path}model_{self.__n}')
+    self.__model.save_pretrained(f'{self._weights_path}model_{self.__n}')
     self.__n += 1
 
   def predict(self, ids, X, path):
@@ -64,7 +65,8 @@ class Bert(AbstractModel):
     """
 
     if self.__n > 0:
-      self.__model.load_weights(f'{self._weights_path}model_{self.__n - 1}')
+      self.__model = TFBertForSequenceClassification.from_pretrained(
+        f'{self._weights_path}model_{self.__n - 1}')
 
     predictions = []
 

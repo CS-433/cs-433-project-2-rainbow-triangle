@@ -131,14 +131,8 @@ class Preprocessing:
   def remove_tags(self):
     print('Removing tags...')
 
-    def inner(text):
-      text = re.sub('<[\w]*>', '', text).strip()
-      text = re.sub('\.{3}$', '', text).strip()
-      text = re.sub(' (\(|\))$', r' :\1', text).strip()
-      return text
-
-    self.__data['text'] = self.__data['text'].apply(
-      lambda text: inner(str(text)))
+    self.__data['text'] = self.__data['text'].str.replace('<[\w]*>', '')
+    self.__data['text'] = self.__data['text'].str.replace('\.{3}$', '')
 
   def remove_parenthesis(self):
     print('Removing parenthesis...')
