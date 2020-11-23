@@ -23,6 +23,8 @@ class Preprocessing:
     __data: A pandas dataframe with the data (at least one column called text).
   """
 
+  symspell = None
+
   def __init__(self, list_: list, submission=False):
     if not submission:
       if len(list_) == 2:
@@ -66,7 +68,6 @@ class Preprocessing:
 
   def remove_elongs(self):
     print('Removing elongs...')
-
     self.__data['text'].apply(
       lambda text: str(re.sub(r'([a-zA-Z])\1{2,}', r'\1', text)))
 
@@ -118,12 +119,10 @@ class Preprocessing:
       for emo in EMOTICONS:
         emo_with_spaces = " ".join(
           [re.escape(ch) for ch in emo if not ch == '\\'])
-
         text = re.sub(
           f'( {emo}( |$))|( {emo_with_spaces}( |$))|( < \\\ 3( |$))',
           ' ' + EMOTICONS[emo].lower() + ' ',
           text)
-
       return text
 
     self.__data['text'] = self.__data['text'].apply(
@@ -136,7 +135,6 @@ class Preprocessing:
       text = re.sub('<[\w]*>', '', text).strip()
       text = re.sub('\.{3}$', '', text).strip()
       text = re.sub(' (\(|\))$', r' :\1', text).strip()
-
       return text
 
     self.__data['text'] = self.__data['text'].apply(
@@ -149,7 +147,7 @@ class Preprocessing:
 
   def slangs_to_words(self):
     print('Converting slangs to words...')
-    with open('../utility/slang.txt') as f:
+    with open('./utility/slang.txt') as f:
       chat_words_str = f.read().splitlines()
     chat_words_map_dict = {}
     chat_words_list = []
@@ -171,52 +169,25 @@ class Preprocessing:
 
     self.__data['text'] = self.__data['text'].apply(
       lambda text: chat_words_conversion(str(text)))
+    
+  def correct_spelling(self):
+    print('Correcting spelling...')
+    self.__data['text'] = self.__data['text'].apply(
+      lambda text: Preprocessing.__correct_spelling(text))
 
   def convert_hashtags(self):
     print('Converting hashtags...')
-    self.__data['text'] = self.__data['text'].apply(
-      lambda text: str(re.sub(
-        '(#)(\w+)',
-        lambda x: Preprocessing.__word_segmentation(str(x.group(2)),
-                                                    correct_words=False),
-        text)))
+    self.__data['text'] = self.__data['text'].str.replace('(#)(\w+)',
+        lambda text: Preprocessing.__word_segmentation(str(text.group(2))))
 
   def convert_negation(self):
     print('Converting negations...')
-
     # a sentence without any spaces
     self.__data['text'] = self.__data['text'].apply(
       lambda text: str(re.sub("n't", ' not', text)))
-
-  @staticmethod
-  def __word_segmentation(text, correct_words):
-    max_dictionary_edit_distance = 0
-    if correct_words:
-      max_dictionary_edit_distance = 2
-
-    sym_spell = SymSpell(
-      max_dictionary_edit_distance=max_dictionary_edit_distance)
-
-    dictionary_path = pkg_resources.resource_filename(
-      'symspellpy',
-      'frequency_dictionary_en_82_765.txt')
-    sym_spell.load_dictionary(dictionary_path, term_index=0, count_index=1)
-    bigram_path = pkg_resources.resource_filename(
-      'symspellpy',
-      'frequency_bigramdictionary_en_243_342.txt')
-    sym_spell.load_bigram_dictionary(bigram_path, term_index=0, count_index=2)
-
-    result = sym_spell.word_segmentation(text)
-
-    return result.corrected_string
-
-  def word_segmentation(self):
-    print('Splitting words...')
-    self.__data['text'] = self.__data['text'].apply(
-        lambda text: Preprocessing.__word_segmentation(text, correct_words=False))
-
+  
   def final_paranthesis(self):
-    print('Substituting final final paranthesis...')
+    print('Substituting final paranthesis...')
     self.__data['text'] = self.__data['text'].str.replace('\)\)+$', ':))')
     self.__data['text'] = self.__data['text'].str.replace('\)$', ':)')
     self.__data['text'] = self.__data['text'].str.replace('\(\(+$', ':((')
@@ -238,7 +209,6 @@ class Preprocessing:
     """
     self.__data['text'] = self.__data['text'].str.replace('\s{2,}', ' ')
     self.__data['text'] = self.__data['text'].apply(lambda text: text.strip())
-
     self.__data.reset_index(inplace=True, drop=True)
 
   def add_tfidf(self):
@@ -248,8 +218,31 @@ class Preprocessing:
     x = vectorizer.fit_transform(self.__data['text'])
     feature_names = ['TFIDF_' + name.upper()
                      for name in vectorizer.get_feature_names()]
-
     tfidf_features = pd.DataFrame(x.toarray(), columns=feature_names) \
       .reset_index(drop=True)
-
     self.__data = pd.concat([self.__data, tfidf_features], axis=1)
+
+  @staticmethod
+  def __get_symspell():
+    if Preprocessing.symspell is None:
+      Preprocessing.symspell = SymSpell()
+      dictionary_path = pkg_resources.resource_filename(
+        'symspellpy',
+        'frequency_dictionary_en_82_765.txt')
+      Preprocessing.symspell.load_dictionary(dictionary_path, term_index=0, count_index=1)
+      bigram_path = pkg_resources.resource_filename(
+        'symspellpy',
+        'frequency_bigramdictionary_en_243_342.txt')
+      Preprocessing.symspell.load_bigram_dictionary(bigram_path, term_index=0, count_index=2)
+    return Preprocessing.symspell
+
+  @staticmethod
+  def __word_segmentation(text):
+    result = Preprocessing.__get_symspell().word_segmentation(text, max_edit_distance=0)
+    return result.segmented_string
+ 
+  @staticmethod
+  def __correct_spelling(text):
+    result = Preprocessing.__get_symspell().lookup_compound(text, max_edit_distance=2)
+    return result[0].term
+

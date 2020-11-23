@@ -1,4 +1,4 @@
- """Reads raw data and preprocesses it for applying classical ML."""
+"""Reads raw data and preprocesses it for applying classical ML."""
 
 from constants import *
 from classes.preprocessing import Preprocessing
@@ -19,11 +19,10 @@ def run_preprocessing(data_preprocessing, istest=False):
   if not istest:
     data_preprocessing.drop_duplicates()
   data_preprocessing.remove_tags()
-  data_preprocessing.remove_hashtags()
-  data_preprocessing.word_segmentation() 
+  data_preprocessing.convert_hashtags()
   data_preprocessing.slangs_to_words()
-  data_preprocessing.final_paranthesis()
-  data_preprocessing.emoticons_to_sentiment()
+  #data_preprocessing.final_paranthesis()
+  #data_preprocessing.emoticons_to_sentiment()
   data_preprocessing.remove_numbers()
   data_preprocessing.remove_punctuation()
   data_preprocessing.to_lower()
