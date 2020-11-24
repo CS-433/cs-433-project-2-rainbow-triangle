@@ -1,0 +1,156 @@
+2020-11-23 16:26:13.342726: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.11.0
+2020-11-23 16:26:18.378277: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcuda.so.1
+2020-11-23 16:26:19.813093: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-11-23 16:26:19.814318: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties:
+pciBusID: 0000:00:04.0 name: Tesla P100-PCIE-16GB computeCapability: 6.0
+coreClock: 1.3285GHz coreCount: 56 deviceMemorySize: 15.90GiB deviceMemoryBandwidth: 681.88GiB/s
+2020-11-23 16:26:19.814514: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.11.0
+2020-11-23 16:26:19.881673: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.11
+2020-11-23 16:26:19.921088: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
+2020-11-23 16:26:19.939368: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
+2020-11-23 16:26:20.009876: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
+2020-11-23 16:26:20.024800: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.11
+2020-11-23 16:26:20.036598: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.8
+2020-11-23 16:26:20.036825: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-11-23 16:26:20.038061: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-11-23 16:26:20.039164: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
+2020-11-23 16:26:20.076989: I tensorflow/core/platform/profile_utils/cpu_utils.cc:104] CPU Frequency: 2300000000 Hz
+2020-11-23 16:26:20.077239: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x557fa1c69cc0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2020-11-23 16:26:20.077278: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2020-11-23 16:26:20.609987: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-11-23 16:26:20.611100: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x557fa1c7d970 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2020-11-23 16:26:20.611136: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Tesla P100-PCIE-16GB, Compute Capability 6.0
+2020-11-23 16:26:20.611399: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-11-23 16:26:20.612346: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties:
+pciBusID: 0000:00:04.0 name: Tesla P100-PCIE-16GB computeCapability: 6.0
+coreClock: 1.3285GHz coreCount: 56 deviceMemorySize: 15.90GiB deviceMemoryBandwidth: 681.88GiB/s
+2020-11-23 16:26:20.612458: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.11.0
+2020-11-23 16:26:20.612520: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.11
+2020-11-23 16:26:20.612584: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
+2020-11-23 16:26:20.612639: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
+2020-11-23 16:26:20.612689: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
+2020-11-23 16:26:20.612737: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.11
+2020-11-23 16:26:20.612784: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.8
+2020-11-23 16:26:20.612899: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-11-23 16:26:20.613868: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-11-23 16:26:20.615083: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
+2020-11-23 16:26:20.616589: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.11.0
+2020-11-23 16:26:25.720825: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1257] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-11-23 16:26:25.721192: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1263]      0
+2020-11-23 16:26:25.721397: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1276] 0:   N
+2020-11-23 16:26:25.724847: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-11-23 16:26:25.726486: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:982] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-11-23 16:26:25.728084: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1402] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 14975 MB memory) -> physical GPU (device: 0, name: Tesla P100-PCIE-16GB, pci bus id: 0000:00:04.0, compute capability: 6.0)
+2020-11-23 16:26:26.664283: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.11
+Some layers from the model checkpoint at bert-base-uncased were not used when initializing TFBertForSequenceClassification: ['mlm___cls', 'nsp___cls']
+- This IS expected if you are initializing TFBertForSequenceClassification from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing TFBertForSequenceClassification from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Some layers of TFBertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['dropout_37', 'classifier']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Splitting data in train and test set...
+170144/170144 [==============================] - 67467s 397ms/step - loss: 0.2563 - accuracy: 0.8906 - val_loss: 0.2643 - val_accuracy: 0.8931
+Some layers from the model checkpoint at ./weights/bert/model_0 were not used when initializing TFBertForSequenceClassification: ['dropout_37']
+- This IS expected if you are initializing TFBertForSequenceClassification from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing TFBertForSequenceClassification from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Some layers of TFBertForSequenceClassification were not initialized from the model checkpoint at ./weights/bert/model_0 and are newly initialized: ['dropout_75']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Step: 0
+Step: 100
+Step: 200
+Step: 300
+Step: 400
+Step: 500
+Step: 600
+Step: 700
+Step: 800
+Step: 900
+Step: 1000
+Step: 1100
+Step: 1200
+Step: 1300
+Step: 1400
+Step: 1500
+Step: 1600
+Step: 1700
+Step: 1800
+Step: 1900
+Step: 2000
+Step: 2100
+Step: 2200
+Step: 2300
+Step: 2400
+Step: 2500
+Step: 2600
+Step: 2700
+Step: 2800
+Step: 2900
+Step: 3000
+Step: 3100
+Step: 3200
+Step: 3300
+Step: 3400
+Step: 3500
+Step: 3600
+Step: 3700
+Step: 3800
+Step: 3900
+Step: 4000
+Step: 4100
+Step: 4200
+Step: 4300
+Step: 4400
+Step: 4500
+Step: 4600
+Step: 4700
+Step: 4800
+Step: 4900
+Step: 5000
+Step: 5100
+Step: 5200
+Step: 5300
+Step: 5400
+Step: 5500
+Step: 5600
+Step: 5700
+Step: 5800
+Step: 5900
+Step: 6000
+Step: 6100
+Step: 6200
+Step: 6300
+Step: 6400
+Step: 6500
+Step: 6600
+Step: 6700
+Step: 6800
+Step: 6900
+Step: 7000
+Step: 7100
+Step: 7200
+Step: 7300
+Step: 7400
+Step: 7500
+Step: 7600
+Step: 7700
+Step: 7800
+Step: 7900
+Step: 8000
+Step: 8100
+Step: 8200
+Step: 8300
+Step: 8400
+Step: 8500
+Step: 8600
+Step: 8700
+Step: 8800
+Step: 8900
+Step: 9000
+Step: 9100
+Step: 9200
+Step: 9300
+Step: 9400
+Step: 9500
+Step: 9600
+Step: 9700
+Step: 9800
+Step: 9900
