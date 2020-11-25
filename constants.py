@@ -22,8 +22,8 @@ PREPROCESSED_TRAIN_DATA_GRU = 'train_preprocessed.csv'
 PREPROCESSED_TEST_DATA_GRU = 'test_preprocessed.csv'
 
 # Constants for baseline (classical ML)
-CLASSICAL_WEIGHTS_PATH = './weights/classical/'
-SUBMISSION_PATH_CLASSICAL = './submissions/classical/'
-PREPROCESSED_DATA_PATH_CLASSICAL = './preprocessed_data/classical/'
+CLASSICAL_WEIGHTS_PATH = './weights/baseline/'
+SUBMISSION_PATH_CLASSICAL = './submissions/baseline/'
+PREPROCESSED_DATA_PATH_CLASSICAL = './preprocessed_data/baseline/'
 PREPROCESSED_TRAIN_DATA_CLASSICAL = 'train_preprocessed.csv'
 PREPROCESSED_TEST_DATA_CLASSICAL = 'test_preprocessed.csv'

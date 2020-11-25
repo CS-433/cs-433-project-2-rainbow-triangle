@@ -1,6 +1,6 @@
-#TODO: add reference
-#TODO: I'm afraid these will add more frequency to certain words
-#like laughing, big grin or laugh with glasses. (laugh x 2 after lemmatization)
+# emot python library: https://github.com/NeelShah18/emot
+# Taken and adapted from:
+# https://github.com/NeelShah18/emot/blob/master/emot/emo_unicode.py
 # -*- coding: UTF-8 -*-
 
 

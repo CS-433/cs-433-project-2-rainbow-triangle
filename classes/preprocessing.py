@@ -5,10 +5,11 @@ import pandas as pd
 import numpy as np
 
 from collections import Counter
-from utility.emo_unicode import EMOTICONS
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from nltk.stem import WordNetLemmatizer
+from utility.emo_unicode import EMOTICONS
+from utility.emoticons import SENTIMENT_EMOTICONS
 from sklearn.feature_extraction.text import TfidfVectorizer
 from symspellpy import SymSpell
 
@@ -29,7 +30,6 @@ class Preprocessing:
     if not submission:
       if len(list_) == 2:
         self.__data = pd.DataFrame(columns=['text', 'label'])
-
         for i, file_name in enumerate(list_):
           with open(file_name) as f:
             content = f.read().splitlines()
@@ -41,7 +41,6 @@ class Preprocessing:
       if len(list_) == 1:
         with open(list_[0]) as f:
           content = f.read().splitlines()
-
         ids = [line.split(',')[0] for line in content]
         texts = [','.join(line.split(',')[1:]) for line in content]
         self.__data = pd.DataFrame(columns=['ids', 'text'],
@@ -117,7 +116,7 @@ class Preprocessing:
 
     def inner(text):
       for emo in EMOTICONS:
-        emo_with_spaces = " ".join(
+        emo_with_spaces = ' '.join(
           [re.escape(ch) for ch in emo if not ch == '\\'])
         text = re.sub(
           f'( {emo}( |$))|( {emo_with_spaces}( |$))|( < \\\ 3( |$))',
@@ -128,9 +127,25 @@ class Preprocessing:
     self.__data['text'] = self.__data['text'].apply(
       lambda text: inner(str(text)))
 
+  def emoticons_to_sentiment(self):
+    print('Substituting emoticons with sentiment...')
+
+    def inner(text):
+      for emo in SENTIMENT_EMOTICONS:
+        emo_with_spaces = ' '.join(
+          [re.escape(ch) for ch in emo if not ch == '\\'])
+        emo_escaped = ''.join([re.escape(ch) for ch in emo if not ch == '\\']) 
+        text = re.sub(
+          f'{emo_escaped}|{emo_with_spaces}',
+          ' ' + SENTIMENT_EMOTICONS[emo].lower() + ' ',
+          text)
+      return text
+
+    self.__data['text'] = self.__data['text'].apply(
+      lambda text: inner(str(text)))
+
   def remove_tags(self):
     print('Removing tags...')
-
     self.__data['text'] = self.__data['text'].str.replace('<[\w]*>', '')
     self.__data['text'] = self.__data['text'].str.replace('\.{3}$', '')
 
@@ -181,15 +196,16 @@ class Preprocessing:
       lambda text: str(re.sub("n't", ' not', text)))
   
   def final_paranthesis(self):
+    """Separates :) meaning smile from :)) meaning laugh.
+    
+    Distiction might not be good as some people do not thing there is a
+    difference so use with caution.
+    """
     print('Substituting final paranthesis...')
     self.__data['text'] = self.__data['text'].str.replace('\)\)+$', ':))')
     self.__data['text'] = self.__data['text'].str.replace('\)$', ':)')
     self.__data['text'] = self.__data['text'].str.replace('\(\(+$', ':((')
     self.__data['text'] = self.__data['text'].str.replace('\($', ':(')
-
-  def emoticons_to_sentiment(self):
-    print('Substituting emoticons with sentiment...')
-    pass
 
   def correct_spacing_indexing(self):
     print('Correcting spacing...')
