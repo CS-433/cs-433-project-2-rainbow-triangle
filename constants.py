@@ -27,3 +27,5 @@ SUBMISSION_PATH_CLASSICAL = './submissions/baseline/'
 PREPROCESSED_DATA_PATH_CLASSICAL = './preprocessed_data/baseline/'
 PREPROCESSED_TRAIN_DATA_CLASSICAL = 'train_preprocessed.csv'
 PREPROCESSED_TEST_DATA_CLASSICAL = 'test_preprocessed.csv'
+SEED = 666013
+NJOBS = -1

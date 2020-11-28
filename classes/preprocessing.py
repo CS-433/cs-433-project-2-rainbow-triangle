@@ -10,7 +10,6 @@ from nltk.stem.porter import PorterStemmer
 from nltk.stem import WordNetLemmatizer
 from utility.emo_unicode import EMOTICONS
 from utility.emoticons import SENTIMENT_EMOTICONS
-from sklearn.feature_extraction.text import TfidfVectorizer
 from symspellpy import SymSpell
 
 nltk.download('stopwords')
@@ -221,17 +220,6 @@ class Preprocessing:
     self.__data['text'] = self.__data['text'].apply(lambda text: text.strip())
     self.__data.reset_index(inplace=True, drop=True)
 
-  def add_tfidf(self):
-    """Adds tfidf vectorization to the data"""
-    print('Vectorize with TFIDF...')
-    vectorizer = TfidfVectorizer(max_features=2000)
-    x = vectorizer.fit_transform(self.__data['text'])
-    feature_names = ['TFIDF_' + name.upper()
-                     for name in vectorizer.get_feature_names()]
-    tfidf_features = pd.DataFrame(x.toarray(), columns=feature_names) \
-      .reset_index(drop=True)
-    self.__data = pd.concat([self.__data, tfidf_features], axis=1)
-
   @staticmethod
   def __get_symspell():
     if Preprocessing.symspell is None:
@@ -255,4 +243,3 @@ class Preprocessing:
   def __correct_spelling(text):
     result = Preprocessing.__get_symspell().lookup_compound(text, max_edit_distance=2)
     return result[0].term
-

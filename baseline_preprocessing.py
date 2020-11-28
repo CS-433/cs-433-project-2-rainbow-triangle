@@ -41,9 +41,11 @@ def main():
   run_preprocessing(test_preprocessing)
   # Save it
   train_preprocessing.get().to_csv(
-      f'{PREPROCESSED_DATA_PATH_CLASSICAL}{PREPROCESSED_TRAIN_DATA_CLASSICAL}')
+      f'{PREPROCESSED_DATA_PATH_CLASSICAL}{PREPROCESSED_TRAIN_DATA_CLASSICAL}',
+      index=False)
   test_preprocessing.get().to_csv(
-      f'{PREPROCESSED_DATA_PATH_CLASSICAL}{PREPROCESSED_TEST_DATA_CLASSICAL}')
+      f'{PREPROCESSED_DATA_PATH_CLASSICAL}{PREPROCESSED_TEST_DATA_CLASSICAL}',
+      index=False)
 
 
 if __name__ == '__main__':
