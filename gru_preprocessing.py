@@ -15,10 +15,15 @@ def gru_preprocessing(preprocessing, istest=False):
   """
   if not istest:
     preprocessing.drop_duplicates()
+  
+  preprocessing.remove_endings()
+  preprocessing.final_paranthesis()
+  preprocessing.emoticons_to_tags()
+  preprocessing.numbers_to_tags()
+  preprocessing.hashtags_to_tags()
+  preprocessing.repeat_to_tags()
+  preprocessing.elongs_to_tags()
   preprocessing.to_lower()
-  preprocessing.remove_tags()
-  preprocessing.remove_punctuation()
-  preprocessing.correct_spacing_indexing()
 
   return preprocessing
 

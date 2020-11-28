@@ -8,8 +8,9 @@ from collections import Counter
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from nltk.stem import WordNetLemmatizer
-from utility.emo_unicode import EMOTICONS
+#from utility.emo_unicode import EMOTICONS
 from utility.emoticons import SENTIMENT_EMOTICONS
+from utility.emoticons_glove import EMOTICONS
 from symspellpy import SymSpell
 
 nltk.download('stopwords')
@@ -243,3 +244,78 @@ class Preprocessing:
   def __correct_spelling(text):
     result = Preprocessing.__get_symspell().lookup_compound(text, max_edit_distance=2)
     return result[0].term
+
+  # GRU STUFF
+
+  def emoticons_to_tags(self):
+    """
+    Convert emoticons (with or without spaces) into tags according to the pretrained stanford glove model
+    e.g.: :) ---> <smile> and so on
+    """
+
+    print('Converting emoticons to tags...')
+
+    def inner(text):
+      for emo in EMOTICONS:
+        emo_with_spaces = ' '.join([re.escape(ch) for ch in emo])
+        emo_escaped = ''.join([re.escape(ch) for ch in emo]) 
+
+        text = re.sub(
+          f'{emo_escaped}|{emo_with_spaces}',
+          ' ' + EMOTICONS[emo].lower() + ' ',
+          text)
+        
+      return text
+    
+    self.__data['text'] = self.__data['text'].apply(
+      lambda text: inner(str(text)))
+  
+  def hashtags_to_tags(self):
+    """
+    Convert hashtags.
+    e.g.: #hello ---> <hashtag> hello
+    """
+    
+    print('Converting hashtags to tags...')
+
+    self.__data['text'] = self.__data['text'].str.replace(r"#(\S+)", r'<hashtag> \1')
+  
+  def numbers_to_tags(self):
+    """
+    Convert numbers into tags.
+    e.g.: 34 ---> <number>
+    """
+    
+    print('Converting numbers to tags...')
+
+    self.__data['text'] = self.__data['text'].str.replace(r"[-+]?[.\d]*[\d]+[:,.\d]*", "<number>")
+  
+  def repeat_to_tags(self):
+    """
+    Convert repetitions of '!' or '?' or '.' into tags.
+    e.g.: ... ---> . <repeat>
+    """
+
+    print('Converting repetitions of symbols to tags...')
+    
+    self.__data['text'] = self.__data['text'].str.replace(r"([!?.]){2,}", r"\1 <repeat>")
+  
+  def elongs_to_tags(self):
+    """
+    Convert elongs into tags.
+    e.g.: hellooooo ---> hello <elong>
+    """
+
+    print('Converting elongated words to tags...')
+    
+    self.__data['text'] = self.__data['text'].str.replace(r"\b(\S*?)(.)\2{2,}\b", r"\1\2 <elong>")
+
+  def remove_endings(self):
+    """
+    Remove ... <url> which represents the ending of tweet
+    """
+
+    print('Removing tweet ending when the tweet is cropped...')
+
+    self.__data['text'] = self.__data['text'].str.replace(r'\.{3} <url>$', '')
+

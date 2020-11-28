@@ -4,7 +4,7 @@ from constants import *
 from time import strftime
 
 if __name__ == '__main__':
-    classifier = Gru(GRU_WEIGHTS_PATH)
+    classifier = Gru(GRU_WEIGHTS_PATH, GLOVE_PATH)
 
     train_preprocessed = pd.read_csv(
         f'{PREPROCESSED_DATA_PATH_GRU}{PREPROCESSED_TRAIN_DATA_GRU}',
