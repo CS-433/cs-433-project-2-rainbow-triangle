@@ -10,12 +10,9 @@ def gru_preprocessing(preprocessing, istest=False):
   :type preprocessing: Preprocessing
   :param istest: specifies if it is test data or not
   :type istest: bool
-  :return: preprocessed data
-  :rtype: Preprocessing
   """
   if not istest:
     preprocessing.drop_duplicates()
-  
   preprocessing.remove_endings()
   preprocessing.final_paranthesis()
   preprocessing.emoticons_to_tags()
@@ -24,19 +21,22 @@ def gru_preprocessing(preprocessing, istest=False):
   preprocessing.repeat_to_tags()
   preprocessing.elongs_to_tags()
   preprocessing.to_lower()
+  preprocessing.correct_spacing_indexing()
 
-  return preprocessing
 
+def main():
+  # Preprocessing the train data
+  train_preprocessing = Preprocessing([TRAIN_DATA_NEGATIVE_FULL, TRAIN_DATA_POSITIVE_FULL], submission=False)
+  gru_preprocessing(train_preprocessing)
+  train_df = train_preprocessing.get()
+  train_df = train_df.sample(frac=1)
+  train_df.to_csv(f'{PREPROCESSED_DATA_PATH_GRU}{PREPROCESSED_TRAIN_DATA_GRU}',
+                  index=False)
+  # Preprocessing the test data
+  test_preprocessing = Preprocessing([TEST_DATA], submission=True)
+  gru_preprocessing(test_preprocessing, istest=True)
+  test_preprocessing.get().to_csv(f'{PREPROCESSED_DATA_PATH_GRU}{PREPROCESSED_TEST_DATA_GRU}',
+                                  index=False)
 
-# Preprocessing the train data
-train_preprocessing = Preprocessing([TRAIN_DATA_NEGATIVE_FULL, TRAIN_DATA_POSITIVE_FULL], submission=False)
-train_preprocessing = gru_preprocessing(train_preprocessing)
-train_df = train_preprocessing.get()
-
-train_df = train_df.sample(frac=1)
-train_df.to_csv(f'{PREPROCESSED_DATA_PATH_GRU}{PREPROCESSED_TRAIN_DATA_GRU}')
-
-# Preprocessing the test data
-test_preprocessing = Preprocessing([TEST_DATA], submission=True)
-test_preprocessing = gru_preprocessing(test_preprocessing, istest=True)
-test_preprocessing.get().to_csv(f'{PREPROCESSED_DATA_PATH_GRU}{PREPROCESSED_TEST_DATA_GRU}')
+if __name__ == '__main__':
+  main()
