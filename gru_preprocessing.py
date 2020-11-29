@@ -30,12 +30,12 @@ def main():
   gru_preprocessing(train_preprocessing)
   train_df = train_preprocessing.get()
   train_df = train_df.sample(frac=1)
-  train_df.to_csv(f'{PREPROCESSED_DATA_PATH_GRU}{PREPROCESSED_TRAIN_DATA_GRU}bbb',
+  train_df.to_csv(f'{PREPROCESSED_DATA_PATH_GRU}{PREPROCESSED_TRAIN_DATA_GRU}',
                   index=False)
   # Preprocessing the test data
   test_preprocessing = Preprocessing([TEST_DATA], submission=True)
   gru_preprocessing(test_preprocessing, istest=True)
-  test_preprocessing.get().to_csv(f'{PREPROCESSED_DATA_PATH_GRU}{PREPROCESSED_TEST_DATA_GRU}bbb',
+  test_preprocessing.get().to_csv(f'{PREPROCESSED_DATA_PATH_GRU}{PREPROCESSED_TEST_DATA_GRU}',
                                   index=False)
 
 if __name__ == '__main__':
