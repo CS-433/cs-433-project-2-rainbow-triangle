@@ -29,7 +29,7 @@ def main():
   train_preprocessing = Preprocessing([TRAIN_DATA_NEGATIVE_FULL, TRAIN_DATA_POSITIVE_FULL], submission=False)
   gru_preprocessing(train_preprocessing)
   train_df = train_preprocessing.get()
-  #train_df = train_df.sample(frac=1)
+  train_df = train_df.sample(frac=1)
   train_df.to_csv(f'{PREPROCESSED_DATA_PATH_GRU}{PREPROCESSED_TRAIN_DATA_GRU}bbb',
                   index=False)
   # Preprocessing the test data
