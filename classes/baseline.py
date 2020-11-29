@@ -1,8 +1,10 @@
+import nltk
 import numpy as np
 import pandas as pd
 
 from classes.abstract_model import AbstractModel
 from constants import *
+from sklearn.decomposition import TruncatedSVD
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
@@ -10,6 +12,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neural_network import MLPClassifier
 from sklearn.svm import SVC
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 
 class Baseline(AbstractModel):
@@ -83,7 +86,11 @@ class Baseline(AbstractModel):
     If the data passed is train data, then some states need to be saved.
     Example: for tfidf, use the same vocabulary from train to test data.
     """
-    return self._add_tfidf(data, istest)
+    data = self._add_tfidf_lsi(data, istest)
+    data = self.__add_stats(data)
+    data = self.__add_vader(data)
+    data = self.__add_morpho_stats(data)
+    
 
   def fit(self, X, Y):
     print('Fit...')
@@ -109,19 +116,37 @@ class Baseline(AbstractModel):
       predictions = best_model.predict(X)
       AbstractModel._create_submission(ids, predictions, path)
 
-  def _add_tfidf(self, data, istest):
-    """Adds tfidf vectorization to the data."""
-    print('Vectorize with TFIDF...')
-    if istest:
-      vectorizer = TfidfVectorizer(vocabulary=self.__vocabulary)
-    else:
-      vectorizer = TfidfVectorizer(max_features=1000)
-    x = vectorizer.fit_transform(data['text'])
+  def _add_tfidf_lsi(self, data, istest):
+    """Adds tfidf vectorization to the data with latent semantic indexing."""
+    print('Vectorize with TFIDF-LSI...')
     if not istest:
-      self.__vocabulary = vectorizer.get_feature_names()
-    feature_names = ['TFIDF_' + name.upper()
-                     for name in vectorizer.get_feature_names()]
-    tfidf_features = pd.DataFrame(x.toarray(), columns=feature_names) \
+      self.__vectorizer = TfidfVectorizer()
+      x = self.__vectorizer.fit_transform(data['text'])
+      self.__svd_model = TruncatedSVD(n_components=500,
+                                      algorithm='randomized',
+                                      n_iter=10,
+                                      random_state=SEED)
+      x = self.__svd_model.fit_transform(x)
+      # Save the feature names
+      words = self.__vectorizer.get_feature_names()
+      self.__feature_names = [
+          '+'.join([f'{coef:.1f}{word}' for coef, word in zip(component, words)])
+          for component in self.__svd_model.components_]
+    else:
+      # Reuse the training representation
+      x = self.__vectorizer.transform(data['text'])
+      x = self.__svd_model.transfrom(x)
+    tfidf_features = pd.DataFrame(x, columns=self.__feature_names) \
       .reset_index(drop=True)
     data = pd.concat([data, tfidf_features], axis=1)
     return data
+
+  def _add_morpho_stats(self, data):
+    nltk_tagged = nltk.pos_tag(data['text']) 
+
+
+  def _add_vader(self, data):
+    """Adds scores from Vader Sentiment Analysis."""
+    analyzer = SentimentIntensityAnalyzer()
+    data['VADER'] = data['raw'].str.apply(
+        lambda raw_tweet: analyzer.polarity_scores(raw_tweet).['compound'])

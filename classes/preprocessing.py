@@ -6,6 +6,7 @@ import numpy as np
 
 from collections import Counter
 from nltk.corpus import stopwords
+from nltk.corpus import wordnet
 from nltk.stem.porter import PorterStemmer
 from nltk.stem import WordNetLemmatizer
 from utility.emo_unicode import EMOTICONS
@@ -105,10 +106,9 @@ class Preprocessing:
 
   def lemmatize(self):
     print('Performing lemmatization...')
-    lemmatizer = WordNetLemmatizer()
-    self.__data['text'] = self.__data['text'].apply(
-      lambda text: ' '.join(
-        [lemmatizer.lemmatize(word) for word in text.split()]))
+    self.__data['text'] = self.__data['text'].apply(__lemmatize)
+
+  
 
   def emoticons_to_words(self):
     print('Converting emoticons to words...')
@@ -207,8 +207,6 @@ class Preprocessing:
     self.__data['text'] = self.__data['text'].str.replace('\($', ':(')
 
   def correct_spacing_indexing(self):
-    print('Correcting spacing...')
-
     """Deletes double or more spaces and corrects indexing.
 
     Must be called after calling the above methods.
@@ -216,9 +214,19 @@ class Preprocessing:
     surrounded by whitespaces, they will often result in having more than one
     space between words.
     """
+    print('Correcting spacing...')
     self.__data['text'] = self.__data['text'].str.replace('\s{2,}', ' ')
     self.__data['text'] = self.__data['text'].apply(lambda text: text.strip())
     self.__data.reset_index(inplace=True, drop=True)
+
+  def empty_tweets(self):
+    print('Marking empty tweets...')
+    self.__data['text'] = self.__data['text'].str.replace('^\s*$', '<EMPTY>')
+
+  def save_raw(self):
+    """Must be called before anything else!"""
+    print('Saving raw tweet...')
+    self.__data['raw'] = self.__data['text']
 
   @staticmethod
   def __get_symspell():
@@ -243,3 +251,23 @@ class Preprocessing:
   def __correct_spelling(text):
     result = Preprocessing.__get_symspell().lookup_compound(text, max_edit_distance=2)
     return result[0].term
+
+  @staticmethod
+  def __get_wordnet_tag(wordnet_tag):
+    if wordnet_tag.startswith('V'):
+      return wordnet_tag.VERB
+    elif wordnet_tag.startswith('N'):
+      return wordnet.NOUN
+    elif wordnet_tag.startswith('J'):
+      return wordnet.ADJ
+    elif wordnet_tag.startswith('R'):
+      return wordnet.ADV
+    else:
+      return None
+
+  @staticmethod
+  def __lematize(text):
+    nltk_tagged = nltk.pos_tag(text.split())
+    lemmatizer = WordNetLemmatizer()
+    return [lemmatizer.lemmatize(w, __get_wordnet_tag(nltk_tag)) 
+            for w, nltk_tag in nltk_tagged]

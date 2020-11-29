@@ -12,15 +12,14 @@ def main():
       f'{PREPROCESSED_DATA_PATH_CLASSICAL}{PREPROCESSED_TRAIN_DATA_CLASSICAL}')
   test = pd.read_csv(
       f'{PREPROCESSED_DATA_PATH_CLASSICAL}{PREPROCESSED_TEST_DATA_CLASSICAL}')
-  train = train.dropna().reset_index(drop=True)
   train = classifier.feature_extraction(train)
+  return
   # Fit classifier
   features = train.columns.difference(['text', 'label'], sort=False)
   X = train[features].values
   Y = train['label'].values
   classifier.fit(X, Y)
   # Make predictions
-  test['text'] = test['text'].fillna('EMPTY') # this is a sad bug
   test = classifier.feature_extraction(test, istest=True)
   ids = test['ids'].values
   X = test[features].values

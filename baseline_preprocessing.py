@@ -16,6 +16,8 @@ def run_preprocessing(data_preprocessing, istest=False):
   :param istest: specifies if it is test data or not
   :type istest: bool
   """
+  # Save the raw tweet for later feature engineering
+  data_preprocessing.save_raw()
   if not istest:
     data_preprocessing.drop_duplicates()
   data_preprocessing.remove_tags()
@@ -29,6 +31,7 @@ def run_preprocessing(data_preprocessing, istest=False):
   data_preprocessing.correct_spelling()
   data_preprocessing.lemmatize()
   data_preprocessing.remove_stopwords()
+  data_preprocessing.empty_tweets()
   data_preprocessing.correct_spacing_indexing()
 
 
