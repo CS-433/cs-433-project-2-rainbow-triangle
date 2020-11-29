@@ -67,7 +67,7 @@ class Gru(AbstractModel):
     embedding_matrix = np.zeros((self.__vocab_size, self.__embedding_dim))
     hits = 0
     misses = 0
-    
+
     for word, i in word_index.items():
       embedding_vector = embeddings_index.get(word)
       if embedding_vector is not None:
@@ -99,7 +99,8 @@ class Gru(AbstractModel):
     # first one is used for the first operation on the inputs (when data
     # "enters" in GRU) the second one is used for the recurrences Units:
     # dimensionality of the output space
-    self.__model.add(layers.GRU(units=64, dropout=0.2, recurrent_dropout=0.2))
+    self.__model.add(layers.Bidirectional(layers.GRU(units=200, dropout=0.2, recurrent_dropout=0.2)))
+    self.__model.add(tf.keras.layers.Dense(200, activation='relu')),
     self.__model.add(layers.Dense(1, activation='sigmoid'))
 
     self.__model.compile(
