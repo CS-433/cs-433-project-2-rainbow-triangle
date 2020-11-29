@@ -1,20 +1,23 @@
-from classes.abstract_model import AbstractModel
-
 import tensorflow as tf
+import numpy as np
+from classes.abstract_model import AbstractModel
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.initializers import Constant
 from tensorflow.keras import layers
+
 
 
 class Gru(AbstractModel):
 
-  def __init__(self, weights_path, max_tweet_length=120, embedding_dim=100):
+  def __init__(self, weights_path, glove_path, max_tweet_length=120, embedding_dim=200):
     super().__init__(weights_path)
 
-    self.__tokenizer = Tokenizer()
+    self.__tokenizer = Tokenizer(oov_token = '<unk>')
     self.__model = tf.keras.Sequential()
     self.__max_tweet_length = max_tweet_length
     self.__embedding_dim = embedding_dim
+    self.__glove_path = glove_path
 
     # Size of the vocabulary, it will be updated according to the input data
     self.__vocab_size = 0
@@ -26,7 +29,7 @@ class Gru(AbstractModel):
     self.__tokenizer.fit_on_texts(X)
 
     # Updating the vocabulary length
-    self.__vocab_size = len(self.__tokenizer.word_index) + 1
+    self.__vocab_size = len(self.__tokenizer.word_index) + 2
 
   def __convert_data(self, X):
     print('Converting data...')
@@ -43,7 +46,43 @@ class Gru(AbstractModel):
 
     return X_pad
 
-  def __build_model(self):
+  def __generate_embedding_matrix(self):
+    print('Generating embedding matrix...')
+
+    word_index = self.__tokenizer.word_index
+
+    # Creating the dictionary for the embedding. Keys = words in the embedding file,
+    # Values = their respective vector
+    embeddings_index = {}
+
+    with open(self.__glove_path) as f:
+      for line in f:
+        word, coefs = line.split(maxsplit=1)
+        coefs = np.fromstring(coefs, "f", sep=" ")
+        embeddings_index[word] = coefs
+
+    print("Found %s word vectors." % len(embeddings_index))
+
+    # Generating the embedding matrix
+    embedding_matrix = np.zeros((self.__vocab_size, self.__embedding_dim))
+    hits = 0
+    misses = 0
+
+    for word, i in word_index.items():
+      embedding_vector = embeddings_index.get(word)
+      if embedding_vector is not None:
+          # Words not found in embedding index will be all-zeros.
+          # This includes the representation for "padding" and "OOV"
+          embedding_matrix[i] = embedding_vector
+          hits += 1
+      else:
+          misses += 1
+    print("Converted %d words (%d misses)" % (hits, misses))
+
+    return embedding_matrix
+
+
+  def __build_model(self, embedding_matrix):
     print('Building model...')
 
     # Note: mask_zero must be true because 0 is a special character
@@ -51,14 +90,17 @@ class Gru(AbstractModel):
     self.__model.add(layers.Embedding(
       input_dim=self.__vocab_size,
       output_dim=self.__embedding_dim,
+      embeddings_initializer=Constant(embedding_matrix),
       input_length=self.__max_tweet_length,
-      mask_zero=True))
+      mask_zero=True,
+      trainable = False))
 
     # Note: since GRU is a RNN, we need to define two types of dropouts: the
     # first one is used for the first operation on the inputs (when data
     # "enters" in GRU) the second one is used for the recurrences Units:
     # dimensionality of the output space
-    self.__model.add(layers.GRU(units=64, dropout=0.2, recurrent_dropout=0.2))
+    self.__model.add(layers.Bidirectional(layers.GRU(units=200, dropout=0.2, recurrent_dropout=0.2)))
+    self.__model.add(tf.keras.layers.Dense(200, activation='relu')),
     self.__model.add(layers.Dense(1, activation='sigmoid'))
 
     self.__model.compile(
@@ -79,7 +121,11 @@ class Gru(AbstractModel):
     X_train_pad = self.__convert_data(X_train)
     X_test_pad = self.__convert_data(X_test)
 
-    self.__build_model()
+    print(list(self.__tokenizer.word_index.keys())[:5])
+    # Generating the embedding matrix from the training data
+    embedding_matrix = self.__generate_embedding_matrix()
+
+    self.__build_model(embedding_matrix)
 
     print('Training the model...')
     self.__model.fit(X_train_pad, Y_train, batch_size, epochs,

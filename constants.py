@@ -15,6 +15,7 @@ PREPROCESSED_TRAIN_DATA_SUFFIX_BERT = '.csv'
 PREPROCESSED_TEST_DATA_BERT = 'test_preprocessed.csv'
 
 # Constants for GRU
+GLOVE_PATH = './data/glove.twitter.27B.200d.txt'
 GRU_WEIGHTS_PATH = './weights/gru/'
 SUBMISSION_PATH_GRU = './submissions/gru/'
 PREPROCESSED_DATA_PATH_GRU = './preprocessed_data/gru/'

@@ -59,6 +59,10 @@ SENTIMENT_EMOTICONS = {
  ':o)': '<emo_pos>',
  ':c)': '<emo_pos>',
  '(^_^)/': '<emo_pos>',
+ 'xx': '<emo_pos>',
+ 'xxx': '<emo_pos>',
+  
+
 
  '=\\': '<emo_neg>',
  ';(': '<emo_neg>',
