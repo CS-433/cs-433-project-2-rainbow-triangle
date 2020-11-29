@@ -196,17 +196,18 @@ class Preprocessing:
     self.__data['text'] = self.__data['text'].apply(
       lambda text: str(re.sub("n't", ' not', text)))
   
-  def final_paranthesis(self):
-    """Separates :) meaning smile from :)) meaning laugh.
-    
-    Distiction might not be good as some people do not thing there is a
-    difference so use with caution.
+  def final_paranthesis(self, use_glove=False):
+    """Preprocess final paranthesis.
+
+    If using glove, then replace with the according tag directly.
     """
     print('Substituting final paranthesis...')
-    self.__data['text'] = self.__data['text'].str.replace('\)\)+$', ':))')
-    self.__data['text'] = self.__data['text'].str.replace('\)$', ':)')
-    self.__data['text'] = self.__data['text'].str.replace('\(\(+$', ':((')
-    self.__data['text'] = self.__data['text'].str.replace('\($', ':(')
+    if not use_glove:
+      self.__data['text'] = self.__data['text'].str.replace('\)+$', ':)')
+      self.__data['text'] = self.__data['text'].str.replace('\(+$', ':(')
+    else:
+      self.__data['text'] = self.__data['text'].str.replace('\)+$', ' <smile> ')
+      self.__data['text'] = self.__data['text'].str.replace('\(+$', ' <sadface> ')
 
   def correct_spacing_indexing(self):
     """Deletes double or more spaces and corrects indexing.
