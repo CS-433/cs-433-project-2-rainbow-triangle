@@ -26,7 +26,7 @@ def gru_preprocessing(preprocessing, istest=False):
 
 def main():
   # Preprocessing the train data
-  train_preprocessing = Preprocessing([TRAIN_DATA_NEGATIVE, TRAIN_DATA_POSITIVE], submission=False)
+  train_preprocessing = Preprocessing([TRAIN_DATA_NEGATIVE_FULL, TRAIN_DATA_POSITIVE_FULL], submission=False)
   gru_preprocessing(train_preprocessing)
   train_df = train_preprocessing.get()
   #train_df = train_df.sample(frac=1)
