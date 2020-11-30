@@ -105,13 +105,13 @@ class Gru(AbstractModel):
 
     self.__model.compile(
       loss='binary_crossentropy',
-      optimizer='adam',
+      optimizer= tf.keras.optimizers.Adam(learning_rate=0.001)
       metrics=['accuracy'])
 
     print(self.__model.summary())
 
 
-  def fit(self, X, Y, batch_size=128, epochs=10):
+  def fit(self, X, Y, batch_size=64, epochs=6):
     # Updating vocabulary
     self.__update_vocabulary(X)
 
