@@ -10,7 +10,7 @@ from tensorflow.keras import layers
 
 class Gru(AbstractModel):
 
-  def __init__(self, weights_path, glove_path, max_tweet_length=120, embedding_dim=200):
+  def __init__(self, weights_path, glove_path, max_tweet_length=120, embedding_dim=100):
     super().__init__(weights_path)
 
     self.__tokenizer = Tokenizer(oov_token = '<unk>')
@@ -99,8 +99,8 @@ class Gru(AbstractModel):
     # first one is used for the first operation on the inputs (when data
     # "enters" in GRU) the second one is used for the recurrences Units:
     # dimensionality of the output space
-    self.__model.add(layers.Bidirectional(layers.GRU(units=200, dropout=0.2, recurrent_dropout=0.2)))
-    self.__model.add(tf.keras.layers.Dense(200, activation='relu')),
+    self.__model.add(layers.Bidirectional(layers.GRU(units=100, dropout=0.2, recurrent_dropout=0.2)))
+    self.__model.add(tf.keras.layers.Dense(100, activation='relu')),
     self.__model.add(layers.Dense(1, activation='sigmoid'))
 
     self.__model.compile(
@@ -109,6 +109,7 @@ class Gru(AbstractModel):
       metrics=['accuracy'])
 
     print(self.__model.summary())
+
 
   def fit(self, X, Y, batch_size=128, epochs=10):
     # Updating vocabulary
@@ -134,6 +135,7 @@ class Gru(AbstractModel):
     print('Saving the model...')
 
     self.__model.save(f'{self._weights_path}model')
+
 
   def predict(self, ids, X, path):
     """
