@@ -105,7 +105,7 @@ class Gru(AbstractModel):
 
     self.__model.compile(
       loss='binary_crossentropy',
-      optimizer= tf.keras.optimizers.Adam(learning_rate=0.001)
+      optimizer= tf.keras.optimizers.Adam(learning_rate=0.001),
       metrics=['accuracy'])
 
     print(self.__model.summary())
