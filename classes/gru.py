@@ -111,7 +111,7 @@ class Gru(AbstractModel):
     print(self.__model.summary())
 
 
-  def fit(self, X, Y, batch_size=64, epochs=6):
+  def fit(self, X, Y, batch_size=64, epochs=4):
     # Updating vocabulary
     self.__update_vocabulary(X)
 
