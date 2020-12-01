@@ -28,3 +28,6 @@ if __name__ == '__main__':
 
   # Fitting the model and making the prediction
   classifier.fit_predict(X, Y, test_ids, X_test, f'{SUBMISSION_PATH_BERT}submission-{strftime("%Y-%m-%d_%H:%M:%S")}.csv')
+  
+  #Decomment to only make a prediction with a saved model. Comment the previous line in this case.
+  #classifier.predict(test_ids, X_test, f'{SUBMISSION_PATH_BERT}submission-{strftime("%Y-%m-%d_%H:%M:%S")}.csv, from_weights = True)
