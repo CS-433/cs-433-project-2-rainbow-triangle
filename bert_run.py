@@ -8,25 +8,23 @@ if __name__ == '__main__':
   classifier = Bert(BERT_WEIGHTS_PATH)
 
   # Training the model
-  for i in range(N_SPLITS):
 
-    train_preprocessed = pd.read_csv(
-      f'{PREPROCESSED_DATA_PATH_BERT}{PREPROCESSED_TRAIN_DATA_PREFIX_BERT}{i}{PREPROCESSED_TRAIN_DATA_SUFFIX_BERT}',
-      usecols=['text', 'label'])
+  train_preprocessed = pd.read_csv(
+    f'{PREPROCESSED_DATA_PATH_BERT}{PREPROCESSED_TRAIN_DATA_PREFIX_BERT}{i}{PREPROCESSED_TRAIN_DATA_SUFFIX_BERT}',
+    usecols=['text', 'label'])
 
-    train_preprocessed.dropna(inplace=True)
-
-    X = train_preprocessed['text'].values
-    Y = train_preprocessed['label'].values
-
-    classifier.fit(X, Y, batch_size=24)
-
-  # Making the predictions
+    # Making the predictions
   test_preprocessed = pd.read_csv(
     f'{PREPROCESSED_DATA_PATH_BERT}{PREPROCESSED_TEST_DATA_BERT}',
     usecols=['ids', 'text'])
+  
+  train_preprocessed.dropna(inplace=True)
 
-  ids = test_preprocessed['ids'].values
-  X = test_preprocessed['text'].values
+  X = train_preprocessed['text'].values
+  Y = train_preprocessed['label'].values
 
-  classifier.predict(ids, X, f'{SUBMISSION_PATH_BERT}submission-{strftime("%Y-%m-%d_%H:%M:%S")}.csv')
+  test_ids = test_preprocessed['ids'].values
+  X_test = test_preprocessed['text'].values
+
+  # Fitting the model and making the prediction
+  classifier.fit_predict(X, Y, test_ids, X_test, f'{SUBMISSION_PATH_BERT}submission-{strftime("%Y-%m-%d_%H:%M:%S")}.csv')
