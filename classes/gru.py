@@ -149,10 +149,11 @@ class Gru(AbstractModel):
     if from_weights:
       # Loading weights
       self.__model = tf.keras.models.load_model(f'{self._weights_path}model')
-
+    
     # Converting input data
     X_pad = self.__convert_data(X)
-    predictions = self.__model.predict(X_pad)
-    print(predictions)
+    predictions = self.__model.predict(X_pad).squeeze()
+    preds = np.where(predictions >= 0.5, 1, -1)
+    print(preds)
 
-    AbstractModel._create_submission(ids, X, path)
+    AbstractModel._create_submission(ids, preds, path)
