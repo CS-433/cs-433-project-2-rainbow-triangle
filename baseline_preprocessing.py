@@ -4,35 +4,35 @@ from constants import *
 from classes.preprocessing import Preprocessing
 
 
-def run_preprocessing(data_preprocessing, istest=False):
+def run_preprocessing(preprocessing, istest=False):
   """
   Runs preprocessing on data.
 
   If data is test data then no duplicate is dropped since we have to make
   predictions on all data.
 
-  :param data_preprocessing: specifies data
-  :type data_preprocessing: Preprocessing
+  :param preprocessing: specifies data
+  :type preprocessing: Preprocessing
   :param istest: specifies if it is test data or not
   :type istest: bool
   """
   # Save the raw tweet for later feature engineering
-  data_preprocessing.save_raw()
+  preprocessing.save_raw()
   if not istest:
-    data_preprocessing.drop_duplicates()
-  data_preprocessing.remove_tags()
-  data_preprocessing.convert_hashtags()
-  data_preprocessing.slangs_to_words()
-  data_preprocessing.remove_parenthesis()
-  data_preprocessing.emoticons_to_sentiment()
-  data_preprocessing.remove_numbers()
-  data_preprocessing.remove_punctuation()
-  data_preprocessing.to_lower()
-  data_preprocessing.correct_spelling()
-  data_preprocessing.lemmatize()
-  data_preprocessing.remove_stopwords()
-  data_preprocessing.empty_tweets()
-  data_preprocessing.correct_spacing_indexing()
+    preprocessing.drop_duplicates()
+  preprocessing.remove_tags()
+  preprocessing.convert_hashtags()
+  preprocessing.slangs_to_words()
+  preprocessing.emoticons_to_tags()
+  preprocessing.final_paranthesis(use_glove=True)
+  preprocessing.remove_numbers()
+  preprocessing.remove_punctuation()
+  preprocessing.to_lower()
+  preprocessing.correct_spelling()
+  preprocessing.lemmatize()
+  preprocessing.remove_stopwords()
+  preprocessing.empty_tweets()
+  preprocessing.correct_spacing_indexing()
 
 
 def main():
@@ -43,7 +43,9 @@ def main():
   run_preprocessing(train_preprocessing)
   run_preprocessing(test_preprocessing)
   # Save it
-  train_preprocessing.get().to_csv(
+  train_df = train_preprocessing.get()
+  train_df = train_df.sample(frac=1)
+  train_df.to_csv(
       f'{PREPROCESSED_DATA_PATH_CLASSICAL}{PREPROCESSED_TRAIN_DATA_CLASSICAL}',
       index=False)
   test_preprocessing.get().to_csv(

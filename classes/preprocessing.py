@@ -13,6 +13,8 @@ from utility.emoticons import SENTIMENT_EMOTICONS
 from utility.emoticons_glove import EMOTICONS_GLOVE
 from symspellpy import SymSpell
 
+
+nltk.download('averaged_perceptron_tagger')
 nltk.download('stopwords')
 nltk.download('wordnet')
 
@@ -106,11 +108,7 @@ class Preprocessing:
 
   def lemmatize(self):
     print('Performing lemmatization...')
-    self.__data['text'] = self.__data['text'].apply(__lemmatize)
-    lemmatizer = WordNetLemmatizer()
-    self.__data['text'] = self.__data['text'].apply(
-      lambda text: ' '.join(
-        [lemmatizer.lemmatize(word) for word in text.split()]))
+    self.__data['text'] = self.__data['text'].apply(Preprocessing.__lemmatize)
 
   def emoticons_to_words(self):
     print('Converting emoticons to words...')
@@ -256,23 +254,24 @@ class Preprocessing:
     return result[0].term
 
   @staticmethod
-  def __get_wordnet_tag(wordnet_tag):
-    if wordnet_tag.startswith('V'):
-      return wordnet_tag.VERB
-    elif wordnet_tag.startswith('N'):
+  def __get_wordnet_tag(nltk_tag):
+    if nltk_tag.startswith('V'):
+      return wordnet.VERB
+    elif nltk_tag.startswith('N'):
       return wordnet.NOUN
-    elif wordnet_tag.startswith('J'):
+    elif nltk_tag.startswith('J'):
       return wordnet.ADJ
-    elif wordnet_tag.startswith('R'):
+    elif nltk_tag.startswith('R'):
       return wordnet.ADV
     else:
-      return None
+      # This is the default in WordNetLemmatizer, when no pos tag is passed
+      return wordnet.NOUN
 
   @staticmethod
-  def __lematize(text):
+  def __lemmatize(text):
     nltk_tagged = nltk.pos_tag(text.split())
     lemmatizer = WordNetLemmatizer()
-    return [lemmatizer.lemmatize(w, __get_wordnet_tag(nltk_tag)) 
+    return [lemmatizer.lemmatize(w, Preprocessing.__get_wordnet_tag(nltk_tag)) 
             for w, nltk_tag in nltk_tagged]
 
   # GRU STUFF
