@@ -1,24 +1,30 @@
+import collections
 import nltk
 import numpy as np
 import pandas as pd
 
 from classes.abstract_model import AbstractModel
 from constants import *
+from joblib import dump, load
 from sklearn.decomposition import TruncatedSVD
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GridSearchCV
 from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.svm import SVC
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+from time import strftime
 
 
 class Baseline(AbstractModel):
   """Does feature extraction, training and inference for various classic models.
 
   The non-deep-learning models used are:
+    * KNN
     * Naive Bayes
     * Logistic Regression
     * SVM with rbf kernel
@@ -35,6 +41,12 @@ class Baseline(AbstractModel):
     # Some defaults are mentioned since they are important.
     self.__best_models = []
     self.__models = {
+      'KNN': (KNeighborsClassifier(weights='uniform',
+                                   algorithm='auto',
+                                   p=2,
+                                   metric='minkowski',
+                                   n_jobs=NJOBS ),
+             {'n_neighbors': [3, 5, 7]}),
       'Naive Bayes': (GaussianNB(), {'var_smoothing': np.logspace(-12, 0, 11)}),
       'Logistic Regression': (
           LogisticRegression(penalty='l2',
@@ -86,35 +98,53 @@ class Baseline(AbstractModel):
     If the data passed is train data, then some states need to be saved.
     Example: for tfidf, use the same vocabulary from train to test data.
     """
+    initial_columns = data.columns
     data = self._add_tfidf_lsi(data, istest)
-    data = self.__add_stats(data)
-    data = self.__add_vader(data)
-    data = self.__add_morpho_stats(data)
+    self._add_vader(data)
+    self._add_morpho_stats(data)
+    if istest:
+      labels_or_ids = data['ids'].values
+    else:
+      labels_or_ids = data['label'].values
+    features = data.columns.difference(initial_columns, sort=False)
+    data = data[features]
+    data = self._standardize_data(data, istest)
+    return data, labels_or_ids
     
-
   def fit(self, X, Y):
     print('Fit...')
     for model_name, (model, param_grid) in self.__models.items():
       print(f'Grid searching for {model_name}')
-      if model_name == 'Neural Network':
-        grid_search = GridSearchCV(estimator=model,
-                                   param_grid=param_grid,
-                                   scoring='accuracy',
-                                   n_jobs=NJOBS,
-                                   verbose=1)
-        grid_search.fit(X, Y)
-        best_model = grid_search.best_estimator_
-        print(f'Done for {model_name}')
-        self.__best_models.append(best_model)
-        print(best_model.classes_)
-        # For debugging
-        break
-
+      grid_search = GridSearchCV(estimator=model,
+                                 param_grid=param_grid,
+                                 scoring='accuracy',
+                                 n_jobs=NJOBS,
+                                 verbose=1)
+      grid_search.fit(X, Y)
+      best_model = grid_search.best_estimator_
+      print(f'Done for {model_name}')
+      self.__best_models.append((model_name,
+                                 grid_search.best_estimator_,
+                                 grid_search.best_params_,
+                                 grid_search.best_score_))
+      break
 
   def predict(self, ids, X, path):
-    for best_model in self.__best_models:
-      predictions = best_model.predict(X)
-      AbstractModel._create_submission(ids, predictions, path)
+    for model_name, model, params, score in self.__best_models:
+      predictions = model.predict(X)
+      file_path = f'{path}submission-{model_name}-{strftime("%Y-%m-%d_%H:%M:%S")}.csv'
+      AbstractModel._create_submission(ids, predictions, file_path)
+      print(f'[{model_name}]') 
+      print(f'CV Accuracy: {score}') 
+      print(f'Params: {params}') 
+
+  def save_best_models(self, weights_path):
+    if len(self.__best_models) == 0:
+      print('No models trained')
+    else:
+      for model_name, model, _, _ in self.__best_models:
+        print(f'Saving best {model_name}...')
+        dump(model, f'{weights_path}model-{model_name}.joblib')
 
   def _add_tfidf_lsi(self, data, istest):
     """Adds tfidf vectorization to the data with latent semantic indexing."""
@@ -135,18 +165,53 @@ class Baseline(AbstractModel):
     else:
       # Reuse the training representation
       x = self.__vectorizer.transform(data['text'])
-      x = self.__svd_model.transfrom(x)
+      x = self.__svd_model.transform(x)
     tfidf_features = pd.DataFrame(x, columns=self.__feature_names) \
       .reset_index(drop=True)
     data = pd.concat([data, tfidf_features], axis=1)
+    # Need to return the new df since pd.concat is not an inplace method
     return data
 
   def _add_morpho_stats(self, data):
-    nltk_tagged = nltk.pos_tag(data['text']) 
-
+    """Adds part-of-speech weighted count by clustering in pos tag type."""
+    psw_tag_counter = data['text'].apply(lambda text: 
+        collections.Counter(
+          [Baseline.__psw_category(nltk_tag) 
+           for _, nltk_tag in nltk.pos_tag(text.split())]))
+    strengths = {
+        'E': 2,
+        'N': 1.5,
+        'R': 1,
+    }
+    for tag_type in strengths:
+      data[f'PSW_{tag_type}'] = strengths[tag_type] * psw_tag_counter.apply(
+          lambda counter: counter[tag_type])
 
   def _add_vader(self, data):
     """Adds scores from Vader Sentiment Analysis."""
     analyzer = SentimentIntensityAnalyzer()
-    data['VADER'] = data['raw'].str.apply(
-        lambda raw_tweet: analyzer.polarity_scores(raw_tweet).['compound'])
+    data['VADER'] = data['raw'].apply(
+        lambda raw_tweet: analyzer.polarity_scores(raw_tweet)['compound'])
+
+  def _standardize_data(self, data, istest=False):
+    """Standardize data."""
+    if not istest:
+      self.__standardizer = StandardScaler()
+      self.__standardizer.fit(data)
+    data = self.__standardizer.transform(data)
+    return data
+  
+  @staticmethod
+  def __psw_category(nltk_tag):
+    """
+    Cluster the part-of-speech tags into categories:
+    E (emotion): verb, adjectiv, adverb
+    N (normal): noun
+    R (remaining): everything else
+    """
+    if nltk_tag.startswith('V') or nltk_tag.startswith('J') or nltk_tag.startswith('R'):
+      return 'E'
+    elif nltk_tag.startswith('N'):
+      return 'N'
+    else:
+      return 'R'
