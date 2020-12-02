@@ -111,16 +111,16 @@ class Gru(AbstractModel):
     print(self.__model.summary())
 
 
-  def fit(self, X, Y, batch_size=128, epochs=4):
+  def fit_predict(self, X, Y, ids_test, X_test, prediction_path, batch_size=128, epochs=4):
     # Updating vocabulary
     self.__update_vocabulary(X)
 
-    # Splitting train and test data
-    X_train, X_test, Y_train, Y_test = AbstractModel._split_data(X, Y)
+    # Splitting train and validation data
+    X_train, X_val, Y_train, Y_val = AbstractModel._split_data(X, Y)
 
-    # Converting train and test data to sequences
+    # Converting train and validation data to sequences
     X_train_pad = self.__convert_data(X_train)
-    X_test_pad = self.__convert_data(X_test)
+    X_val_pad = self.__convert_data(X_val)
 
     print(list(self.__tokenizer.word_index.keys())[:5])
     # Generating the embedding matrix from the training data
@@ -129,25 +129,28 @@ class Gru(AbstractModel):
     self.__build_model(embedding_matrix)
 
     print('Training the model...')
-    self.__model.fit(X_train_pad, Y_train, batch_size, epochs,
-                     validation_data=(X_test_pad, Y_test))
+    self.__model.fit(X_train_pad, Y_val, batch_size, epochs,
+                     validation_data=(X_val_pad, Y_val))
 
     print('Saving the model...')
 
     self.__model.save(f'{self._weights_path}model')
 
+    print('Making the prediction...')
 
-  def predict(self, ids, X, path):
+    self.predict(ids_test, X_test, prediction_path)
+
+  def predict(self, ids, X, path, from_weights = False):
     """
-    Performs the predictions.
+    Performs the predictions. Usually called within the fit_predict method.
 
     :param ids: ids of new data
     :param X: new data to predict
     :param path: specifies where to store the submission file
     """
-
-    # Loading weights
-    self.__model = tf.keras.models.load_model(f'{self._weights_path}model')
+    if from_weights:
+      # Loading weights
+      self.__model = tf.keras.models.load_model(f'{self._weights_path}model')
 
     # Converting input data
     X_pad = self.__convert_data(X)

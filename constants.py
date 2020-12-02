@@ -10,7 +10,6 @@ BERT_WEIGHTS_PATH = './weights/bert/'
 SUBMISSION_PATH_BERT = './submissions/bert/'
 PREPROCESSED_DATA_PATH_BERT = './preprocessed_data/bert/'
 PREPROCESSED_TRAIN_DATA_PREFIX_BERT = 'train_preprocessed_full_'
-N_SPLITS = 1
 PREPROCESSED_TRAIN_DATA_SUFFIX_BERT = '.csv'
 PREPROCESSED_TEST_DATA_BERT = 'test_preprocessed.csv'
 

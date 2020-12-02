@@ -16,21 +16,15 @@ class Bert(AbstractModel):
 
     self.__model = TFBertForSequenceClassification.from_pretrained('bert-base-uncased')
     self.__tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-    self.__n = 0
 
-  def fit(self, X, Y, batch_size, epochs=1):
+  def fit_predict(self, X, Y, ids_test, X_test, prediction_path, batch_size = 24, epochs=1):
     """
-    Fits the model.
+    Fits the model and performs the prediction.
 
     :param X: data
     :param Y: labels
     :param batch_size: specifies how many datapoints to use for each step
-    :param load_weights: specifies whether to load the weights
     """
-
-    if self.__n > 0:
-      self.__model = TFBertForSequenceClassification.from_pretrained(
-        f'{self._weights_path}model_{self.__n - 1}')
 
     # Converting the tweets to have a good input for BERT
     train_input_examples, validation_input_examples = \
@@ -50,12 +44,18 @@ class Bert(AbstractModel):
 
     self.__model.compile(optimizer=optimizer, loss=loss, metrics=[metric])
 
+    print('Fitting the model...')
+
     self.__model.fit(train_data, epochs=epochs, validation_data=validation_data)
 
-    self.__model.save_pretrained(f'{self._weights_path}model_{self.__n}')
-    self.__n += 1
+    print('Saving the weights...')
+    self.__model.save_pretrained(f'{self._weights_path}model')
 
-  def predict(self, ids, X, path):
+    print('Predicting...')
+    self.predict(ids_test, X_test, prediction_path)
+
+
+  def predict(self, ids, X, path, from_weights = False):
     """
     Performs the predictions.
 
@@ -64,9 +64,9 @@ class Bert(AbstractModel):
     :param path: specifies where to store the submission file
     """
 
-    if self.__n > 0:
+    if from_weights:
       self.__model = TFBertForSequenceClassification.from_pretrained(
-        f'{self._weights_path}model_{self.__n - 1}')
+        f'{self._weights_path}model')
 
     predictions = []
 
