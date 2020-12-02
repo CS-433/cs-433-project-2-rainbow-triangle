@@ -22,8 +22,12 @@ if __name__ == '__main__':
     test_ids = test_preprocessed['ids'].values
     X_test = test_preprocessed['text'].values
 
+    classifier.update_vocabulary(X)
+    
     # Fitting the model and making the prediction
-    classifier.fit_predict(X, Y, test_ids, X_test, f'{SUBMISSION_PATH_GRU}submission-{strftime("%Y-%m-%d_%H:%M:%S")}.csv')
+    #classifier.fit_predict(X, Y, test_ids, X_test, f'{SUBMISSION_PATH_GRU}submission-{strftime("%Y-%m-%d_%H:%M:%S")}.csv')
+
+
 
     #Decomment to only make a prediction with a saved model. Comment the previous line in this case.
-    #classifier.predict(test_ids, X_test, f'{SUBMISSION_PATH_GRU}submission-{strftime("%Y-%m-%d_%H:%M:%S")}.csv, from_weights = True)
+    classifier.predict(test_ids, X_test, f'{SUBMISSION_PATH_GRU}submission-{strftime("%Y-%m-%d_%H:%M:%S")}.csv, from_weights = True)

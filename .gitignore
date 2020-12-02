@@ -6,7 +6,7 @@ data/.DS_Store
 .vscode
 preprocessed_data/gru/*.csv
 preprocessed_data/bert/*.csv
-weights/gru/model*.*
+weights/gru/model*
 weights/gru/checkpoint
 weights/bert/model*.*
 weights/bert/checkpoint

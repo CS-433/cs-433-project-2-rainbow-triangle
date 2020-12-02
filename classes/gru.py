@@ -22,7 +22,7 @@ class Gru(AbstractModel):
     # Size of the vocabulary, it will be updated according to the input data
     self.__vocab_size = 0
 
-  def __update_vocabulary(self, X):
+  def update_vocabulary(self, X):
     print('Updating vocabulary...')
 
     # Updates the default internal vocabulary according to the words in X
@@ -112,9 +112,7 @@ class Gru(AbstractModel):
 
 
   def fit_predict(self, X, Y, ids_test, X_test, prediction_path, batch_size=128, epochs=4):
-    # Updating vocabulary
-    self.__update_vocabulary(X)
-
+    
     # Splitting train and validation data
     X_train, X_val, Y_train, Y_val = AbstractModel._split_data(X, Y)
 
@@ -129,7 +127,7 @@ class Gru(AbstractModel):
     self.__build_model(embedding_matrix)
 
     print('Training the model...')
-    self.__model.fit(X_train_pad, Y_val, batch_size, epochs,
+    self.__model.fit(X_train_pad, Y_train, batch_size, epochs,
                      validation_data=(X_val_pad, Y_val))
 
     print('Saving the model...')
