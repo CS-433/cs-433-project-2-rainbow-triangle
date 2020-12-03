@@ -19,7 +19,7 @@ class Bert(AbstractModel):
     self.__tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
   def fit_predict(self, X, Y, ids_test, X_test, prediction_path, batch_size=24,
-                  epochs=1):
+                  epochs=2):
     """
     Fits the model and performs the prediction.
 
@@ -44,6 +44,8 @@ class Bert(AbstractModel):
 
     steps_per_epoch = int(train_data_size / batch_size)
     num_train_steps = steps_per_epoch * epochs
+
+    print(f'Number of train steps: {num_train_steps}')
 
     decay_schedule = tf.keras.optimizers.schedules.PolynomialDecay(
       initial_learning_rate=2e-5,
