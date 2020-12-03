@@ -8,6 +8,9 @@ class AbstractModel(ABC):
   def __init__(self, weights_path):
     self._weights_path = weights_path
 
+  def preprocessing(self):
+    pass
+
   @abstractmethod
   def fit_predict(self, X, Y, ids_test, X_test, prediction_path, batch_size,
                   epochs):

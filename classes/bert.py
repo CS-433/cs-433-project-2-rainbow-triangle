@@ -1,6 +1,6 @@
 from classes.abstract_model import AbstractModel
 from transformers import BertTokenizer, TFBertForSequenceClassification
-from transformers import InputExample, InputFeatures, AdamWeightDecay
+from transformers import InputExample, InputFeatures, AdamWeightDecay, WarmUp
 import tensorflow as tf
 
 
@@ -14,10 +14,12 @@ class Bert(AbstractModel):
     """
     super().__init__(weights_path)
 
-    self.__model = TFBertForSequenceClassification.from_pretrained('bert-base-uncased')
+    self.__model = TFBertForSequenceClassification.from_pretrained(
+      'bert-base-uncased')
     self.__tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
-  def fit_predict(self, X, Y, ids_test, X_test, prediction_path, batch_size = 24, epochs=1):
+  def fit_predict(self, X, Y, ids_test, X_test, prediction_path, batch_size=24,
+                  epochs=1):
     """
     Fits the model and performs the prediction.
 
@@ -30,14 +32,32 @@ class Bert(AbstractModel):
     train_input_examples, validation_input_examples = \
       self.__convert_data_to_examples(X=X, Y=Y, split_size=0.1)
 
-    train_data = self.__convert_examples_to_tf_dataset(list(train_input_examples))
+    train_data_size = len(train_input_examples)
+
+    train_data = self.__convert_examples_to_tf_dataset(
+      list(train_input_examples))
     train_data = train_data.shuffle(100).batch(batch_size).repeat(2)
 
     validation_data = self.__convert_examples_to_tf_dataset(
-        list(validation_input_examples))
+      list(validation_input_examples))
     validation_data = validation_data.batch(batch_size)
 
-    optimizer = AdamWeightDecay(learning_rate=1e-5, epsilon=1e-08, clipnorm=1.0)
+    steps_per_epoch = int(train_data_size / batch_size)
+    num_train_steps = steps_per_epoch * epochs
+
+    decay_schedule = tf.keras.optimizers.schedules.PolynomialDecay(
+      initial_learning_rate=2e-5,
+      decay_steps=num_train_steps,
+      end_learning_rate=0)
+
+    warmup_schedule = WarmUp(
+      initial_learning_rate=2e-5,
+      decay_schedule_fn=decay_schedule,
+      warmup_steps=(num_train_steps * 0.1))
+
+    optimizer = AdamWeightDecay(learning_rate=warmup_schedule,
+                                epsilon=1e-08,
+                                clipnorm=1.0)
 
     loss = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
     metric = tf.keras.metrics.SparseCategoricalAccuracy('accuracy')
@@ -54,8 +74,7 @@ class Bert(AbstractModel):
     print('Predicting...')
     self.predict(ids_test, X_test, prediction_path)
 
-
-  def predict(self, ids, X, path, from_weights = False):
+  def predict(self, ids, X, path, from_weights=False):
     """
     Performs the predictions.
 
@@ -161,13 +180,12 @@ class Bert(AbstractModel):
 
     for text, label in zip(X_train, Y_train):
       train_input_examples.append(
-          InputExample(guid=None, text_a=text, text_b=None, label=label))
+        InputExample(guid=None, text_a=text, text_b=None, label=label))
 
     validation_input_examples = []
 
     for text, label in zip(X_test, Y_test):
       validation_input_examples.append(
-          InputExample(guid=None, text_a=text, text_b=None, label=label))
+        InputExample(guid=None, text_a=text, text_b=None, label=label))
 
     return train_input_examples, validation_input_examples
-

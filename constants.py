@@ -9,8 +9,7 @@ TEST_DATA = './data/test_data.txt'
 BERT_WEIGHTS_PATH = './weights/bert/'
 SUBMISSION_PATH_BERT = './submissions/bert/'
 PREPROCESSED_DATA_PATH_BERT = './preprocessed_data/bert/'
-PREPROCESSED_TRAIN_DATA_PREFIX_BERT = 'train_preprocessed_full_'
-PREPROCESSED_TRAIN_DATA_SUFFIX_BERT = '.csv'
+PREPROCESSED_TRAIN_DATA_BERT = 'train_preprocessed.csv'
 PREPROCESSED_TEST_DATA_BERT = 'test_preprocessed.csv'
 
 # Constants for GRU
