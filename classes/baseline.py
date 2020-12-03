@@ -31,21 +31,21 @@ class Baseline(AbstractModel):
     * Random Forest
     * NN - multi layer perceptron
   """
-  def __init__(self):
-    super().__init__(None) 
+  def __init__(self, weights_path):
+    super().__init__(weights_path) 
     self.init_models()
 
   def init_models(self):
     # Initialize the sklearn models here and their respective hyperparameters
     # grid for grid search with cross validation in training.
     # Some defaults are mentioned since they are important.
-    self.__best_models = []
+    self.__best_models = {}
     self.__models = {
       'KNN': (KNeighborsClassifier(weights='uniform',
                                    algorithm='auto',
                                    p=2,
                                    metric='minkowski',
-                                   n_jobs=NJOBS ),
+                                   n_jobs=9),
              {'n_neighbors': [3, 5, 7]}),
       'Naive Bayes': (GaussianNB(), {'var_smoothing': np.logspace(-12, 0, 11)}),
       'Logistic Regression': (
@@ -57,20 +57,23 @@ class Baseline(AbstractModel):
                              random_state=SEED,
                              solver='sag', # fast for large dataset
                              max_iter=10000,
-                             n_jobs=NJOBS,
+                             n_jobs=5,
                              verbose=1),
           {'C': np.logspace(-3, 3, 11)}),
       'SVM': (
-          SVC(kernel='rbf',
+          SVC(kernel='linear',
               gamma='scale',
               class_weight='balanced', # random folds so class frequencies are unexpected
               random_state=SEED,
+              max_iter=1000,
               verbose=1),
           {'C': np.logspace(-3, 3, 11)}),
       'Random Forest': ( 
           RandomForestClassifier(criterion='gini',
                                  bootstrap=True,
                                  verbose=1,
+                                 n_jobs=3,
+                                 random_state=SEED,
                                  max_features='auto'),# will do sqrt at each split
           {
             'n_estimators': [10, 50, 100, 500, 1000],
@@ -111,40 +114,42 @@ class Baseline(AbstractModel):
     data = self._standardize_data(data, istest)
     return data, labels_or_ids
     
-  def fit(self, X, Y):
+  def fit_predict(self, X, Y, ids_test, X_test, prediction_path, model_name=None):
     print('Fit...')
-    for model_name, (model, param_grid) in self.__models.items():
-      print(f'Grid searching for {model_name}')
-      grid_search = GridSearchCV(estimator=model,
-                                 param_grid=param_grid,
-                                 scoring='accuracy',
-                                 n_jobs=NJOBS,
-                                 verbose=1)
-      grid_search.fit(X, Y)
-      best_model = grid_search.best_estimator_
-      print(f'Done for {model_name}')
-      self.__best_models.append((model_name,
-                                 grid_search.best_estimator_,
-                                 grid_search.best_params_,
-                                 grid_search.best_score_))
-      break
+    model, param_grid = self.__models[model_name]
+    print(f'Grid searching for {model_name}...')
+    grid_search = GridSearchCV(estimator=model,
+                               param_grid=param_grid,
+                               scoring='accuracy',
+                               n_jobs=5,
+                               verbose=1)
+    grid_search.fit(X, Y)
+    print(f'Done for {model_name}!')
+    predictions = grid_search.best_estimator_.predict(X_test)
+    file_path = f'{prediction_path}submission-{model_name}-{strftime("%Y-%m-%d_%H:%M:%S")}.csv'
+    AbstractModel._create_submission(ids_test, predictions, file_path)
+    print(f'[{model_name}]') 
+    print(f'CV Accuracy: {grid_search.best_score_}') 
+    print(f'Params: {grid_search.best_params_}')
+    self.__best_models[model_name] = grid_search.best_estimator_
+    print(f'Saving {model_name}')
+    dump(grid_search.best_estimator_,
+         f'{self._weights_path}model-{model_name}.joblib')
 
-  def predict(self, ids, X, path):
-    for model_name, model, params, score in self.__best_models:
-      predictions = model.predict(X)
-      file_path = f'{path}submission-{model_name}-{strftime("%Y-%m-%d_%H:%M:%S")}.csv'
-      AbstractModel._create_submission(ids, predictions, file_path)
-      print(f'[{model_name}]') 
-      print(f'CV Accuracy: {score}') 
-      print(f'Params: {params}') 
-
-  def save_best_models(self, weights_path):
-    if len(self.__best_models) == 0:
-      print('No models trained')
-    else:
-      for model_name, model, _, _ in self.__best_models:
-        print(f'Saving best {model_name}...')
-        dump(model, f'{weights_path}model-{model_name}.joblib')
+  def predict(self, ids, X, path, model_name=None):
+    try:
+      print('Trying to load', f'{self._weights_path}model-{model_name}.joblib')
+      model = load(f'{self._weights_path}model-{model_name}.joblib')
+    except:
+      if model_name not in self.__best_models:
+        print(f'{model_name} Not fitted! Please fit {model_name} before predicting')
+        return
+      model = self.__best_models[model_name]
+    file_path = f'{path}submission-{model_name}-{strftime("%Y-%m-%d_%H:%M:%S")}.csv'
+    print(f'Making predictions made with {model_name}...') 
+    predictions = model.predict(X)
+    AbstractModel._create_submission(ids, predictions, file_path)
+    print(f'Predictions made with {model_name}!') 
 
   def _add_tfidf_lsi(self, data, istest):
     """Adds tfidf vectorization to the data with latent semantic indexing."""

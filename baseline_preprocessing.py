@@ -41,7 +41,7 @@ def main():
   test_preprocessing = Preprocessing([TEST_DATA], submission=True)
   # Preprocess it
   run_preprocessing(train_preprocessing)
-  run_preprocessing(test_preprocessing)
+  run_preprocessing(test_preprocessing, istest=True)
   # Save it
   train_df = train_preprocessing.get()
   train_df = train_df.sample(frac=1)
