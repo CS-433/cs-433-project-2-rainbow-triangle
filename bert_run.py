@@ -10,7 +10,7 @@ if __name__ == '__main__':
   # Training the model
 
   train_preprocessed = pd.read_csv(
-    f'{PREPROCESSED_DATA_PATH_BERT}{PREPROCESSED_TRAIN_DATA_PREFIX_BERT}{i}{PREPROCESSED_TRAIN_DATA_SUFFIX_BERT}',
+    f'{PREPROCESSED_DATA_PATH_BERT}{PREPROCESSED_TRAIN_DATA_BERT}',
     usecols=['text', 'label'])
 
     # Making the predictions

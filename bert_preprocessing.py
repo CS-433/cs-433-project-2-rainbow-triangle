@@ -21,6 +21,9 @@ def bert_preprocessing(preprocessing, istest=False):
   preprocessing.to_lower()
   preprocessing.remove_tags()
   preprocessing.final_paranthesis()
+  preprocessing.emoticons_to_tags(bert=True)
+  preprocessing.remove_elongs()
+  preprocessing.remove_symbols()
   preprocessing.correct_spacing_indexing()
 
   return preprocessing
@@ -32,9 +35,7 @@ train_preprocessing = bert_preprocessing(train_preprocessing)
 train_df = train_preprocessing.get()
 
 train_df = train_df.sample(frac=1)
-
-for i, df in enumerate(np.array_split(train_df, N_SPLITS)):
-  df.to_csv(f'{PREPROCESSED_DATA_PATH_BERT}{PREPROCESSED_TRAIN_DATA_PREFIX_BERT}{i}{PREPROCESSED_TRAIN_DATA_SUFFIX_BERT}')
+train_df.to_csv(f'{PREPROCESSED_DATA_PATH_BERT}{PREPROCESSED_TRAIN_DATA_BERT}')
 
 # Preprocessing the test data
 test_preprocessing = Preprocessing([TEST_DATA], submission=True)

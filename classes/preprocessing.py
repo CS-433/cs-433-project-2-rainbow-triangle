@@ -69,8 +69,8 @@ class Preprocessing:
 
   def remove_elongs(self):
     print('Removing elongs...')
-    self.__data['text'].apply(
-      lambda text: str(re.sub(r'([a-zA-Z])\1{2,}', r'\1', text)))
+    self.__data['text'] = self.__data['text'].apply(
+      lambda text: str(re.sub(r'\b(\S*?)(.)\2{2,}\b', r'\1\2', text)))
 
   def remove_numbers(self):
     print('Removing numbers...')
@@ -146,6 +146,7 @@ class Preprocessing:
   def remove_tags(self):
     print('Removing tags...')
     self.__data['text'] = self.__data['text'].str.replace('<[\w]*>', '')
+    self.__data['text'] = self.__data['text'].apply(lambda text: text.strip())
     self.__data['text'] = self.__data['text'].str.replace('\.{3}$', '')
 
   def remove_parenthesis(self):
@@ -274,9 +275,13 @@ class Preprocessing:
     return [lemmatizer.lemmatize(w, Preprocessing.__get_wordnet_tag(nltk_tag)) 
             for w, nltk_tag in nltk_tagged]
 
+  def remove_symbols(self):
+    self.__data['text'] = self.__data['text'].str.replace('[$&+=@#|<>:^*()%-]', '')
+
+
   # GRU STUFF
 
-  def emoticons_to_tags(self):
+  def emoticons_to_tags(self, bert=False):
     """
     Convert emoticons (with or without spaces) into tags according to the pretrained stanford glove model
     e.g.: :) ---> <smile> and so on
@@ -284,6 +289,14 @@ class Preprocessing:
     print('Converting emoticons to tags...')
     union_re = {}
     for tag, emo_list in EMOTICONS_GLOVE.items():
+
+      if bert:
+        tag = tag.replace('<sadface>', 'sad')
+        tag = tag.replace('<lolface>', 'lol')
+        tag = tag.replace('<neutralface>', 'neutral')
+        tag = tag.replace('<smile>', 'smile')
+        tag = tag.replace('<heart>', 'heart')
+
       re_emo_with_spaces = '|'.join(re.escape(' '.join(emo)) for emo in emo_list)
       re_emo = '|'.join(re.escape(emo) for emo in emo_list)
       union_re[tag] = f'{re_emo_with_spaces}|{re_emo}'
