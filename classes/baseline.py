@@ -44,8 +44,7 @@ class Baseline(AbstractModel):
       'KNN': (KNeighborsClassifier(weights='uniform',
                                    algorithm='auto',
                                    p=2,
-                                   metric='minkowski',
-                                   n_jobs=9),
+                                   metric='minkowski'),
              {'n_neighbors': [3, 5, 7]}),
       'Naive Bayes': (GaussianNB(), {'var_smoothing': np.logspace(-12, 0, 11)}),
       'Logistic Regression': (
@@ -72,25 +71,24 @@ class Baseline(AbstractModel):
           RandomForestClassifier(criterion='gini',
                                  bootstrap=True,
                                  verbose=1,
-                                 n_jobs=3,
+                                 n_jobs=5,
+                                 max_depth=25,
+                                 min_samples_split=2,
+                                 min_samples_leaf=4,
                                  random_state=SEED,
                                  max_features='auto'),# will do sqrt at each split
-          {
-            'n_estimators': [10, 50, 100, 500, 1000],
-            'max_depth': [10, 25, 50],
-            'min_samples_split': [2, 5, 10],
-            'min_samples_leaf': [1, 2, 4]}), # powers of 2
+          { 'n_estimators': [10, 50, 100, 500, 1000] }),
       'Neural Network': ( 
           MLPClassifier(solver='adam',
                         learning_rate='adaptive',
                         learning_rate_init=0.001,
                         max_iter=10000,
                         random_state=SEED,
-                        verbose=1,
+                        verbose=True,
+                        activation='relu',
                         early_stopping=True),
           {
             'hidden_layer_sizes': [(size,) for size in [1, 5, 20, 80, 320, 1280]],
-            'activation': ['relu', 'tanh'], # relu might be the best anyway
             'alpha': np.logspace(-3, 3, 11),
           }),
     }
@@ -121,8 +119,8 @@ class Baseline(AbstractModel):
     grid_search = GridSearchCV(estimator=model,
                                param_grid=param_grid,
                                scoring='accuracy',
-                               n_jobs=5,
-                               verbose=1)
+                               n_jobs=-1,
+                               verbose=10)
     grid_search.fit(X, Y)
     print(f'Done for {model_name}!')
     predictions = grid_search.best_estimator_.predict(X_test)

@@ -14,11 +14,11 @@ def main():
   X, Y = classifier.feature_extraction(train)
   X_test, ids = classifier.feature_extraction(test, istest=True)
   # Fit classifier and predict
-  #classifier.fit_predict(X, Y, ids, X_test, SUBMISSION_PATH_CLASSICAL, 'KNN') 
+  classifier.fit_predict(X, Y, ids, X_test, SUBMISSION_PATH_CLASSICAL, 'KNN') 
   #classifier.fit_predict(X, Y, ids, X_test, SUBMISSION_PATH_CLASSICAL, 'Naive Bayes') 
   #classifier.fit_predict(X, Y, ids, X_test, SUBMISSION_PATH_CLASSICAL, 'Logistic Regression') 
- # classifier.fit_predict(X, Y, ids, X_test, SUBMISSION_PATH_CLASSICAL, 'SVM') 
-  classifier.fit_predict(X, Y, ids, X_test, SUBMISSION_PATH_CLASSICAL, 'Random Forest') 
+  #classifier.fit_predict(X, Y, ids, X_test, SUBMISSION_PATH_CLASSICAL, 'SVM') 
+  #classifier.fit_predict(X, Y, ids, X_test, SUBMISSION_PATH_CLASSICAL, 'Random Forest') 
   #classifier.fit_predict(X, Y, ids, X_test, SUBMISSION_PATH_CLASSICAL, 'Neural Network') 
 
 
