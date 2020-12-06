@@ -11,4 +11,3 @@ weights/gru/checkpoint
 weights/bert/model*.*
 weights/bert/checkpoint
 utility/__pycache__
-submissions/*
