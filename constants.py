@@ -28,3 +28,6 @@ PREPROCESSED_TRAIN_DATA_CLASSICAL = 'train_preprocessed.csv'
 PREPROCESSED_TEST_DATA_CLASSICAL = 'test_preprocessed.csv'
 SEED = 666013
 NJOBS = 10 
+
+# Enseble submission path
+SUBMISSION_PATH_ENSEMBLE = './submissions/ensemble/'
