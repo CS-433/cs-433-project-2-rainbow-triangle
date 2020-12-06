@@ -19,7 +19,7 @@ class Bert(AbstractModel):
     self.__tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
   def fit_predict(self, X, Y, ids_test, X_test, prediction_path, batch_size=24,
-                  epochs=2):
+                  epochs=3):
     """
     Fits the model and performs the prediction.
 
@@ -36,7 +36,7 @@ class Bert(AbstractModel):
 
     train_data = self.__convert_examples_to_tf_dataset(
       list(train_input_examples))
-    train_data = train_data.shuffle(100).batch(batch_size).repeat(2)
+    train_data = train_data.shuffle(100).batch(batch_size)
 
     validation_data = self.__convert_examples_to_tf_dataset(
       list(validation_input_examples))

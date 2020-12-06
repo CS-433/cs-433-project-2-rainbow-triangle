@@ -202,11 +202,11 @@ class Preprocessing:
     """
     print('Substituting final paranthesis...')
     if not use_glove:
-      self.__data['text'] = self.__data['text'].str.replace('\)+$', ':)')
-      self.__data['text'] = self.__data['text'].str.replace('\(+$', ':(')
+      self.__data['text'] = self.__data['text'].str.replace(' \)+$', ':)')
+      self.__data['text'] = self.__data['text'].str.replace(' \(+$', ':(')
     else:
-      self.__data['text'] = self.__data['text'].str.replace('\)+$', ' <smile> ')
-      self.__data['text'] = self.__data['text'].str.replace('\(+$', ' <sadface> ')
+      self.__data['text'] = self.__data['text'].str.replace(' \)+$', ' <smile> ')
+      self.__data['text'] = self.__data['text'].str.replace(' \(+$', ' <sadface> ')
 
   def correct_spacing_indexing(self):
     """Deletes double or more spaces and corrects indexing.
@@ -217,6 +217,7 @@ class Preprocessing:
     space between words.
     """
     print('Correcting spacing...')
+
     self.__data['text'] = self.__data['text'].str.replace('\s{2,}', ' ')
     self.__data['text'] = self.__data['text'].apply(lambda text: text.strip())
     self.__data.reset_index(inplace=True, drop=True)
@@ -278,10 +279,25 @@ class Preprocessing:
   def remove_symbols(self):
     self.__data['text'] = self.__data['text'].str.replace('[$&+=@#|<>:^*()%-]', '')
 
+  def remove_space_between_emoticons(self):
+    print('Removing space between emoticons...')
+    emo_list = [el for value in list(EMOTICONS_GLOVE.values()) for el in value]
+    emo_with_spaces = '|'.join(re.escape(' '.join(emo)) for emo in emo_list)
+
+    all_non_alpha_emo = '|'.join(re.escape(emo) for emo in emo_list if not any(
+      char.isalpha() or char.isdigit() for char in emo))
+
+    self.__data['text'] = self.__data['text'].str.replace(
+      emo_with_spaces,
+      lambda t: t.group().replace(' ', ''))
+
+    self.__data['text'] = self.__data['text'].str.replace(
+      rf'({all_non_alpha_emo})',
+      r' \1 ')
 
   # GRU STUFF
 
-  def emoticons_to_tags(self, bert=False):
+  def emoticons_to_tags(self):
     """
     Convert emoticons (with or without spaces) into tags according to the pretrained stanford glove model
     e.g.: :) ---> <smile> and so on
@@ -289,14 +305,6 @@ class Preprocessing:
     print('Converting emoticons to tags...')
     union_re = {}
     for tag, emo_list in EMOTICONS_GLOVE.items():
-
-      if bert:
-        tag = tag.replace('<sadface>', 'sad')
-        tag = tag.replace('<lolface>', 'lol')
-        tag = tag.replace('<neutralface>', 'neutral')
-        tag = tag.replace('<smile>', 'smile')
-        tag = tag.replace('<heart>', 'heart')
-
       re_emo_with_spaces = '|'.join(re.escape(' '.join(emo)) for emo in emo_list)
       re_emo = '|'.join(re.escape(emo) for emo in emo_list)
       union_re[tag] = f'{re_emo_with_spaces}|{re_emo}'
