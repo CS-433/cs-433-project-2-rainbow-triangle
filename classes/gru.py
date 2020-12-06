@@ -154,7 +154,8 @@ class Gru(AbstractModel):
     # NOTE: since we are using GRU as a RNN, we need to define two types of dropouts: the
     # first one is used for the first operation on the inputs (when data
     # "enters" in GRU) the second one is used for the recurrences Units
-    self.__model.add(layers.Bidirectional(layers.GRU(units=100, dropout=0.2, recurrent_dropout=0.2)))
+    self.__model.add(layers.Bidirectional(layers.GRU(units=100, dropout=0.2, recurrent_dropout=0, activation = 'tanh', \
+      recurrent_activation='sigmoid', unroll=False, use_bias = True, reset_after = True)))
     self.__model.add(tf.keras.layers.Dense(100, activation='relu')),
     self.__model.add(layers.Dense(1, activation='sigmoid'))
 
@@ -168,7 +169,7 @@ class Gru(AbstractModel):
     print(self.__model.summary())
 
 
-  def fit_predict(self, X, Y, ids_test, X_test, prediction_path, batch_size=128, epochs=4):
+  def fit_predict(self, X, Y, ids_test, X_test, prediction_path, batch_size=128, epochs=10):
     """
     Fits (train) the model, and makes a prediction on the test data. TODO TODO TODO
     """
