@@ -21,9 +21,10 @@ def bert_preprocessing(preprocessing, istest=False):
   preprocessing.to_lower()
   preprocessing.remove_tags()
   preprocessing.final_paranthesis()
-  preprocessing.emoticons_to_tags(bert=True)
-  preprocessing.remove_elongs()
-  preprocessing.remove_symbols()
+  # preprocessing.remove_elongs()
+  # preprocessing.remove_symbols()
+  preprocessing.correct_spacing_indexing()
+  preprocessing.remove_space_between_emoticons()
   preprocessing.correct_spacing_indexing()
 
   return preprocessing
