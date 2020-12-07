@@ -7,7 +7,7 @@ class Ensemble:
     """
     :param model_accuracies: a dictionary containing the path of all considered submissions as keys.
       The value is the accuracy of that model.
-    :type: dict
+    :type model_accuracies: dict
     :param model_names: a list containing the names of the used models.
     :type model_names: list
     """

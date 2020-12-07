@@ -4,35 +4,101 @@ from abc import ABC, abstractmethod
 
 
 class AbstractModel(ABC):
+  """
+  Abstract class that models a generic neural network. Will be extended by GRU and Bert.
+  """
 
   def __init__(self, weights_path):
+    """
+    :param weights_path: weights path of the model. Model's parameters will be loaded and saved from this path.
+    :type weights_path: str
+    """
+
     self._weights_path = weights_path
 
-  def preprocessing(self):
-    pass
 
   @abstractmethod
   def fit_predict(self, X, Y, ids_test, X_test, prediction_path, batch_size,
                   epochs):
+    """
+    Abstract method. Its implementation will fit (train) the model, and makes a prediction on the test data.
+
+    :param X: datapoint matrix. Will be splitted into training and validation data.
+    :type X: numpy.ndarray
+    :param Y: labels of the datapoints.
+    :type Y: numpy.ndarray
+    :param ids_test: the ids of the test datapoints, necessary to make a prediction.
+    :type ids_test: numpy.ndarray
+    :param X_test: the matrix containing the test datapoints for the prediction.
+    :type X_test: numpy.ndarray
+    :param prediction_path: relative path of the prediction file.
+    :type prediction_path: str
+    :param batch_size: size of the mini-batches used when training the model.
+    :type batch_size: int
+    :param epochs: number of epochs used when training the model.
+    :type epochs: int
+    """
+
     pass
+
 
   @abstractmethod
   def predict(self, ids, X, path, from_weights):
+    """
+    Abstract method. Its implementation will perform the predictions. Usually called within the fit_predict method.
+
+    :param ids: ids of testing data.
+    :type ids: numpy.ndarray
+    :param X: matrix of the testing datapoints.
+    :type x: numpy.ndarray
+    :param path: specifies where to store the submission file
+    :type path: str
+    :param from_weights: specifies if it is a prediction of a new model or if it is made according to a pre-trained one.
+    :type from_weights: bool
+    """
+
     pass
+
 
   @staticmethod
   def _create_submission(ids, predictions, path):
+    """
+    Static method used to generate the submission file after a prediction.
+
+    :param ids: ids of testing data.
+    :type ids: numpy.ndarray
+    :param predictions: array of the predicted labels. Each element can be 1 or -1.
+    :type predictions: numpy.ndarray
+    :param path: specifies where to store the submission file
+    :type path: str
+    """
+
     # Generating the submission file
     submission = pd.DataFrame(columns=['Id', 'Prediction'],
                               data={'Id': ids, 'Prediction': predictions})
 
+    # For many models the labels are 0 or 1. Replacing 0s with -1s.
     submission['Prediction'].replace(0, -1, inplace=True)
 
+    # Saving the file
     submission.to_csv(path, index=False)
-    submission.head(10)
+
 
   @staticmethod
   def _split_data(X, Y, split_size=0.2):
+    """
+    Static method used to split the datapoints into train and validation set.
+
+    :param X: datapoint matrix. Will be splitted into training and validation data.
+    :type X: numpy.ndarray
+    :param Y: labels of the datapoints.
+    :type Y: numpy.ndarray
+    :param split_size: size of the testing data with respecto to the training set.
+    :type split_size: float,  optional.
+    :return: the training and validation matrices with their respective labels.
+    :rtype: tuple
+    """
+
     print('Splitting data in train and test set...')
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y,
                                                         test_size=split_size)

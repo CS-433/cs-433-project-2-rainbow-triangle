@@ -9,8 +9,24 @@ from tensorflow.keras import layers
 
 
 class Gru(AbstractModel):
+  """
+  This class implements a Gru bidirectional neural network with Glove pretrained embedding file.
+  The embedding file has been created by Stanford University, and it's based on tweets.
+  """
 
   def __init__(self, weights_path, glove_path, max_tweet_length=120, embedding_dim=100):
+    """
+    :param weights_path: weights path of the model. Model's parameters will be loaded and saved from this path.
+    :type weights_path: str
+    :param glove_path: path of the glove file.
+    :type glove_path: str
+    :param max_tweet_length: maximum (estimated) lenght of a tweet in words. 
+      We exaggerated the dimension to be sure to not truncate any tweet.
+    :type max_tweet_length: int, optional
+    :param embedding_dim: the embedding dimension. Every word is represented by a vector of this length
+      in the embedding space. Please before changing it refer to your embedding file documentation.
+    :type embedding_dim: int, optional
+    """
     super().__init__(weights_path)
 
     self.__tokenizer = Tokenizer(oov_token = '<unk>')
@@ -28,7 +44,7 @@ class Gru(AbstractModel):
     Method used to update (create) the vocabulary of the tokenizer.
     
     :param X: A matrix. Each row is a document, in our case a tweet.
-    :type X: list 
+    :type X: numpy.ndarray 
     """
 
     print('Updating vocabulary...')
@@ -50,7 +66,7 @@ class Gru(AbstractModel):
       with 0 as special padding character.
 
     param X: A matrix. Each row is a document, in our case a tweet.
-    :type X: list 
+    :type X: numpy.ndarray 
     
     :return: Numpy array with shape (len(X), max_tweet_length)
     :rtype: numpy.ndarray
@@ -171,20 +187,35 @@ class Gru(AbstractModel):
 
   def fit_predict(self, X, Y, ids_test, X_test, prediction_path, batch_size=128, epochs=10):
     """
-    Fits (train) the model, and makes a prediction on the test data. TODO TODO TODO
+    Fits (train) the model, and makes a prediction on the test data.
+
+    :param X: datapoint matrix. Will be splitted into training and validation data.
+    :type X: numpy.ndarray
+    :param Y: labels of the datapoints.
+    :type Y: numpy.ndarray
+    :param ids_test: the ids of the test datapoints, necessary to make a prediction.
+    :type ids_test: numpy.ndarray
+    :param X_test: the matrix containing the test datapoints for the prediction.
+    :type X_test: numpy.ndarray
+    :param prediction_path: relative path of the prediction file.
+    :type prediction_path: str
+    :param batch_size: size of the mini-batches used when training the model.
+    :type batch_size: int, optional
+    :param epochs: number of epochs used when training the model.
+    :type epochs: int, optional
     """
     
     # Splitting train and validation data
     X_train, X_val, Y_train, Y_val = AbstractModel._split_data(X, Y)
 
-    # Converting train and validation data to sequences
+    # Converting train and validation data to sequences (vectors)
     X_train_pad = self.__convert_data(X_train)
     X_val_pad = self.__convert_data(X_val)
 
-    print(list(self.__tokenizer.word_index.keys())[:5])
     # Generating the embedding matrix from the training data
     embedding_matrix = self.__generate_embedding_matrix()
 
+    # Building the model
     self.__build_model(embedding_matrix)
 
     print('Training the model...')
@@ -192,11 +223,9 @@ class Gru(AbstractModel):
                      validation_data=(X_val_pad, Y_val))
 
     print('Saving the model...')
-
     self.__model.save(f'{self._weights_path}model')
 
     print('Making the prediction...')
-
     self.predict(ids_test, X_test, prediction_path)
 
 
@@ -204,10 +233,16 @@ class Gru(AbstractModel):
     """
     Performs the predictions. Usually called within the fit_predict method.
 
-    :param ids: ids of new data
-    :param X: new data to predict
+    :param ids: ids of testing data.
+    :type ids: numpy.ndarray
+    :param X: matrix of the testing datapoints.
+    :type x: numpy.ndarray
     :param path: specifies where to store the submission file
+    :type path: str
+    :param from_weights: specifies if it is a prediction of a new model or if it is made according to a pre-trained one.
+    :type from_weights: bool, optional
     """
+
     if from_weights:
       # Loading weights
       self.__model = tf.keras.models.load_model(f'{self._weights_path}model')
@@ -218,4 +253,5 @@ class Gru(AbstractModel):
     preds = np.where(predictions >= 0.5, 1, -1)
     print(preds)
 
+    # Creating and saving the file
     AbstractModel._create_submission(ids, preds, path)

@@ -41,6 +41,7 @@ class Preprocessing:
 
     if not submission:
       if len(list_) == 2:
+
         # Creating empty DataFrame
         self.__data = pd.DataFrame(columns=['text', 'label'])
 
@@ -59,6 +60,7 @@ class Preprocessing:
 
     else:
       if len(list_) == 1:
+
         # Reading the content
         with open(list_[0]) as f:
           content = f.read().splitlines()
@@ -83,12 +85,14 @@ class Preprocessing:
     """
     return self.__data
 
+
   def logging(self):
     """
     Prints the first 10 rows in the dataframe stored in self.__data.
     """
     print('Logging:')
     print(self.__data['text'].head(10))
+
 
   def save_raw(self):
     """
@@ -111,6 +115,7 @@ class Preprocessing:
 
     self.__data = self.__data.drop_duplicates(subset=['text'])
 
+
   def remove_tags(self):
     """
     Removes tags (<user>, <url>) and final '...' characters (long tweets)
@@ -121,6 +126,7 @@ class Preprocessing:
     self.__data['text'] = self.__data['text'].apply(lambda text: text.strip())
     self.__data['text'] = self.__data['text'].str.replace('\.{3}$', '')
 
+
   def convert_hashtags(self):
     """
     Removes '#' at the beginning of a tweet and corrects spacing of it.
@@ -130,6 +136,7 @@ class Preprocessing:
     self.__data['text'] = self.__data['text'].str.replace(
       '(#)(\w+)',
       lambda text: Preprocessing.__word_segmentation(str(text.group(2))))
+
 
   def slangs_to_words(self):
     """
@@ -148,8 +155,10 @@ class Preprocessing:
     chat_words_list = []
 
     for line in chat_words_str:
+
       # Slang
       cw = line.split('=')[0]
+
       # Slang expanded
       cw_expanded = line.split('=')[1]
 
@@ -163,11 +172,14 @@ class Preprocessing:
     # Function to be called for each tweet
     def chat_words_conversion(text):
       new_text = []
+
       # For each word in the tweet
       for w in text.split():
+
         # If slangs is in the mapping
         if w.upper() in chat_words_list:
           new_text.append(chat_words_map_dict[w.upper()])
+
         # Otherwise, use the slang itself
         else:
           new_text.append(w)
@@ -177,11 +189,16 @@ class Preprocessing:
     self.__data['text'] = self.__data['text'].apply(
       lambda text: chat_words_conversion(str(text)))
 
+
   def final_parenthesis(self, use_glove=False):
     """
-    Preprocesses final parenthesis.
-    If using glove, then replace with the according tag directly.
+    Substitutes the final parenthesis of a tweet with a positive or negative smile.
+    More on this in the report.
+
+    :param use_glove: if using glove, then replace with the according tag directly.
+    :type use_glove: bool, optional
     """
+
     print('Substituting final paranthesis...')
 
     if not use_glove:
@@ -193,52 +210,57 @@ class Preprocessing:
       self.__data['text'] = self.__data['text'].str.replace('\(+$',
                                                             ' <sadface> ')
 
+
   def remove_numbers(self):
     """
     Removes numbers from each tweet
     """
-    print('Removing numbers...')
 
+    print('Removing numbers...')
     self.__data['text'] = self.__data['text'].str.replace('\d', '')
+
 
   def remove_punctuation(self):
     """
     Removes everything that is not alphanumeric and not a space.
     """
-    print('Removing punctuation...')
 
+    print('Removing punctuation...')
     self.__data['text'] = self.__data['text'].str.replace('[^\w\s]', '')
+
 
   def to_lower(self):
     """
     Converts each tweet to lowercase.
-    :return:
     """
-    print('Converting to lowercase...')
 
+    print('Converting to lowercase...')
     self.__data['text'] = self.__data['text'].str.lower()
+
 
   def correct_spelling(self):
     """
     Corrects spelling of each tweet.
     """
-    print('Correcting spelling...')
 
+    print('Correcting spelling...')
     self.__data['text'] = self.__data['text'].apply(
       lambda text: Preprocessing.__correct_spelling(text))
+
 
   def lemmatize(self):
     """
     Performs the lemmatization.
     """
-    print('Performing lemmatization...')
 
+    print('Performing lemmatization...')
     self.__data['text'] = self.__data['text'].apply(Preprocessing.__lemmatize)
 
   def remove_stopwords(self):
     """
     Removes english stopwords.
     """
+
     print('Removing stopwords...')
 
     # Getting english stopwords set
@@ -249,22 +271,24 @@ class Preprocessing:
       lambda text: ' '.join(
         [word for word in str(text).split() if word not in stopwords_]))
 
+
   def empty_tweets(self):
     """
     Adds tag <EMPTY> for empty tweets.
     """
-    print('Marking empty tweets...')
 
+    print('Marking empty tweets...')
     self.__data['text'] = self.__data['text'].str.replace('^\s*$', '<EMPTY>')
 
   def remove_elongs(self):
     """
     Removes elongs. (e.g.: hellooooo -> hello)
     """
-    print('Removing elongs...')
 
+    print('Removing elongs...')
     self.__data['text'] = self.__data['text'].apply(
       lambda text: str(re.sub(r'\b(\S*?)(.)\2{2,}\b', r'\1\2', text)))
+
 
   def correct_spacing_indexing(self):
     """
@@ -279,6 +303,7 @@ class Preprocessing:
     Should be called before and after calling that method.
     It could exist ':  )' which that method doesn't recognize.
     """
+
     print('Correcting spacing...')
 
     # Removing double spaces
@@ -290,11 +315,13 @@ class Preprocessing:
     # Correcting the indexing
     self.__data.reset_index(inplace=True, drop=True)
 
+
   def remove_space_between_emoticons(self):
     """
     Removes spaces between emoticons (e.g.: ': )' --> ':)').
     Adds a space between a word and an emoticon (e.g.: 'hello:)' --> 'hello :)')
     """
+
     print('Removing space between emoticons...')
 
     # Getting list of all emoticons
@@ -317,12 +344,14 @@ class Preprocessing:
       rf'({all_non_alpha_emo})',
       r' \1 ')
 
+
   def emoticons_to_tags(self):
     """
     Convert emoticons (with or without spaces) into tags
       according to the pretrained stanford glove model
       (e.g.: :) ---> <smile> and so on)
     """
+
     print('Converting emoticons to tags...')
 
     # Dictionary like {tag:[list_of_emoticons]}
@@ -346,31 +375,34 @@ class Preprocessing:
     self.__data['text'] = self.__data['text'].apply(
       lambda text: inner(str(text), union_re))
 
+
   def hashtags_to_tags(self):
     """
     Convert hashtags. (e.g.: #hello ---> <hashtag> hello)
     """
-    print('Converting hashtags to tags...')
 
+    print('Converting hashtags to tags...')
     self.__data['text'] = self.__data['text'].str.replace(r'#(\S+)',
                                                           r'<hashtag> \1')
+
 
   def numbers_to_tags(self):
     """
     Convert numbers into tags. (e.g.: 34 ---> <number>)
     """
-    print('Converting numbers to tags...')
 
+    print('Converting numbers to tags...')
     self.__data['text'] = self.__data['text'].str.replace(
       r'[-+]?[.\d]*[\d]+[:,.\d]*', r'<number>')
+
 
   def repeat_to_tags(self):
     """
     Convert repetitions of '!' or '?' or '.' into tags.
       (e.g.: ... ---> . <repeat>)
     """
-    print('Converting repetitions of symbols to tags...')
 
+    print('Converting repetitions of symbols to tags...')
     self.__data['text'] = self.__data['text'].str.replace(r'([!?.]){2,}',
                                                           r'\1 <repeat>')
 
@@ -378,8 +410,8 @@ class Preprocessing:
     """
     Convert elongs into tags. (e.g.: hellooooo ---> hello <elong>)
     """
-    print('Converting elongated words to tags...')
 
+    print('Converting elongated words to tags...')
     self.__data['text'] = self.__data['text'].str.replace(
       r'\b(\S*?)(.)\2{2,}\b', r'\1\2 <elong>')
 
@@ -387,13 +419,13 @@ class Preprocessing:
     """
     Remove ... <url> which represents the ending of tweet
     """
-    print('Removing tweet ending when the tweet is cropped...')
 
+    print('Removing tweet ending when the tweet is cropped...')
     self.__data['text'] = self.__data['text'].str.replace(r'\.{3} <url>$', '')
 
   # STATIC METHODS (private, used internally)
 
-  # Instance to `SymSpell` class
+  # Instance of `SymSpell` class
   symspell = None
 
   @staticmethod
@@ -404,6 +436,7 @@ class Preprocessing:
     :return: instantiated object
     :rtype: SymSpell
     """
+
     # If is not already instantiated
     if Preprocessing.symspell is None:
 
@@ -426,6 +459,7 @@ class Preprocessing:
 
     return Preprocessing.symspell
 
+
   @staticmethod
   def __word_segmentation(text):
     """
@@ -443,6 +477,7 @@ class Preprocessing:
                                                               max_edit_distance=0)
     return result.segmented_string
 
+
   @staticmethod
   def __correct_spelling(text):
     """
@@ -455,10 +490,12 @@ class Preprocessing:
     """
 
     # `max_edit_distance = 2` tells `SymSpell` to check at a maximum distance
-    #  of 2 in the vocabulary
+    #  of 2 in the vocabulary. Only words with at most 2 letters wrong will be corrected.
     result = Preprocessing.__get_symspell().lookup_compound(text,
                                                             max_edit_distance=2)
+    
     return result[0].term
+
 
   @staticmethod
   def __get_wordnet_tag(nltk_tag):
@@ -470,6 +507,7 @@ class Preprocessing:
     :return: type of a word
     :rtype: str
     """
+
     if nltk_tag.startswith('V'):
       return wordnet.VERB
     elif nltk_tag.startswith('N'):
@@ -482,18 +520,21 @@ class Preprocessing:
       # This is the default in WordNetLemmatizer, when no pos tag is passed
       return wordnet.NOUN
 
+
   @staticmethod
   def __lemmatize(text):
     """
-    Performs for lemmatization using nltk pos tag and `WordNetLemmatizer`.
+    Performs lemmatization using nltk pos tag and `WordNetLemmatizer`.
 
     :param text: Text to be processed
     :type text: str
     :return: processed texg
     :rtype: str
     """
+
     nltk_tagged = nltk.pos_tag(text.split())
     lemmatizer = WordNetLemmatizer()
+    
     return [lemmatizer.lemmatize(w, Preprocessing.__get_wordnet_tag(nltk_tag))
             for w, nltk_tag in nltk_tagged]
 
