@@ -25,7 +25,7 @@ def run_preprocessing(preprocessing, istest=False):
   preprocessing.convert_hashtags()
   preprocessing.slangs_to_words()
   preprocessing.emoticons_to_tags()
-  preprocessing.final_paranthesis(use_glove=True)
+  preprocessing.final_parenthesis(use_glove=True)
   preprocessing.remove_numbers()
   preprocessing.remove_punctuation()
   preprocessing.to_lower()

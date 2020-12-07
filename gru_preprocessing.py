@@ -21,7 +21,7 @@ def gru_preprocessing(preprocessing, istest=False):
   # to better understand what it does
   preprocessing.remove_endings()
   preprocessing.emoticons_to_tags()
-  preprocessing.final_paranthesis(use_glove=True)
+  preprocessing.final_parenthesis(use_glove=True)
   preprocessing.numbers_to_tags()
   preprocessing.hashtags_to_tags()
   preprocessing.repeat_to_tags()
