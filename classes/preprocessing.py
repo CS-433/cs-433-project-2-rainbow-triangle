@@ -531,8 +531,9 @@ class Preprocessing:
     nltk_tagged = nltk.pos_tag(text.split())
     lemmatizer = WordNetLemmatizer()
     
-    return [lemmatizer.lemmatize(w, Preprocessing.__get_wordnet_tag(nltk_tag))
-            for w, nltk_tag in nltk_tagged]
+    return ' '.join(
+        [lemmatizer.lemmatize(w, Preprocessing.__get_wordnet_tag(nltk_tag))
+        for w, nltk_tag in nltk_tagged])
 
   """
   TO BE REMOVED!
