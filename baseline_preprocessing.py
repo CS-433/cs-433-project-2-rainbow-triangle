@@ -20,10 +20,12 @@ def run_preprocessing(preprocessing, istest=False):
   preprocessing.save_raw()
   if not istest:
     preprocessing.drop_duplicates()
-
   preprocessing.remove_tags()
   preprocessing.convert_hashtags()
   preprocessing.slangs_to_words()
+  preprocessing.correct_spacing_indexing()
+  preprocessing.remove_space_between_emoticons()
+  preprocessing.correct_spacing_indexing()
   preprocessing.emoticons_to_tags()
   preprocessing.final_parenthesis(use_glove=True)
   preprocessing.remove_numbers()

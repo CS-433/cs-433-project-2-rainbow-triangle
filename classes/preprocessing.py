@@ -357,13 +357,9 @@ class Preprocessing:
     # Dictionary like {tag:[list_of_emoticons]}
     union_re = {}
     for tag, emo_list in EMOTICONS_GLOVE.items():
-      # Putting a space between each character in each emoticon
-      re_emo_with_spaces = '|'.join(
-        re.escape(' '.join(emo)) for emo in emo_list)
-
       # Getting emoticons as they are
       re_emo = '|'.join(re.escape(emo) for emo in emo_list)
-      union_re[tag] = f'{re_emo_with_spaces}|{re_emo}'
+      union_re[tag] = re_emo
 
     # Function to be called for each tweet
     def inner(text, _union_re):
