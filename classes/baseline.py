@@ -9,7 +9,7 @@ from joblib import dump, load
 from sklearn.decomposition import TruncatedSVD
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GridSearchCV
 from sklearn.naive_bayes import GaussianNB
@@ -63,8 +63,9 @@ class Baseline(AbstractModel):
           SVC(kernel='linear',
               gamma='scale',
               class_weight='balanced', # random folds so class frequencies are unexpected
+              cache_size=10000,
               random_state=SEED,
-              max_iter=1000,
+              max_iter=10000,
               verbose=1),
           {'C': np.logspace(-3, 3, 11)}),
       'Random Forest': ( 
@@ -119,7 +120,7 @@ class Baseline(AbstractModel):
     grid_search = GridSearchCV(estimator=model,
                                param_grid=param_grid,
                                scoring='accuracy',
-                               n_jobs=-1,
+                               n_jobs=14,
                                verbose=10)
     grid_search.fit(X, Y)
     print(f'Done for {model_name}!')
@@ -199,7 +200,7 @@ class Baseline(AbstractModel):
   def _standardize_data(self, data, istest=False):
     """Standardize data."""
     if not istest:
-      self.__standardizer = StandardScaler()
+      self.__standardizer = MinMaxScaler()
       self.__standardizer.fit(data)
     data = self.__standardizer.transform(data)
     return data
