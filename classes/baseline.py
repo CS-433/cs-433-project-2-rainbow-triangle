@@ -112,6 +112,44 @@ class Baseline(AbstractModel):
     data = data[features]
     data = self._standardize_data(data, istest)
     return data, labels_or_ids
+
+
+  def get_preprocessing_methods(self, istest=False):
+    """
+    Specifies the Preprocessing class methods to be called for BERT.
+
+    :param istest: Specify whether methods to be called are for test data
+    :type istest: bool
+    :return: A list of all sorted methods to be called
+    :rtype: list
+    """
+
+    methods = ['save_raw']
+
+    if not istest:
+      methods.append('drop_duplicates')
+
+    methods.extend([
+      'remove_tags',
+      'convert_hashtags',
+      'slangs_to_words',
+      'correct_spacing_indexing',
+      'remove_space_between_emoticons',
+      'correct_spacing_indexing',
+      'emoticons_to_tags',
+      'final_parenthesis',
+      'remove_numbers',
+      'remove_punctuation',
+      'to_lower',
+      'correct_spelling',
+      'lemmatize',
+      'remove_stopwords',
+      'empty_tweets',
+      'correct_spacing_indexing'
+    ])
+
+    return methods
+
     
   def fit_predict(self, X, Y, ids_test, X_test, prediction_path, model_name=None):
     print('Fit...')
