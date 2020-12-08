@@ -1,7 +1,8 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from abc import ABC, abstractmethod
-
+from classes.preprocessing import Preprocessing
+from constants import *
 
 class AbstractModel(ABC):
   """
@@ -15,6 +16,20 @@ class AbstractModel(ABC):
     """
 
     self._weights_path = weights_path
+
+
+  @abstractmethod
+  def get_preprocessing_methods(self, istest=False):
+    """
+    Specifies the Preprocessing class methods to be called for BERT.
+
+    :param istest: Specify whether methods to be called are for test data
+    :type istest: bool
+    :return: A list of all sorted methods to be called
+    :rtype: list
+    """
+
+    pass
 
 
   @abstractmethod

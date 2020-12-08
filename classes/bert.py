@@ -25,6 +25,33 @@ class Bert(AbstractModel):
     self.__tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
 
+  def get_preprocessing_methods(self, istest=False):
+    """
+    Specifies the Preprocessing class methods to be called for BERT.
+
+    :param istest: Specify whether methods to be called are for test data
+    :type istest: bool
+    :return: A list of all sorted methods to be called
+    :rtype: list
+    """
+
+    methods = []
+
+    if not istest:
+      methods.append("drop_duplicates")
+
+    methods.extend([
+      'to_lower',
+      'remove_tags',
+      'final_parenthesis',
+      'correct_spacing_indexing',
+      'remove_space_between_emoticons',
+      'correct_spacing_indexing'
+    ])
+
+    return methods
+
+
   def fit_predict(self, X, Y, ids_test, X_test, prediction_path, batch_size=24,
                   epochs=3):
     """

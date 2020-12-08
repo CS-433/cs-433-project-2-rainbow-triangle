@@ -185,6 +185,28 @@ class Gru(AbstractModel):
     print(self.__model.summary())
 
 
+  def get_preprocessing_methods(self, istest=False):
+    methods = []
+
+    if not istest:
+      # Dropping duplicates tweets only in the training set
+      methods.append('drop_duplicates')
+
+    methods.extend([
+      'remove_endings',
+      'emoticons_to_tags',
+      'final_parenthesis',
+      'numbers_to_tags',
+      'hashtags_to_tags',
+      'repeat_to_tags',
+      'elongs_to_tags',
+      'to_lower',
+      'correct_spacing_indexing'
+    ])
+
+    return methods
+
+
   def fit_predict(self, X, Y, ids_test, X_test, prediction_path, batch_size=128, epochs=10):
     """
     Fits (train) the model, and makes a prediction on the test data.
