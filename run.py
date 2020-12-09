@@ -24,12 +24,15 @@ class Models(Enum):
 
 def run_preprocessing(csr : AbstractModel, train_preprocessed_path, test_preprocessed_path):
   # Read data
-  train_preprocessing = Preprocessing([TRAIN_DATA_NEGATIVE, TRAIN_DATA_POSITIVE], submission=False)
+  train_preprocessing = Preprocessing(
+    [TRAIN_DATA_NEGATIVE, TRAIN_DATA_POSITIVE],
+    submission=False)
+
   test_preprocessing = Preprocessing([TEST_DATA], submission=True)
 
   # Preprocess it
   for method in csr.get_preprocessing_methods(istest=False):
-   getattr(train_preprocessing, method)()
+    getattr(train_preprocessing, method)()
 
   for method in csr.get_preprocessing_methods(istest=True):
     getattr(test_preprocessing, method)()
@@ -37,6 +40,7 @@ def run_preprocessing(csr : AbstractModel, train_preprocessed_path, test_preproc
   # Save it
   train_df = train_preprocessing.get()
   train_df = train_df.sample(frac=1)
+
   train_df.to_csv(train_preprocessed_path, index=False)
   test_preprocessing.get().to_csv(test_preprocessed_path, index=False)
 
@@ -108,7 +112,7 @@ if __name__ == '__main__':
     train_preprocessed_path = f'{PREPROCESSED_DATA_PATH_BERT}{PREPROCESSED_TRAIN_DATA_BERT}'
     test_preprocessed_path = f'{PREPROCESSED_DATA_PATH_BERT}{PREPROCESSED_TEST_DATA_BERT}'
 
-    if args.lp:
+    if not args.lp:
       run_preprocessing(classifier,
                         train_preprocessed_path,
                         test_preprocessed_path)
