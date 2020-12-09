@@ -9,13 +9,13 @@ from joblib import dump, load
 from sklearn.decomposition import TruncatedSVD
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GridSearchCV
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neural_network import MLPClassifier
-from sklearn.svm import SVC
+from sklearn.svm import LinearSVC
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from time import strftime
 
@@ -27,7 +27,7 @@ class Baseline(AbstractModel):
     * KNN
     * Naive Bayes
     * Logistic Regression
-    * SVM with rbf kernel
+    * SVM with linear kernel
     * Random Forest
     * NN - multi layer perceptron
   """
@@ -60,10 +60,8 @@ class Baseline(AbstractModel):
                              verbose=1),
           {'C': np.logspace(-3, 3, 11)}),
       'SVM': (
-          SVC(kernel='linear',
-              gamma='scale',
-              class_weight='balanced', # random folds so class frequencies are unexpected
-              cache_size=10000,
+          LinearSVC(class_weight='balanced', # random folds so class frequencies are unexpected
+              dual=False, # n_samples > n_features
               random_state=SEED,
               max_iter=10000,
               verbose=1),
@@ -238,7 +236,7 @@ class Baseline(AbstractModel):
   def _standardize_data(self, data, istest=False):
     """Standardize data."""
     if not istest:
-      self.__standardizer = MinMaxScaler()
+      self.__standardizer = StandardScaler()
       self.__standardizer.fit(data)
     data = self.__standardizer.transform(data)
     return data
