@@ -33,8 +33,7 @@ class AbstractModel(ABC):
 
 
   @abstractmethod
-  def fit_predict(self, X, Y, ids_test, X_test, prediction_path, batch_size,
-                  epochs):
+  def fit_predict(self, X, Y, ids_test, X_test, prediction_path):
     """
     Abstract method. Its implementation will fit (train) the model, and makes a prediction on the test data.
 
@@ -48,17 +47,13 @@ class AbstractModel(ABC):
     :type X_test: numpy.ndarray
     :param prediction_path: relative path of the prediction file.
     :type prediction_path: str
-    :param batch_size: size of the mini-batches used when training the model.
-    :type batch_size: int
-    :param epochs: number of epochs used when training the model.
-    :type epochs: int
     """
 
     pass
 
 
   @abstractmethod
-  def predict(self, ids, X, path, from_weights):
+  def predict(self, ids, X, path):
     """
     Abstract method. Its implementation will perform the predictions. Usually called within the fit_predict method.
 

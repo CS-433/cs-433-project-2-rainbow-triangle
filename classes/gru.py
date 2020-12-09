@@ -5,6 +5,7 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.initializers import Constant
 from tensorflow.keras import layers
+from constants import GLOVE_PATH
 
 
 
@@ -14,7 +15,7 @@ class Gru(AbstractModel):
   The embedding file has been created by Stanford University, and it's based on tweets.
   """
 
-  def __init__(self, weights_path, glove_path, max_tweet_length=120, embedding_dim=100):
+  def __init__(self, weights_path, glove_path=GLOVE_PATH, max_tweet_length=120, embedding_dim=100):
     """
     :param weights_path: weights path of the model. Model's parameters will be loaded and saved from this path.
     :type weights_path: str
@@ -248,10 +249,10 @@ class Gru(AbstractModel):
     self.__model.save(f'{self._weights_path}model')
 
     print('Making the prediction...')
-    self.predict(ids_test, X_test, prediction_path)
+    self.predict(ids_test, X_test, prediction_path, from_weights=False)
 
 
-  def predict(self, ids, X, path, from_weights = False):
+  def predict(self, ids, X, path, from_weights=True):
     """
     Performs the predictions. Usually called within the fit_predict method.
 
