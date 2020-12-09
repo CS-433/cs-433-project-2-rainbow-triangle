@@ -20,10 +20,9 @@ class Bert(AbstractModel):
     # More on it on our report.
     self.__model = TFBertForSequenceClassification.from_pretrained(
       'bert-base-uncased')
-    
+
     # Instanciating a proper tokenizer for Bert
     self.__tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-
 
   def get_preprocessing_methods(self, istest=False):
     """
@@ -84,7 +83,7 @@ class Bert(AbstractModel):
     # TensorFlow dataset, in order to train the model.
     train_data = self.__convert_examples_to_tf_dataset(
       list(train_input_examples))
-    
+
     # Shuffling the data and combining consecutive elements of the dataset into batches
     train_data = train_data.shuffle(100).batch(batch_size)
 
@@ -96,7 +95,7 @@ class Bert(AbstractModel):
     # Computing the number of step per epoch
     steps_per_epoch = int(train_data_size / batch_size)
 
-    #Computing the total number of training steps
+    # Computing the total number of training steps
     num_train_steps = steps_per_epoch * epochs
 
     print(f'Number of train steps: {num_train_steps}')
@@ -140,10 +139,9 @@ class Bert(AbstractModel):
 
     # Calling the predict method to make predictions
     print('Predicting...')
-    self.predict(ids_test, X_test, prediction_path)
+    self.predict(ids_test, X_test, prediction_path, from_weights=False)
 
-
-  def predict(self, ids, X, path, from_weights=False):
+  def predict(self, ids, X, path, from_weights=True):
     """
     Performs the predictions. Usually called within the fit_predict method.
 
@@ -161,7 +159,6 @@ class Bert(AbstractModel):
     if from_weights:
       self.__model = TFBertForSequenceClassification.from_pretrained(
         f'{self._weights_path}model')
-
 
     predictions = []
 
@@ -181,7 +178,6 @@ class Bert(AbstractModel):
 
     # Creating the submission file
     AbstractModel._create_submission(ids, predictions, path)
-
 
   def __convert_examples_to_tf_dataset(self, data, max_length=128):
     """
@@ -206,25 +202,24 @@ class Bert(AbstractModel):
     features = []
 
     for sample in data:
-      
       # For every tweet creates a dictionary. This dictionary contains
       # tweet's tokens ('input_ids') and the tweet's attention mask ('attention mask').
       input_dict = self.__tokenizer(
         # The tweet itself. Remember that the sample is an InputExample.
-        sample.text_a, 
+        sample.text_a,
         # Specify to add the padding
-        add_special_tokens=True, 
+        add_special_tokens=True,
         # Fixed tweet vector length
-        max_length=max_length,  
+        max_length=max_length,
         # not needed because we are not comparing text_a to text_b, since we don't have a text_b.
         # For more info: https://huggingface.co/transformers/glossary.html#token-type-ids
-        return_token_type_ids=False, 
+        return_token_type_ids=False,
         # Specify to return a binary vector of lenght = max_length. The vector takes 1
         # when the corresponding token in the tweet representation is valid, 0 if it is a special character
         # used for padding. For more info: https://huggingface.co/transformers/glossary.html#attention-mask
-        return_attention_mask=True, 
+        return_attention_mask=True,
         # Padding added to the right
-        padding='max_length',  
+        padding='max_length',
         # Truncate the tweet if it is longer than 128 words
         truncation=True
       )
@@ -241,7 +236,7 @@ class Bert(AbstractModel):
           label=sample.label
         )
       )
-    
+
     # Creating a generator to convert the features list into a tensorflow dataset.
     def gen():
       for f in features:
@@ -252,7 +247,7 @@ class Bert(AbstractModel):
           },
           f.label,
         )
-    
+
     # Returns the dataset from the generator.
     # For more info: https://www.tensorflow.org/api_docs/python/tf/data/Dataset#from_generator
     return tf.data.Dataset.from_generator(
@@ -272,7 +267,6 @@ class Bert(AbstractModel):
         tf.TensorShape([]),
       ),
     )
-
 
   @staticmethod
   def __convert_data_to_examples(X, Y, split_size=0.2):
