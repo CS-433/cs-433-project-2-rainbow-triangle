@@ -137,17 +137,19 @@ def execute(args, weights_path, train_preprocessed_path, test_preprocessed_path,
                       test_preprocessed_path, full_data)
 
   # Specifying the columns of the DataFrame
-  usecols = ['text', 'label']
+  usecols_train = ['text', 'label']
+  usecols_test = ['ids', 'text']
 
   # If classical, one more column
   if is_classical:
-    usecols.append('raw')
+    usecols_train.append('raw')
+    usecols_test.append('raw')
 
   # Loading preprocessed data
   train_preprocessed = pd.read_csv(train_preprocessed_path,
-                                   usecols=usecols)
+                                   usecols=usecols_train)
   test_preprocessed = pd.read_csv(test_preprocessed_path,
-                                  usecols=usecols)
+                                  usecols=usecols_test)
 
   # Dropping null rows from training data
   train_preprocessed.dropna(inplace=True)
