@@ -5,6 +5,7 @@ from classes.abstract_model import AbstractModel
 from classes.bert import Bert
 from classes.gru import Gru
 from classes.baseline import Baseline
+from classes.ensemble import Ensemble
 from classes.preprocessing import Preprocessing
 from constants import *
 import pandas as pd
@@ -20,19 +21,21 @@ class Models(Enum):
   nbc = "nbc"
   rf = "rf"
   lr = "lr"
+  svm = "svm"
 
   def __str__(self):
     return self.value
 
   def get_model_name(self):
     list_model = {
-      Models.bert: "Bert",
-      Models.gru: "Gru",
+      Models.bert: Bert,
+      Models.gru: Gru,
       Models.mlp: "Neural Network",
       Models.knn: "KNN",
       Models.nbc: "Naive Bayes",
       Models.rf: "Random Forest",
       Models.lr: "Logistic Regression",
+      Models.svm: "SVM",
       Models.ensemble: None
     }
 
@@ -43,7 +46,7 @@ def run_preprocessing(csr: AbstractModel, train_preprocessed_path,
                       test_preprocessed_path):
   # Read data
   train_preprocessing = Preprocessing(
-    [TRAIN_DATA_NEGATIVE, TRAIN_DATA_POSITIVE],
+    [TRAIN_DATA_NEGATIVE_FULL, TRAIN_DATA_POSITIVE_FULL],
     submission=False)
 
   test_preprocessing = Preprocessing([TEST_DATA], submission=True)
@@ -63,19 +66,6 @@ def run_preprocessing(csr: AbstractModel, train_preprocessed_path,
   test_preprocessing.get().to_csv(test_preprocessed_path, index=False)
 
 
-def get_train_test(train_preprocessed_path, test_preprocessed_path):
-  train_preprocessed = pd.read_csv(train_preprocessed_path,
-                                   usecols=['text', 'label'])
-
-  # Making the predictions
-  test_preprocessed = pd.read_csv(test_preprocessed_path,
-                                  usecols=['ids', 'text'])
-
-  train_preprocessed.dropna(inplace=True)
-
-  return train_preprocessed, test_preprocessed
-
-
 def execute(args, weights_path, train_preprocessed_path, test_preprocessed_path,
             submission_path, **kwargs):
 
@@ -85,15 +75,29 @@ def execute(args, weights_path, train_preprocessed_path, test_preprocessed_path,
   if is_classical:
     classifier = Baseline(weights_path)
   else:
-    classifier = args.model.get_model_name(weights_path)
+    classifier = args.model.get_model_name()(weights_path)
 
   if not args.lp:
     run_preprocessing(classifier,
                       train_preprocessed_path,
                       test_preprocessed_path)
 
-  train_preprocessed, test_preprocessed = get_train_test(train_preprocessed_path,
-                                                         test_preprocessed_path)
+  if is_classical:
+    train_preprocessed = pd.read_csv(train_preprocessed_path,
+                                     usecols=['text', 'label', 'raw'])
+
+    # Making the predictions
+    test_preprocessed = pd.read_csv(test_preprocessed_path,
+                                    usecols=['ids', 'text', 'raw'])
+  else:
+    train_preprocessed = pd.read_csv(train_preprocessed_path,
+                                     usecols=['text', 'label'])
+
+    # Making the predictions
+    test_preprocessed = pd.read_csv(test_preprocessed_path,
+                                    usecols=['ids', 'text'])
+
+  train_preprocessed.dropna(inplace=True)
 
   if is_classical:
     X, Y = classifier.feature_extraction(train_preprocessed)
@@ -172,11 +176,29 @@ if __name__ == '__main__':
             SUBMISSION_PATH_BERT)
 
   elif args.model == Models.ensemble:
-    pass
+    # Names of the models you want to use for ensembling
+    model_names = ["Gru", "Bert_no_prep", "Bert_with_prep", "KNN", "Logistic_Regression", "Naive_Bayes", "Random_Forest", "Multilayer_Perceptron", "SVM"]
+    # Dictionary with the submissions of those models and their respective validation accuracy
+    model_accuracies = {
+      f"{SUBMISSION_PATH_GRU}submission-2020-12-03_16:55:08.csv": 0.857,
+      f"{SUBMISSION_PATH_BERT}submission-2020-12-06_16:48:30.csv": 0.894,
+      f"{SUBMISSION_PATH_BERT}submission-2020-12-03_20:24:31.csv": 0.888,
+      f"{SUBMISSION_PATH_CLASSICAL}submission-KNN-2020-12-08_23:37:01.csv": 0.674,
+      f"{SUBMISSION_PATH_CLASSICAL}submission-Logistic Regression-2020-12-09_07:56:20.csv":0.765,
+      f"{SUBMISSION_PATH_CLASSICAL}submission-Naive Bayes-2020-12-08_20:28:39.csv":0.642,
+      f"{SUBMISSION_PATH_CLASSICAL}submission-Random Forest-2020-12-09_09:30:11.csv": 0.766,
+      f"{SUBMISSION_PATH_CLASSICAL}submission-Neural Network-2020-12-09_04:42:17.csv": 0.776,
+      f"{SUBMISSION_PATH_CLASSICAL}submission-SVM-2020-12-08_20:03:39.csv": 0.765
+    }
+    # Instantiating the model
+    ensemble_model = Ensemble(model_accuracies, model_names)
+
+    # Predicting
+    ensemble_model.predict(f'{SUBMISSION_PATH_ENSEMBLE}submission-{strftime("%Y-%m-%d_%H:%M:%S")}.csv')
 
   else:
     execute(args,
             CLASSICAL_WEIGHTS_PATH,
             f'{PREPROCESSED_DATA_PATH_CLASSICAL}{PREPROCESSED_TRAIN_DATA_CLASSICAL}',
             f'{PREPROCESSED_DATA_PATH_CLASSICAL}{PREPROCESSED_TEST_DATA_CLASSICAL}',
-            SUBMISSION_PATH_BERT, model_name=args.model.get_model_name())
+            SUBMISSION_PATH_CLASSICAL, model_name=args.model.get_model_name())

@@ -195,8 +195,11 @@ class Gru(AbstractModel):
 
     methods.extend([
       'remove_endings',
+      'correct_spacing_indexing',
+      'remove_space_between_emoticons',
+      'correct_spacing_indexing',
       'emoticons_to_tags',
-      'final_parenthesis',
+      'final_parenthesis_to_tags',
       'numbers_to_tags',
       'hashtags_to_tags',
       'repeat_to_tags',

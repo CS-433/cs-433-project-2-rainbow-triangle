@@ -10,4 +10,5 @@ weights/gru/model*
 weights/gru/checkpoint
 weights/bert/model*.*
 weights/bert/checkpoint
+weights/baseline/*.joblib
 utility/__pycache__

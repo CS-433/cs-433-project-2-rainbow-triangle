@@ -10,7 +10,7 @@
 
 ## Data
 
-Label 0 - negative  
+Label -1 - negative  
 Lab1l 1 - positive  
 
 ## Dependencies

@@ -190,26 +190,29 @@ class Preprocessing:
       lambda text: chat_words_conversion(str(text)))
 
 
-  def final_parenthesis(self, use_glove=False):
+  def final_parenthesis(self):
     """
     Substitutes the final parenthesis of a tweet with a positive or negative smile.
     More on this in the report.
-
-    :param use_glove: if using glove, then replace with the according tag directly.
-    :type use_glove: bool, optional
     """
 
     print('Substituting final paranthesis...')
 
-    if not use_glove:
-      self.__data['text'] = self.__data['text'].str.replace('\)+$', ':)')
-      self.__data['text'] = self.__data['text'].str.replace('\(+$', ':(')
-    else:
-      self.__data['text'] = self.__data['text'].str.replace('\)+$',
-                                                            ' <smile> ')
-      self.__data['text'] = self.__data['text'].str.replace('\(+$',
-                                                            ' <sadface> ')
+    self.__data['text'] = self.__data['text'].str.replace('\)+$', ':)')
+    self.__data['text'] = self.__data['text'].str.replace('\(+$', ':(')
 
+
+  def final_parenthesis_to_tags(self):
+    """
+    Substitutes the final parenthesis of a tweet with a positive or negative smile tag.
+    More on this in the report.
+    """
+    print('Substituting final paranthesis with tags...')
+
+    self.__data['text'] = self.__data['text'].str.replace('\)+$',
+                                                          ' <smile> ')
+    self.__data['text'] = self.__data['text'].str.replace('\(+$',
+                                                          ' <sadface> ')
 
   def remove_numbers(self):
     """
