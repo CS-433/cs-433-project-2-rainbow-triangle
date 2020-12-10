@@ -60,8 +60,8 @@ class Baseline(AbstractModel):
                                    p=2,
                                    metric='minkowski'),
               {'n_neighbors': [3, 5, 7]}),
-      'Naive Bayes': (GaussianNB(), {'var_smoothing': np.logspace(-12, 0, 11)}),
-      'Logistic Regression': (
+      'Naive-Bayes': (GaussianNB(), {'var_smoothing': np.logspace(-12, 0, 11)}),
+      'Logistic-Regression': (
         LogisticRegression(penalty='l2',
                            dual=False,
                            tol=1e-4,
@@ -81,7 +81,7 @@ class Baseline(AbstractModel):
                   max_iter=10000,
                   verbose=1),
         {'C': np.logspace(-3, 3, 11)}),
-      'Random Forest': (
+      'Random-Forest': (
         RandomForestClassifier(criterion='gini',
                                bootstrap=True,
                                verbose=1,
@@ -93,7 +93,7 @@ class Baseline(AbstractModel):
                                max_features='auto'),
         # will do sqrt at each split
         {'n_estimators': [10, 50, 100, 500, 1000]}),
-      'Neural Network': (
+      'Neural-Network': (
         MLPClassifier(solver='adam',
                       learning_rate='adaptive',
                       learning_rate_init=0.001,

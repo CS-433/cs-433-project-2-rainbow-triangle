@@ -47,11 +47,11 @@ class Models(Enum):
     list_model = {
       Models.bert: Bert,
       Models.gru: Gru,
-      Models.mlp: "Neural Network",
+      Models.mlp: "Neural-Network",
       Models.knn: "KNN",
-      Models.nbc: "Naive Bayes",
-      Models.rf: "Random Forest",
-      Models.lr: "Logistic Regression",
+      Models.nbc: "Naive-Bayes",
+      Models.rf: "Random-Forest",
+      Models.lr: "Logistic-Regression",
       Models.svm: "SVM",
       Models.ensemble: None
     }
