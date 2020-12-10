@@ -106,6 +106,10 @@ def execute(args, weights_path, train_preprocessed_path, test_preprocessed_path,
     X, Y = train_preprocessed['text'].values, train_preprocessed['label'].values
     X_test, test_ids = test_preprocessed['text'].values, test_preprocessed['ids'].values
 
+  if args.model == Models.gru:
+    # Updating the vocabulary of the classifier according to the training data
+    classifier.update_vocabulary(X)
+
   if args.lt:
     classifier.predict(
       test_ids, X_test,
