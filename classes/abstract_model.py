@@ -4,19 +4,21 @@ from abc import ABC, abstractmethod
 from classes.preprocessing import Preprocessing
 from constants import *
 
+
 class AbstractModel(ABC):
   """
-  Abstract class that models a generic neural network. Will be extended by GRU and Bert.
+  Abstract class that models a generic neural network. Will be extended
+    by GRU, BERT and Baseline
   """
 
   def __init__(self, weights_path):
     """
-    :param weights_path: weights path of the model. Model's parameters will be loaded and saved from this path.
+    :param weights_path: weights path of the model. Model's parameters will
+            be loaded and saved from this path.
     :type weights_path: str
     """
 
     self._weights_path = weights_path
-
 
   @abstractmethod
   def get_preprocessing_methods(self, istest=False):
@@ -31,11 +33,11 @@ class AbstractModel(ABC):
 
     pass
 
-
   @abstractmethod
   def fit_predict(self, X, Y, ids_test, X_test, prediction_path):
     """
-    Abstract method. Its implementation will fit (train) the model, and makes a prediction on the test data.
+    Abstract method. Its implementation will fit (train) the model, and makes
+      prediction on the test data.
 
     :param X: datapoint matrix. Will be splitted into training and validation data.
     :type X: numpy.ndarray
@@ -51,11 +53,11 @@ class AbstractModel(ABC):
 
     pass
 
-
   @abstractmethod
   def predict(self, ids, X, path):
     """
-    Abstract method. Its implementation will perform the predictions. Usually called within the fit_predict method.
+    Abstract method. Its implementation will perform the predictions.
+      Usually called within the fit_predict method.
 
     :param ids: ids of testing data.
     :type ids: numpy.ndarray
@@ -63,12 +65,9 @@ class AbstractModel(ABC):
     :type x: numpy.ndarray
     :param path: specifies where to store the submission file
     :type path: str
-    :param from_weights: specifies if it is a prediction of a new model or if it is made according to a pre-trained one.
-    :type from_weights: bool
     """
 
     pass
-
 
   @staticmethod
   def _create_submission(ids, predictions, path):
@@ -92,7 +91,6 @@ class AbstractModel(ABC):
 
     # Saving the file
     submission.to_csv(path, index=False)
-
 
   @staticmethod
   def _split_data(X, Y, split_size=0.2):

@@ -8,14 +8,14 @@ from tensorflow.keras import layers
 from constants import GLOVE_PATH
 
 
-
 class Gru(AbstractModel):
   """
   This class implements a Gru bidirectional neural network with Glove pretrained embedding file.
   The embedding file has been created by Stanford University, and it's based on tweets.
   """
 
-  def __init__(self, weights_path, glove_path=GLOVE_PATH, max_tweet_length=120, embedding_dim=100):
+  def __init__(self, weights_path, glove_path=GLOVE_PATH, max_tweet_length=120,
+               embedding_dim=100):
     """
     :param weights_path: weights path of the model. Model's parameters will be loaded and saved from this path.
     :type weights_path: str
@@ -30,7 +30,7 @@ class Gru(AbstractModel):
     """
     super().__init__(weights_path)
 
-    self.__tokenizer = Tokenizer(oov_token = '<unk>')
+    self.__tokenizer = Tokenizer(oov_token='<unk>')
     self.__model = tf.keras.Sequential()
     self.__max_tweet_length = max_tweet_length
     self.__embedding_dim = embedding_dim
@@ -38,7 +38,6 @@ class Gru(AbstractModel):
 
     # Size of the vocabulary, it will be updated according to the input data
     self.__vocab_size = 0
-
 
   def update_vocabulary(self, X):
     """
@@ -58,7 +57,6 @@ class Gru(AbstractModel):
     # but not in the tweets
     self.__vocab_size = len(self.__tokenizer.word_index) + 2
 
-
   def __convert_data(self, X):
     """
     Converts the tweets in numerical tokens.
@@ -71,7 +69,7 @@ class Gru(AbstractModel):
     
     :return: Numpy array with shape (len(X), max_tweet_length)
     :rtype: numpy.ndarray
-    """  
+    """
 
     print('Converting data...')
 
@@ -86,7 +84,6 @@ class Gru(AbstractModel):
       padding='post')
 
     return X_pad
-
 
   def __generate_embedding_matrix(self):
     """
@@ -133,16 +130,15 @@ class Gru(AbstractModel):
       # Words not found in embedding index will be represented as a zero-vector.
       # This includes the representation for "padding" and "OOV"
       if embedding_vector is not None:
-          embedding_matrix[i] = embedding_vector
-          hits += 1
+        embedding_matrix[i] = embedding_vector
+        hits += 1
       else:
-          misses += 1
+        misses += 1
 
     # Printing the number of found / not found words
     print("Converted %d words (%d misses)" % (hits, misses))
 
     return embedding_matrix
-
 
   def __build_model(self, embedding_matrix):
     """
@@ -166,25 +162,26 @@ class Gru(AbstractModel):
       embeddings_initializer=Constant(embedding_matrix),
       input_length=self.__max_tweet_length,
       mask_zero=True,
-      trainable = False))
+      trainable=False))
 
     # NOTE: since we are using GRU as a RNN, we need to define two types of dropouts: the
     # first one is used for the first operation on the inputs (when data
     # "enters" in GRU) the second one is used for the recurrences Units
-    self.__model.add(layers.Bidirectional(layers.GRU(units=100, dropout=0.2, recurrent_dropout=0, activation = 'tanh', \
-      recurrent_activation='sigmoid', unroll=False, use_bias = True, reset_after = True)))
+    self.__model.add(layers.Bidirectional(
+      layers.GRU(units=100, dropout=0.2, recurrent_dropout=0, activation='tanh', \
+                 recurrent_activation='sigmoid', unroll=False, use_bias=True,
+                 reset_after=True)))
     self.__model.add(tf.keras.layers.Dense(100, activation='relu')),
     self.__model.add(layers.Dense(1, activation='sigmoid'))
 
     # Compiling the model. The optimizer is Adam with standard lr (0.001)
     self.__model.compile(
       loss='binary_crossentropy',
-      optimizer= tf.keras.optimizers.Adam(),
+      optimizer=tf.keras.optimizers.Adam(),
       metrics=['accuracy'])
 
     # Printing model's summary
     print(self.__model.summary())
-
 
   def get_preprocessing_methods(self, istest=False):
     methods = []
@@ -210,8 +207,8 @@ class Gru(AbstractModel):
 
     return methods
 
-
-  def fit_predict(self, X, Y, ids_test, X_test, prediction_path, batch_size=128, epochs=10):
+  def fit_predict(self, X, Y, ids_test, X_test, prediction_path, batch_size=128,
+                  epochs=10):
     """
     Fits (train) the model, and makes a prediction on the test data.
 
@@ -230,7 +227,7 @@ class Gru(AbstractModel):
     :param epochs: number of epochs used when training the model.
     :type epochs: int, optional
     """
-    
+
     # Splitting train and validation data
     X_train, X_val, Y_train, Y_val = AbstractModel._split_data(X, Y)
 
@@ -254,7 +251,6 @@ class Gru(AbstractModel):
     print('Making the prediction...')
     self.predict(ids_test, X_test, prediction_path, from_weights=False)
 
-
   def predict(self, ids, X, path, from_weights=True):
     """
     Performs the predictions. Usually called within the fit_predict method.
@@ -272,7 +268,7 @@ class Gru(AbstractModel):
     if from_weights:
       # Loading weights
       self.__model = tf.keras.models.load_model(f'{self._weights_path}model')
-    
+
     # Converting input data
     X_pad = self.__convert_data(X)
     predictions = self.__model.predict(X_pad).squeeze()

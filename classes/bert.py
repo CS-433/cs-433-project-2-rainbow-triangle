@@ -6,7 +6,8 @@ import tensorflow as tf
 
 class Bert(AbstractModel):
   """
-  This class implements a Bert model, pretrained, provided by huggingface and developed by Google.
+  This class implements a Bert model, pretrained, provided by Hugging Face
+    and developed by Google.
   """
 
   def __init__(self, weights_path):
@@ -50,7 +51,6 @@ class Bert(AbstractModel):
 
     return methods
 
-
   def fit_predict(self, X, Y, ids_test, X_test, prediction_path, batch_size=24,
                   epochs=3):
     """
@@ -84,7 +84,8 @@ class Bert(AbstractModel):
     train_data = self.__convert_examples_to_tf_dataset(
       list(train_input_examples))
 
-    # Shuffling the data and combining consecutive elements of the dataset into batches
+    # Shuffling the data and combining consecutive elements of the dataset
+    # into batches
     train_data = train_data.shuffle(100).batch(batch_size)
 
     # Same for validation data
@@ -107,8 +108,8 @@ class Bert(AbstractModel):
       decay_steps=num_train_steps,
       end_learning_rate=0)
 
-    # Setting a liear warmup to the model's learning rate.
-    # The lr will start from 0 and will end at initial_learing_rate, increasing linearly.
+    # Setting a liear warmup to the model's learning rate. The lr will start
+    # from 0 and will end at initial_learing_rate, increasing linearly.
     # The number of warmup steps is 10% of the number of total steps.
     warmup_schedule = WarmUp(
       initial_learning_rate=2e-5,
@@ -151,7 +152,8 @@ class Bert(AbstractModel):
     :type x: numpy.ndarray
     :param path: specifies where to store the submission file
     :type path: str
-    :param from_weights: specifies if it is a prediction of a new model or if it is made according to a pre-trained one.
+    :param from_weights: specifies if it is a prediction of a new model or if
+            it is made according to a pre-trained one.
     :type from_weights: bool, optional
     """
 
@@ -181,11 +183,13 @@ class Bert(AbstractModel):
 
   def __convert_examples_to_tf_dataset(self, data, max_length=128):
     """
-    Performs the tokenization where each word of each document has a max_length and returns a tensorflow dataset.
+    Performs the tokenization where each word of each document has a max_length
+      and returns a tensorflow dataset.
     Every element of the dataset consists of:
-    1) a dict with the tokenized text and the attention mask, used
-    to specify which tokens are valid and which ones are used for padding
-    2) the tweet label
+      1. a dict with the tokenized text and the attention mask, used
+          to specify which tokens are valid and which ones are used for padding
+      2. the tweet label
+
     This format is known and used by Bert
 
     :param data: input data. A list of InputExample objects.
@@ -202,8 +206,8 @@ class Bert(AbstractModel):
     features = []
 
     for sample in data:
-      # For every tweet creates a dictionary. This dictionary contains
-      # tweet's tokens ('input_ids') and the tweet's attention mask ('attention mask').
+      # For every tweet creates a dictionary. This dictionary contains tweet's
+      # tokens ('input_ids') and the tweet's attention mask ('attention mask').
       input_dict = self.__tokenizer(
         # The tweet itself. Remember that the sample is an InputExample.
         sample.text_a,
@@ -211,12 +215,14 @@ class Bert(AbstractModel):
         add_special_tokens=True,
         # Fixed tweet vector length
         max_length=max_length,
-        # not needed because we are not comparing text_a to text_b, since we don't have a text_b.
+        # Not needed because we are not comparing text_a to text_b,
+        # since we don't have a text_b.
         # For more info: https://huggingface.co/transformers/glossary.html#token-type-ids
         return_token_type_ids=False,
-        # Specify to return a binary vector of lenght = max_length. The vector takes 1
-        # when the corresponding token in the tweet representation is valid, 0 if it is a special character
-        # used for padding. For more info: https://huggingface.co/transformers/glossary.html#attention-mask
+        # Specify to return a binary vector of lenght = max_length. The vector
+        # takes 1 when the corresponding token in the tweet representation is
+        # valid, 0 if it is a special character used for padding.
+        # For more info: https://huggingface.co/transformers/glossary.html#attention-mask
         return_attention_mask=True,
         # Padding added to the right
         padding='max_length',

@@ -13,6 +13,10 @@ from time import strftime
 
 
 class Models(Enum):
+  """
+    This an enumeration to define user-executable methods
+  """
+
   bert = "bert"
   gru = "gru"
   ensemble = "ensemble"
@@ -24,9 +28,22 @@ class Models(Enum):
   svm = "svm"
 
   def __str__(self):
+    """
+    Returns the value of the Enumeration
+
+    :return: value of Enumeration
+    :rtype: str
+    """
     return self.value
 
   def get_model_name(self):
+    """
+    Performs a mapping between Models value and class/string to run the method
+
+    :return: class/string with respect to the value of the Enumeration
+    :rtype: object
+    """
+
     list_model = {
       Models.bert: Bert,
       Models.gru: Gru,
@@ -43,12 +60,28 @@ class Models(Enum):
 
 
 def run_preprocessing(csr: AbstractModel, train_preprocessed_path,
-                      test_preprocessed_path):
-  # Read data
-  train_preprocessing = Preprocessing(
-    [TRAIN_DATA_NEGATIVE_FULL, TRAIN_DATA_POSITIVE_FULL],
-    submission=False)
+                      test_preprocessed_path, full_data=True):
+  """
+  Runs the preprocessing methods according to the chosen classifier
+    on the train and test data
 
+  :param csr: chosen classifier (child of AbstractModel)
+  :type csr: AbstractModel
+  :param train_preprocessed_path: path to load train data
+  :type train_preprocessed_path: str
+  :param test_preprocessed_path: path to load test data
+  :type test_preprocessed_path: str
+  :param full_data: if False, the small dataset (200K rows) is used
+  :type full_data: bool, optional
+  """
+
+  # Read data
+  if full_data:
+    dataset_files = [TRAIN_DATA_NEGATIVE_FULL, TRAIN_DATA_POSITIVE_FULL]
+  else:
+    dataset_files = [TRAIN_DATA_NEGATIVE, TRAIN_DATA_POSITIVE]
+
+  train_preprocessing = Preprocessing(dataset_files, submission=False)
   test_preprocessing = Preprocessing([TEST_DATA], submission=True)
 
   # Preprocess it
@@ -67,7 +100,27 @@ def run_preprocessing(csr: AbstractModel, train_preprocessed_path,
 
 
 def execute(args, weights_path, train_preprocessed_path, test_preprocessed_path,
-            submission_path, **kwargs):
+            submission_path, full_data=True, **kwargs):
+  """
+  Creates a submission file using a method specified by user.
+    If specified, loads preprocessed data and/or the weights, otherwise
+    preprocesses data, fits the model and makes predictions from scratch
+
+  :param args: arguments chosen by the user
+  :type args: argparse.Namespace
+  :param weights_path: path to load/store the weights
+  :type weights_path: str
+  :param train_preprocessed_path: path to load/store the train preprocessed data
+  :type train_preprocessed_path: str
+  :param test_preprocessed_path: path to load/store the test preprocessed data
+  :type test_preprocessed_path: str
+  :param submission_path: path to save the submission file
+  :type submission_path: str
+  :param full_data: if False, the small dataset (200K rows) is used
+  :type full_data: bool, optional
+  :param kwargs: additional arguments for classical methods (otherwise empty)
+  :type kwargs: dict
+  """
 
   # Is a classical method is more parameters are specified
   is_classical = len(kwargs) > 0
@@ -77,45 +130,49 @@ def execute(args, weights_path, train_preprocessed_path, test_preprocessed_path,
   else:
     classifier = args.model.get_model_name()(weights_path)
 
+  # Doing preprocessing if the user doesn't specify to load preprocessing data
   if not args.lp:
     run_preprocessing(classifier,
                       train_preprocessed_path,
-                      test_preprocessed_path)
+                      test_preprocessed_path, full_data)
 
+  # Specifying the columns of the DataFrame
+  usecols = ['text', 'label']
+
+  # If classical, one more column
   if is_classical:
-    train_preprocessed = pd.read_csv(train_preprocessed_path,
-                                     usecols=['text', 'label', 'raw'])
+    usecols.append('raw')
 
-    # Making the predictions
-    test_preprocessed = pd.read_csv(test_preprocessed_path,
-                                    usecols=['ids', 'text', 'raw'])
-  else:
-    train_preprocessed = pd.read_csv(train_preprocessed_path,
-                                     usecols=['text', 'label'])
+  # Loading preprocessed data
+  train_preprocessed = pd.read_csv(train_preprocessed_path,
+                                   usecols=usecols)
+  test_preprocessed = pd.read_csv(test_preprocessed_path,
+                                  usecols=usecols)
 
-    # Making the predictions
-    test_preprocessed = pd.read_csv(test_preprocessed_path,
-                                    usecols=['ids', 'text'])
-
+  # Dropping null rows from training data
   train_preprocessed.dropna(inplace=True)
 
+  # If classical method is used, performing feature extraction
   if is_classical:
     X, Y = classifier.feature_extraction(train_preprocessed)
     X_test, test_ids = classifier.feature_extraction(test_preprocessed, istest=True)
+  # Otherwise, just read the DataFrame content
   else:
     X, Y = train_preprocessed['text'].values, train_preprocessed['label'].values
     X_test, test_ids = test_preprocessed['text'].values, test_preprocessed['ids'].values
 
+  # Updating the vocabulary of the GRU classifier according to the training data
   if args.model == Models.gru:
-    # Updating the vocabulary of the classifier according to the training data
     classifier.update_vocabulary(X)
 
+  # Only making predictions, if the user specifies to load the weights
   if args.lt:
     classifier.predict(
       test_ids, X_test,
       f'{submission_path}submission-{strftime("%Y-%m-%d_%H:%M:%S")}.csv',
       **kwargs)
 
+  # Otherwise, fitting and then making predictions
   else:
     classifier.fit_predict(
       X, Y, test_ids, X_test,
@@ -162,8 +219,8 @@ if __name__ == '__main__':
     action='store_true',
     help="Load an already trained model")
 
+  # Getting args namespace
   args = parser.parse_args()
-  # parser.print_help()
 
   if args.model == Models.bert:
     execute(args,
@@ -181,8 +238,19 @@ if __name__ == '__main__':
 
   elif args.model == Models.ensemble:
     # Names of the models you want to use for ensembling
-    model_names = ["Gru", "Bert_no_prep", "Bert_with_prep", "KNN", "Logistic_Regression", "Naive_Bayes", "Random_Forest", "Multilayer_Perceptron", "SVM"]
-    # Dictionary with the submissions of those models and their respective validation accuracy
+    model_names = [
+      "Gru",
+      "Bert_no_prep",
+      "Bert_with_prep",
+      "KNN",
+      "Logistic_Regression",
+      "Naive_Bayes",
+      "Random_Forest",
+      "Multilayer_Perceptron",
+      "SVM"]
+
+    # Dictionary with the submissions of those models
+    # and their respective validation accuracy
     model_accuracies = {
       f"{SUBMISSION_PATH_GRU}submission-2020-12-03_16:55:08.csv": 0.857,
       f"{SUBMISSION_PATH_BERT}submission-2020-12-06_16:48:30.csv": 0.894,
@@ -194,6 +262,7 @@ if __name__ == '__main__':
       f"{SUBMISSION_PATH_CLASSICAL}submission-Neural Network-2020-12-09_04:42:17.csv": 0.776,
       f"{SUBMISSION_PATH_CLASSICAL}submission-SVM-2020-12-08_20:03:39.csv": 0.765
     }
+
     # Instantiating the model
     ensemble_model = Ensemble(model_accuracies, model_names)
 
@@ -205,4 +274,5 @@ if __name__ == '__main__':
             CLASSICAL_WEIGHTS_PATH,
             f'{PREPROCESSED_DATA_PATH_CLASSICAL}{PREPROCESSED_TRAIN_DATA_CLASSICAL}',
             f'{PREPROCESSED_DATA_PATH_CLASSICAL}{PREPROCESSED_TEST_DATA_CLASSICAL}',
-            SUBMISSION_PATH_CLASSICAL, model_name=args.model.get_model_name())
+            SUBMISSION_PATH_CLASSICAL, full_data=False,
+            model_name=args.model.get_model_name())
