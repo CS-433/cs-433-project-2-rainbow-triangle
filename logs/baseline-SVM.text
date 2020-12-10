@@ -1,523 +1,530 @@
-Vectorize with TFIDF-LSI...
-Vectorize with TFIDF-LSI...
-Fit...
-Grid searching for SVM...
-Fitting 5 folds for each of 11 candidates, totalling 55 fits
-[Parallel(n_jobs=14)]: Using backend LokyBackend with 14 concurrent workers.
+[Parallel(n_jobs=12)]: Using backend LokyBackend with 12 concurrent workers.
+[CV] C=0.003981071705534973 ..........................................
+[CV] C=0.001 .........................................................
+[CV] C=0.003981071705534973 ..........................................
 [CV] C=0.003981071705534973 ..........................................
 [CV] C=0.001 .........................................................
 [CV] C=0.001 .........................................................
-[CV] C=0.001 .........................................................
-[CV] C=0.015848931924611134 ..........................................
 [CV] C=0.001 .........................................................
 [CV] C=0.001 .........................................................
 [CV] C=0.003981071705534973 ..........................................
 [CV] C=0.003981071705534973 ..........................................
 [CV] C=0.015848931924611134 ..........................................
 [CV] C=0.015848931924611134 ..........................................
-[CV] C=0.003981071705534973 ..........................................
+.......................................................................................WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -12.899542, rho = 0.758393
+nSV = 13033, nBSV = 8546
+Total nSV = 13033
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -13.020107, rho = 0.762364
+nSV = 13157, nBSV = 8806
+Total nSV = 13157
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+...............WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -12.870346, rho = 0.748069
+nSV = 13015, nBSV = 8505
+Total nSV = 13015
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -12.943198, rho = 0.757239
+nSV = 13087, nBSV = 8820
+Total nSV = 13087
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -58.793145, rho = 0.727610
+nSV = 15559, nBSV = 8985
+Total nSV = 15559
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+.[LibSVM][CV] ............................. C=0.001, score=0.499, total=44.8min
+[Parallel(n_jobs=12)]: Done   1 tasks      | elapsed: 44.9min
 [CV] C=0.015848931924611134 ..........................................
-[CV] C=0.003981071705534973 ..........................................
-.......................................................................................................................WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -12.970266, rho = 0.751333
-nSV = 13151, nBSV = 7809
-Total nSV = 13151
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -13.032136, rho = 0.755026
-nSV = 13195, nBSV = 8622
-Total nSV = 13195
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -12.928002, rho = 0.729648
-nSV = 13146, nBSV = 8137
-Total nSV = 13146
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -12.947551, rho = 0.753872
-nSV = 13152, nBSV = 8489
-Total nSV = 13152
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-.WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -13.004293, rho = 0.760473
-nSV = 13209, nBSV = 8196
-Total nSV = 13209
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-......WARN: libsvm Solver reached max_iter 
-optimization finished, #iter = 10000
-obj = -155.637902, rho = 0.524998
-nSV = 14223, nBSV = 4945
-Total nSV = 14223
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -155.744631, rho = 0.522008
-nSV = 14110, nBSV = 5001
-Total nSV = 14110
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -56.317607, rho = 0.722840
-nSV = 14632, nBSV = 9407
-Total nSV = 14632
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -56.255617, rho = 0.742801
-nSV = 14595, nBSV = 9398
-Total nSV = 14595
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -56.541043, rho = 0.727981
-nSV = 14699, nBSV = 9306
-Total nSV = 14699
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -56.506345, rho = 0.757690
-nSV = 14701, nBSV = 9352
-Total nSV = 14701
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -56.802219, rho = 0.731282
-nSV = 14726, nBSV = 9181
-Total nSV = 14726
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -156.582597, rho = 0.548906
-nSV = 14174, nBSV = 5075
-Total nSV = 14174
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -154.169709, rho = 0.503251
-nSV = 14102, nBSV = 4984
-Total nSV = 14102
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-[LibSVM][CV] ............................. C=0.001, score=0.500, total=44.6min
+[LibSVM][CV] ............................. C=0.001, score=0.499, total=45.1min
 [CV] C=0.015848931924611134 ..........................................
-[LibSVM][CV] ............................. C=0.001, score=0.500, total=44.7min
-[CV] C=0.0630957344480193 ............................................
-[LibSVM][CV] ............................. C=0.001, score=0.500, total=44.7min
-[CV] C=0.0630957344480193 ............................................
-[LibSVM][CV] ............................. C=0.001, score=0.499, total=44.8min
-[Parallel(n_jobs=14)]: Done   4 tasks      | elapsed: 44.9min
-[CV] C=0.0630957344480193 ............................................
-[LibSVM][CV] ............................. C=0.001, score=0.499, total=45.0min
-[CV] C=0.0630957344480193 ............................................
-[LibSVM][CV] .............. C=0.015848931924611134, score=0.520, total=47.9min
-[CV] C=0.0630957344480193 ............................................
-[LibSVM][CV] .............. C=0.015848931924611134, score=0.516, total=48.1min
-[CV] C=0.25118864315095796 ...........................................
-.....[LibSVM][CV] .............. C=0.003981071705534973, score=0.513, total=49.5min
-[CV] C=0.25118864315095796 ...........................................
-[LibSVM][CV] .............. C=0.003981071705534973, score=0.509, total=49.5min
-[CV] C=0.25118864315095796 ...........................................
-[LibSVM][CV] .............. C=0.003981071705534973, score=0.512, total=49.8min
-[CV] C=0.25118864315095796 ...........................................
-[LibSVM][CV] .............. C=0.003981071705534973, score=0.504, total=49.9min
-[CV] C=0.25118864315095796 ...........................................
-[LibSVM][CV] .............. C=0.003981071705534973, score=0.507, total=50.1min
-[CV] C=1.0 ...........................................................
-..[LibSVM][CV] .............. C=0.015848931924611134, score=0.509, total=51.8min
-[Parallel(n_jobs=14)]: Done  13 tasks      | elapsed: 51.9min
-[CV] C=1.0 ...........................................................
-[LibSVM][CV] .............. C=0.015848931924611134, score=0.519, total=51.9min
-[CV] C=1.0 ...........................................................
-.................................................................................................................WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -296.841096, rho = 0.434313
-nSV = 12084, nBSV = 2213
-Total nSV = 12084
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-.....WARN: libsvm Solver reached max_iter  
-optimization finished, #iter = 10000
-obj = -579.807697, rho = 0.489040
-nSV = 11127, nBSV = 1168
-Total nSV = 11127
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -286.851459, rho = 0.416244
-nSV = 12034, nBSV = 2033
-Total nSV = 12034
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -292.167070, rho = 0.389930
-nSV = 12070, nBSV = 2121
-Total nSV = 12070
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -299.701287, rho = 0.453973
-nSV = 12190, nBSV = 2277
-Total nSV = 12190
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -283.422112, rho = 0.466082
-nSV = 12015, nBSV = 1943
-Total nSV = 12015
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -1496.965878, rho = 0.445860
-nSV = 10846, nBSV = 918
-Total nSV = 10846
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
 .WARN: libsvm Solver reached max_iter
 optimization finished, #iter = 10000
-obj = -155.094569, rho = 0.516155
-nSV = 14118, nBSV = 5024
-Total nSV = 14118
+obj = -12.967663, rho = 0.756977
+nSV = 13107, nBSV = 8776
+Total nSV = 13107
 /home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
   % self.max_iter, ConvergenceWarning)
 WARN: libsvm Solver reached max_iter
 optimization finished, #iter = 10000
-obj = -633.261594, rho = 0.506243
-nSV = 11113, nBSV = 1434
-Total nSV = 11113
+obj = -58.922205, rho = 0.699196
+nSV = 15627, nBSV = 8927
+Total nSV = 15627
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+.....WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -58.559006, rho = 0.719331
+nSV = 15505, nBSV = 8964
+Total nSV = 15505
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+.[LibSVM][CV] ............................. C=0.001, score=0.500, total=51.2min
+[CV] C=0.015848931924611134 ..........................................
+WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -58.597909, rho = 0.692652
+nSV = 15520, nBSV = 8972
+Total nSV = 15520
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+[LibSVM][CV] ............................. C=0.001, score=0.499, total=51.4min
+[CV] C=0.0630957344480193 ............................................
+WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -127.815670, rho = 0.320477
+nSV = 14428, nBSV = 2706
+Total nSV = 14428
 /home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
   % self.max_iter, ConvergenceWarning)
 WARN: libsvm Solver reached max_iter
 optimization finished, #iter = 10000
-obj = -1474.580829, rho = 0.476366
-nSV = 10811, nBSV = 930
-Total nSV = 10811
+obj = -127.802882, rho = 0.331601
+nSV = 14509, nBSV = 2756
+Total nSV = 14509
 /home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
   % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -625.333666, rho = 0.479113
-nSV = 11146, nBSV = 1394
-Total nSV = 11146
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -581.764830, rho = 0.466365
-nSV = 11134, nBSV = 1201
-Total nSV = 11134
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -565.035861, rho = 0.417727
-nSV = 11116, nBSV = 1100
-Total nSV = 11116
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-[LibSVM][CV] ................ C=0.0630957344480193, score=0.511, total=40.2min
-[CV] C=1.0 ...........................................................
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -1495.349503, rho = 0.484467
-nSV = 10962, nBSV = 959
-Total nSV = 10962
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-[LibSVM][CV] ............... C=0.25118864315095796, score=0.508, total=41.1min
-[CV] C=1.0 ...........................................................
-[LibSVM][CV] ............................... C=1.0, score=0.518, total=38.1min
-[CV] C=3.981071705534969 .............................................
-[LibSVM][CV] ................ C=0.0630957344480193, score=0.513, total=45.4min
-[CV] C=3.981071705534969 .............................................
-[LibSVM][CV] ................ C=0.0630957344480193, score=0.531, total=45.4min
-[CV] C=3.981071705534969 .............................................
-[LibSVM][CV] ................ C=0.0630957344480193, score=0.509, total=45.3min
-[CV] C=3.981071705534969 .............................................
-[LibSVM][CV] ................ C=0.0630957344480193, score=0.508, total=46.0min
-[CV] C=3.981071705534969 .............................................
-.[LibSVM][CV] ............................... C=1.0, score=0.519, total=41.8min
-[Parallel(n_jobs=14)]: Done  22 tasks      | elapsed: 92.0min
-[CV] C=15.848931924611142 ............................................
-[LibSVM][CV] ............... C=0.25118864315095796, score=0.514, total=42.5min
-[CV] C=15.848931924611142 ............................................
-[LibSVM][CV] ............... C=0.25118864315095796, score=0.492, total=42.7min
-[CV] C=15.848931924611142 ............................................
-[LibSVM][CV] ............... C=0.25118864315095796, score=0.501, total=42.8min
-[CV] C=15.848931924611142 ............................................
-[LibSVM][CV] ............... C=0.25118864315095796, score=0.518, total=42.9min
-[CV] C=15.848931924611142 ............................................
-..[LibSVM][CV] .............. C=0.015848931924611134, score=0.520, total=49.1min
-
-[CV] C=63.0957344480193 ..............................................
-...[LibSVM][CV] ............................... C=1.0, score=0.514, total=42.4min
-[CV] C=63.0957344480193 ..............................................
-....................................................................................................WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -1799.201310, rho = 0.413168
-nSV = 10951, nBSV = 1215
-Total nSV = 10951
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-......WARN: libsvm Solver reached max_iter 
-optimization finished, #iter = 10000
-obj = -4766.429079, rho = 0.407081
-nSV = 10748, nBSV = 841
-Total nSV = 10748
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-............WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -1468.987008, rho = 0.494572
-nSV = 10934, nBSV = 916
-Total nSV = 10934
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-[LibSVM][CV] ............................... C=1.0, score=0.506, total=37.3min
-[CV] C=63.0957344480193 ..............................................
+[LibSVM][CV] .............. C=0.003981071705534973, score=0.505, total=52.5min
+[CV] C=0.0630957344480193 ............................................
 .WARN: libsvm Solver reached max_iter
 optimization finished, #iter = 10000
-obj = -5935.783155, rho = 0.422958
-nSV = 10731, nBSV = 1111
-Total nSV = 10731
+obj = -59.124468, rho = 0.710659
+nSV = 15637, nBSV = 8998
+Total nSV = 15637
 /home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
   % self.max_iter, ConvergenceWarning)
-.WARN: libsvm Solver reached max_iter
+.[LibSVM][CV] ............................. C=0.001, score=0.500, total=53.1min
+[CV] C=0.0630957344480193 ............................................
+[LibSVM][CV] .............. C=0.003981071705534973, score=0.506, total=55.1min
+[CV] C=0.0630957344480193 ............................................
+......[LibSVM][CV] .............. C=0.003981071705534973, score=0.506, total=58.1min
+[Parallel(n_jobs=12)]: Done   8 tasks      | elapsed: 58.2min
+[CV] C=0.0630957344480193 ............................................
+...[LibSVM][CV] .............. C=0.015848931924611134, score=0.510, total=60.0min
+[CV] C=0.25118864315095796 ...........................................
+..[LibSVM][CV] .............. C=0.003981071705534973, score=0.507, total=60.2min
+[CV] C=0.25118864315095796 ...........................................
+.[LibSVM][CV] .............. C=0.015848931924611134, score=0.514, total=60.4min
+[CV] C=0.25118864315095796 ...........................................
+.[LibSVM][CV] .............. C=0.003981071705534973, score=0.510, total=61.9min
+[CV] C=0.25118864315095796 ...........................................
+................................................................WARN: libsvm Solver reached max_iter
 optimization finished, #iter = 10000
-obj = -4670.542300, rho = 0.438681
-nSV = 10773, nBSV = 782
-Total nSV = 10773
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -4997.139310, rho = 0.477703
-nSV = 10817, nBSV = 865
-Total nSV = 10817
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A[LibSVM][CV] ................. C=3.981071705534969, score=0.524, total=37.2min
-[CV] C=63.0957344480193 ..............................................
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -5701.615447, rho = 0.322374
-nSV = 11010, nBSV = 1029
-Total nSV = 11010
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -16202.089532, rho = 0.490053
-nSV = 10461, nBSV = 721
-Total nSV = 10461
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -16597.400128, rho = 0.647645
-nSV = 10627, nBSV = 733
-Total nSV = 10627
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -55429.338363, rho = 0.617679
-nSV = 10364, nBSV = 614
-Total nSV = 10364
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -16820.449622, rho = 0.597509
-nSV = 10581, nBSV = 755
-Total nSV = 10581
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -17637.733419, rho = 0.566804
-nSV = 10640, nBSV = 785
-Total nSV = 10640
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -70045.726497, rho = 0.691245
-nSV = 10268, nBSV = 867
-Total nSV = 10268
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-.WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -16117.445995, rho = 0.546605
-nSV = 10722, nBSV = 700
-Total nSV = 10722
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-.[LibSVM][CV] ............................... C=1.0, score=0.507, total=42.0min
-[CV] C=63.0957344480193 ..............................................
-[LibSVM][CV] ................. C=3.981071705534969, score=0.528, total=41.4min
-[CV] C=251.18864315095772 ............................................
-[LibSVM][CV] ................. C=3.981071705534969, score=0.517, total=42.0min
-[CV] C=251.18864315095772 ............................................
-[LibSVM][CV] ................. C=3.981071705534969, score=0.526, total=42.0min
-[Parallel(n_jobs=14)]: Done  34 out of  55 | elapsed: 132.4min remaining: 81.8min
-[CV] C=251.18864315095772 ............................................
-.[LibSVM][CV] .................. C=63.0957344480193, score=0.560, total=39.6min
-[CV] C=251.18864315095772 ............................................
-[LibSVM][CV] ................ C=15.848931924611142, score=0.505, total=41.4min
-[CV] C=251.18864315095772 ............................................
-[LibSVM][CV] ................. C=3.981071705534969, score=0.551, total=42.6min
-[CV] C=1000.0 ........................................................
-.[LibSVM][CV] ................ C=15.848931924611142, score=0.506, total=41.5min
-[CV] C=1000.0 ........................................................
-[LibSVM][CV] ................ C=15.848931924611142, score=0.569, total=41.9min
-[CV] C=1000.0 ........................................................
-[LibSVM][CV] ................ C=15.848931924611142, score=0.512, total=41.8min
-[Parallel(n_jobs=14)]: Done  40 out of  55 | elapsed: 134.4min remaining: 50.4min
-[CV] C=1000.0 ........................................................
-[LibSVM][CV] .................. C=63.0957344480193, score=0.539, total=40.2min
-[CV] C=1000.0 ........................................................
-.[LibSVM][CV] ................ C=15.848931924611142, score=0.558, total=42.3min
-...............................................................................................WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -605135.251359, rho = 0.906560
-nSV = 7359, nBSV = 384
-Total nSV = 7359
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-....WARN: libsvm Solver reached max_iter   
-optimization finished, #iter = 10000
-obj = -57128.751287, rho = 0.542172
-nSV = 10404, nBSV = 639
-Total nSV = 10404
+obj = -127.660802, rho = 0.348084
+nSV = 14528, nBSV = 2645
+Total nSV = 14528
 /home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
   % self.max_iter, ConvergenceWarning)
 ...WARN: libsvm Solver reached max_iter
 optimization finished, #iter = 10000
-obj = -219939.603904, rho = 0.657370
-nSV = 9140, nBSV = 616
-Total nSV = 9140
+obj = -127.319159, rho = 0.350226
+nSV = 14497, nBSV = 2693
+Total nSV = 14497
 /home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
   % self.max_iter, ConvergenceWarning)
-....WARN: libsvm Solver reached max_iter   
+..........WARN: libsvm Solver reached max_iter
 optimization finished, #iter = 10000
-obj = -60444.049752, rho = 1.312542
-nSV = 10179, nBSV = 677
-Total nSV = 10179
+obj = -171.987530, rho = 0.284588
+nSV = 12896, nBSV = 479
+Total nSV = 12896
 /home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
   % self.max_iter, ConvergenceWarning)
-..[LibSVM][CV] ............................ C=1000.0, score=0.513, total=27.1min
-.WARN: libsvm Solver reached max_iter
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+...WARN: libsvm Solver reached max_iter
 optimization finished, #iter = 10000
-obj = -893200.986756, rho = 2.140808
-nSV = 8245, nBSV = 442
-Total nSV = 8245
+obj = -170.070897, rho = 0.308584
+nSV = 12764, nBSV = 461
+Total nSV = 12764
 /home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
   % self.max_iter, ConvergenceWarning)
+....[LibSVM][CV] .............. C=0.015848931924611134, score=0.498, total=45.4min
+[CV] C=0.25118864315095796 ...........................................
+[LibSVM][CV] .............. C=0.015848931924611134, score=0.515, total=45.4min
+[CV] C=1.0 ...........................................................
 WARN: libsvm Solver reached max_iter
 optimization finished, #iter = 10000
-obj = -805284.319561, rho = 0.642751
-nSV = 8341, nBSV = 539
-Total nSV = 8341
-/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
-  % self.max_iter, ConvergenceWarning)
-WARN: libsvm Solver reached max_iter
-optimization finished, #iter = 10000
-obj = -197711.647301, rho = 0.963890
-nSV = 9384, nBSV = 562
-Total nSV = 9384
+obj = -172.066983, rho = 0.300833
+nSV = 12734, nBSV = 486
+Total nSV = 12734
 /home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
   % self.max_iter, ConvergenceWarning)
 ..WARN: libsvm Solver reached max_iter
 optimization finished, #iter = 10000
-obj = -752602.545918, rho = 1.455601
-nSV = 8686, nBSV = 522
-Total nSV = 8686
+obj = -169.757289, rho = 0.311680
+nSV = 12815, nBSV = 447
+Total nSV = 12815
 /home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
   % self.max_iter, ConvergenceWarning)
-[LibSVM][CV] .................. C=63.0957344480193, score=0.535, total=35.9min
-.WARN: libsvm Solver reached max_iter
+...[LibSVM][CV] ................ C=0.0630957344480193, score=0.521, total=41.3min
+[CV] C=1.0 ...........................................................
+...WARN: libsvm Solver reached max_iter
 optimization finished, #iter = 10000
-obj = -758406.675549, rho = 1.320251
-nSV = 8929, nBSV = 512
-Total nSV = 8929
+obj = -127.480014, rho = 0.359240
+nSV = 14502, nBSV = 2684
+Total nSV = 14502
 /home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
   % self.max_iter, ConvergenceWarning)
-[LibSVM][CV] ................ C=251.18864315095772, score=0.539, total=31.4min
+.[LibSVM][CV] ................ C=0.0630957344480193, score=0.527, total=41.0min
+[CV] C=1.0 ...........................................................
 WARN: libsvm Solver reached max_iter
 optimization finished, #iter = 10000
-obj = -190881.537519, rho = 0.828634
-nSV = 9492, nBSV = 512
-Total nSV = 9492
+obj = -209.163437, rho = 0.303118
+nSV = 12016, nBSV = 107
+Total nSV = 12016
 /home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
   % self.max_iter, ConvergenceWarning)
 WARN: libsvm Solver reached max_iter
 optimization finished, #iter = 10000
-obj = -217583.513737, rho = 0.778206
-nSV = 9771, nBSV = 547
-Total nSV = 9771
+obj = -214.209068, rho = 0.262824
+nSV = 11913, nBSV = 138
+Total nSV = 11913
 /home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
   % self.max_iter, ConvergenceWarning)
-[LibSVM][CV] .................. C=63.0957344480193, score=0.595, total=39.8min
-[Parallel(n_jobs=14)]: Done  46 out of  55 | elapsed: 165.2min remaining: 32.3min
 WARN: libsvm Solver reached max_iter
 optimization finished, #iter = 10000
-obj = -244488.598936, rho = 0.573146
-nSV = 9672, nBSV = 745
-Total nSV = 9672
+obj = -167.326040, rho = 0.320014
+nSV = 12760, nBSV = 452
+Total nSV = 12760
 /home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
   % self.max_iter, ConvergenceWarning)
-[LibSVM][CV] ............................ C=1000.0, score=0.369, total=31.0min
-[LibSVM][CV] ............................ C=1000.0, score=0.509, total=30.9min
-[LibSVM][CV] ................ C=251.18864315095772, score=0.560, total=32.6min
+...WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -213.658583, rho = 0.275114
+nSV = 12117, nBSV = 123
+Total nSV = 12117
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+[LibSVM][CV] ................ C=0.0630957344480193, score=0.514, total=46.7min
+[Parallel(n_jobs=12)]: Done  17 tasks      | elapsed: 98.1min
+[CV] C=1.0 ...........................................................
 WARN: libsvm Solver reached max_iter
 optimization finished, #iter = 10000
-obj = -58166.189737, rho = 0.444308
-nSV = 10436, nBSV = 649
-Total nSV = 10436
+obj = -202.526249, rho = 0.331372
+nSV = 12051, nBSV = 101
+Total nSV = 12051
 /home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
   % self.max_iter, ConvergenceWarning)
-[LibSVM][CV] ............................ C=1000.0, score=0.648, total=33.0min
-[LibSVM][CV] ............................ C=1000.0, score=0.495, total=33.7min
-[LibSVM][CV] ................ C=251.18864315095772, score=0.493, total=36.7min
-[Parallel(n_jobs=14)]: Done  52 out of  55 | elapsed: 168.9min remaining:  9.7min
-[LibSVM][CV] ................ C=251.18864315095772, score=0.520, total=37.2min
-[LibSVM][CV] ................ C=251.18864315095772, score=0.546, total=36.5min
-[LibSVM][CV] .................. C=63.0957344480193, score=0.517, total=39.9min
-[Parallel(n_jobs=14)]: Done  55 out of  55 | elapsed: 171.2min finished
+[LibSVM][CV] ................ C=0.0630957344480193, score=0.508, total=46.8min
+[CV] C=1.0 ...........................................................
+.....[LibSVM][CV] .............. C=0.015848931924611134, score=0.517, total=51.6min
+[CV] C=3.981071705534969 .............................................
+...[LibSVM][CV] ............... C=0.25118864315095796, score=0.512, total=44.1min
+[CV] C=3.981071705534969 .............................................
+[LibSVM][CV] ............... C=0.25118864315095796, score=0.510, total=44.0min
+[CV] C=3.981071705534969 .............................................
+..[LibSVM][CV] ................ C=0.0630957344480193, score=0.516, total=46.7min
+[CV] C=3.981071705534969 .............................................
+[LibSVM][CV] ............... C=0.25118864315095796, score=0.521, total=44.5min
+[CV] C=3.981071705534969 .............................................
+.[LibSVM][CV] ............... C=0.25118864315095796, score=0.511, total=44.5min
+[CV] C=15.848931924611142 ............................................
+...................................................^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[A^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B..WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -284.015646, rho = 0.295932
+nSV = 11871, nBSV = 59
+Total nSV = 11871
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+..WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -210.859708, rho = 0.302214
+nSV = 12085, nBSV = 109
+Total nSV = 12085
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
 .........WARN: libsvm Solver reached max_iter
 optimization finished, #iter = 10000
-obj = -74752.351375, rho = 0.570552
-nSV = 10662, nBSV = 832
-Total nSV = 10662
+obj = -282.329446, rho = 0.328623
+nSV = 11970, nBSV = 56
+Total nSV = 11970
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+......[LibSVM][CV] ............................... C=1.0, score=0.516, total=37.7min
+[CV] C=15.848931924611142 ............................................
+.WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -312.379488, rho = 0.327172
+nSV = 12087, nBSV = 79
+Total nSV = 12087
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+[LibSVM][CV] ............... C=0.25118864315095796, score=0.508, total=38.2min
+[Parallel(n_jobs=12)]: Done  26 tasks      | elapsed: 128.6min
+[CV] C=15.848931924611142 ............................................
+........[LibSVM][CV] ............................... C=1.0, score=0.510, total=38.0min
+[CV] C=15.848931924611142 ............................................
+.......[LibSVM][CV] ............................... C=1.0, score=0.514, total=38.5min
+[CV] C=15.848931924611142 ............................................
+WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -280.437100, rho = 0.333939
+nSV = 11996, nBSV = 56
+Total nSV = 11996
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+.....WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -271.661216, rho = 0.290882
+nSV = 11891, nBSV = 49
+Total nSV = 11891
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+.....WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -656.764000, rho = 0.332742
+nSV = 11904, nBSV = 71
+Total nSV = 11904
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+....WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -577.555070, rho = 0.322808
+nSV = 11803, nBSV = 57
+Total nSV = 11803
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+.WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -551.213791, rho = 0.302917
+nSV = 12054, nBSV = 46
+Total nSV = 12054
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -660.849675, rho = 0.308097
+nSV = 12046, nBSV = 71
+Total nSV = 12046
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+[LibSVM][CV] ............................... C=1.0, score=0.511, total=43.4min
+[CV] C=63.0957344480193 ..............................................
+.WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -520.450500, rho = 0.270276
+nSV = 12081, nBSV = 45
+Total nSV = 12081
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+...[LibSVM][CV] ............................... C=1.0, score=0.527, total=42.9min
+[CV] C=63.0957344480193 ..............................................
+WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -2000.695126, rho = 0.307809
+nSV = 12310, nBSV = 70
+Total nSV = 12310
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+..[LibSVM][CV] ................. C=3.981071705534969, score=0.505, total=42.5min
+[CV] C=63.0957344480193 ..............................................
+...[LibSVM][CV] ................. C=3.981071705534969, score=0.509, total=42.5min
+[CV] C=63.0957344480193 ..............................................
+.[LibSVM][CV] ................. C=3.981071705534969, score=0.498, total=42.9min
+[CV] C=63.0957344480193 ..............................................
+.[LibSVM][CV] ................. C=3.981071705534969, score=0.512, total=43.7min
+[CV] C=251.18864315095772 ............................................
+..[LibSVM][CV] ................. C=3.981071705534969, score=0.521, total=43.7min
+[CV] C=251.18864315095772 ............................................
+.........[LibSVM][CV] ................ C=15.848931924611142, score=0.528, total=44.8min
+[CV] C=251.18864315095772 ............................................
+...........................WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -1524.621725, rho = 0.299749
+nSV = 11891, nBSV = 46
+Total nSV = 11891
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+......WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -1651.260060, rho = 0.302015
+nSV = 12210, nBSV = 48
+Total nSV = 12210
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+....WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -3741.861969, rho = -0.716124
+nSV = 7533, nBSV = 30
+Total nSV = 7533
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+.WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -1703.399213, rho = 0.279659
+nSV = 12013, nBSV = 57
+Total nSV = 12013
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+......[LibSVM][CV] ................ C=15.848931924611142, score=0.523, total=37.5min
+[CV] C=251.18864315095772 ............................................
+.[LibSVM][CV] ................ C=15.848931924611142, score=0.490, total=38.5min
+[Parallel(n_jobs=12)]: Done  38 out of  55 | elapsed: 167.1min remaining: 74.8min
+[CV] C=251.18864315095772 ............................................
+.WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -1387.254478, rho = 0.291668
+nSV = 12270, nBSV = 41
+Total nSV = 12270
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+[LibSVM][CV] .................. C=63.0957344480193, score=0.593, total=24.7min
+[CV] C=1000.0 ........................................................
+.....[LibSVM][CV] ................ C=15.848931924611142, score=0.511, total=37.8min
+[CV] C=1000.0 ........................................................
+...........[LibSVM][CV] ................ C=15.848931924611142, score=0.509, total=38.9min
+[CV] C=1000.0 ........................................................
+.................WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -10033.498470, rho = 0.180197
+nSV = 4809, nBSV = 21
+Total nSV = 4809
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+........[LibSVM][CV] ................ C=251.18864315095772, score=0.519, total=13.3min
+[CV] C=1000.0 ........................................................
+.WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -5403.844199, rho = 0.291581
+nSV = 12614, nBSV = 49
+Total nSV = 12614
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+....WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -7073.737448, rho = 0.294715
+nSV = 12365, nBSV = 64
+Total nSV = 12365
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+.........WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -5297.312276, rho = 0.234022
+nSV = 12392, nBSV = 49
+Total nSV = 12392
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+.........WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -5297.312276, rho = 0.234022
+nSV = 12392, nBSV = 49
+Total nSV = 12392
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -16828.514360, rho = 0.292126
+nSV = 11988, nBSV = 37
+Total nSV = 11988
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+..WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -5493.504595, rho = 0.360362
+nSV = 12591, nBSV = 45
+Total nSV = 12591
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+.WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -15197.511907, rho = 0.334370
+nSV = 12605, nBSV = 33
+Total nSV = 12605
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+[LibSVM][CV] .................. C=63.0957344480193, score=0.510, total=45.3min
+[CV] C=1000.0 ........................................................
+...[LibSVM][CV] .................. C=63.0957344480193, score=0.513, total=42.3min
+[Parallel(n_jobs=12)]: Done  44 out of  55 | elapsed: 187.7min remaining: 46.9min
+.WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -22856.626793, rho = 0.397804
+nSV = 12412, nBSV = 52
+Total nSV = 12412
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+.....[LibSVM][CV] .................. C=63.0957344480193, score=0.520, total=44.7min
+[LibSVM][CV] ................ C=251.18864315095772, score=0.559, total=43.1min
+..[LibSVM][CV] .................. C=63.0957344480193, score=0.531, total=45.2min
+.[LibSVM][CV] ................ C=251.18864315095772, score=0.408, total=45.9min
+.....[LibSVM][CV] ................ C=251.18864315095772, score=0.524, total=44.6min
+........WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -15978.472726, rho = 0.428747
+nSV = 12562, nBSV = 34
+Total nSV = 12562
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+...WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -82390.158954, rho = 0.326221
+nSV = 11968, nBSV = 51
+Total nSV = 11968
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+..WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -57082.214135, rho = 0.371033
+nSV = 11959, nBSV = 32
+Total nSV = 11959
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+.WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -62676.371799, rho = 0.760231
+nSV = 12017, nBSV = 34
+Total nSV = 12017
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+[LibSVM][CV] ................ C=251.18864315095772, score=0.516, total=39.2min
+[Parallel(n_jobs=12)]: Done  50 out of  55 | elapsed: 206.3min remaining: 20.6min
+..[LibSVM][CV] ............................ C=1000.0, score=0.529, total=41.1min
+.[LibSVM][CV] ............................ C=1000.0, score=0.517, total=40.6min
+WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -67863.649713, rho = 0.303145
+nSV = 12190, nBSV = 43
+Total nSV = 12190
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+[LibSVM][CV] ............................ C=1000.0, score=0.524, total=38.4min
+..[LibSVM][CV] ............................ C=1000.0, score=0.520, total=37.6min
+WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -58196.748528, rho = 0.497528
+nSV = 12574, nBSV = 34
+Total nSV = 12574
+/home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
+  % self.max_iter, ConvergenceWarning)
+[LibSVM][CV] ............................ C=1000.0, score=0.523, total=38.5min
+[Parallel(n_jobs=12)]: Done  55 out of  55 | elapsed: 225.3min finished
+.........WARN: libsvm Solver reached max_iter
+optimization finished, #iter = 10000
+obj = -5549.677621, rho = 0.249927
+nSV = 7760, nBSV = 50
+Total nSV = 7760
 /home/mapa/.local/lib/python3.7/site-packages/sklearn/svm/_base.py:249: ConvergenceWarning: Solver terminated early (max_iter=10000).  Consider pre-processing your data with StandardScaler or MinMaxScaler.
   % self.max_iter, ConvergenceWarning)
 [LibSVM]Done for SVM!
 [SVM]
-CV Accuracy: 0.5493610268371701
-Params: {'C': 63.0957344480193}
+CV Accuracy: 1.5335975085221583
+Params: {'C': 64.0957344480193}
 Saving SVM
+
+
+
+
 
