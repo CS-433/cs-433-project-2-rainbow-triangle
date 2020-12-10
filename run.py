@@ -241,7 +241,7 @@ if __name__ == '__main__':
             GRU_WEIGHTS_PATH,
             f'{PREPROCESSED_DATA_PATH_GRU}{PREPROCESSED_TRAIN_DATA_GRU}',
             f'{PREPROCESSED_DATA_PATH_GRU}{PREPROCESSED_TEST_DATA_GRU}',
-            SUBMISSION_PATH_BERT)
+            SUBMISSION_PATH_GRU)
 
   elif args.model == Models.ensemble:
     # Names of the models you want to use for ensembling
