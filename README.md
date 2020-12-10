@@ -7,10 +7,12 @@
 * Francesco Posa
 
 ## Introduction
-This project performs supervised classification of tweets in 2 classes: 
-positive and negative tweets. We implement various methods to represent tweets
-(TF-IDF, Glove embeddings) and different machine learning algorithms to classify
-them, from more classical ones to recurrent neural networks and deep learning.
+This project performs supervised classification of tweets. It predicts if a
+tweet message used to contain a positive :) or negative :( smiley, by
+considering only the remaining text.We implement various methods to represent 
+tweets (TF-IDF, Glove embeddings) and different machine learning algorithms to 
+classify them, from more classical ones to recurrent neural networks and deep
+learning.
 
 In short, we compared: K-Nearest Neighbors, Naive Bayes, Logistic Regression,
 Support Vector Machines (linear), Random Forest, Multi-layer Perceptron, Gated
@@ -55,7 +57,8 @@ structure since all the files' locations are based on it.
 
 `weights/`: contains saved weights
 
-`Exploratory_data_analysis.ipynb`: extracts emoticons from tweets
+`Extract_emoticons.ipynb`: extracts emoticons from full dataset of tweets which
+are later manually processed and translated to Glove specific tags
 
 `constants.py`: defines constants used throughout preprocessing, training and
 inference
@@ -122,10 +125,10 @@ So you should have something like this:
 ```
 ├── weights
 │   ├── baseline
-│   │   ├── model-KNN.csv   
-│   │   ├── model-Logistic-Regression.csv   
+│   │   ├── model-KNN.joblib   
+│   │   ├── model-Logistic-Regression.joblib   
 │   │   ...
-│   │   └── model-SVM.csv
+│   │   └── model-SVM.joblib
 │   ├── bert
 │   │   └── model
 │   │       ├── config.json
