@@ -1,14 +1,15 @@
 import argparse
+import pandas as pd
+
 from argparse import RawTextHelpFormatter
 from enum import Enum
 from classes.abstract_model import AbstractModel
-from classes.bert import Bert
-from classes.gru import Gru
 from classes.baseline import Baseline
+from classes.bert import Bert
 from classes.ensemble import Ensemble
+from classes.gru import Gru
 from classes.preprocessing import Preprocessing
 from constants import *
-import pandas as pd
 from time import strftime
 
 
@@ -17,15 +18,15 @@ class Models(Enum):
     This an enumeration to define user-executable methods
   """
 
-  bert = "bert"
-  gru = "gru"
-  ensemble = "ensemble"
-  mlp = "mlp"
-  knn = "knn"
-  nbc = "nbc"
-  rf = "rf"
-  lr = "lr"
-  svm = "svm"
+  bert = 'bert'
+  gru = 'gru'
+  ensemble = 'ensemble'
+  mlp = 'mlp'
+  knn = 'knn'
+  nbc = 'nbc'
+  rf = 'rf'
+  lr = 'lr'
+  svm = 'svm'
 
   def __str__(self):
     """
@@ -47,12 +48,12 @@ class Models(Enum):
     list_model = {
       Models.bert: Bert,
       Models.gru: Gru,
-      Models.mlp: "Neural-Network",
-      Models.knn: "KNN",
-      Models.nbc: "Naive-Bayes",
-      Models.rf: "Random-Forest",
-      Models.lr: "Logistic-Regression",
-      Models.svm: "SVM",
+      Models.mlp: 'Neural-Network',
+      Models.knn: 'KNN',
+      Models.nbc: 'Naive-Bayes',
+      Models.rf: 'Random-Forest',
+      Models.lr: 'Logistic-Regression',
+      Models.svm: 'SVM',
       Models.ensemble: None
     }
 
@@ -122,7 +123,7 @@ def execute(args, weights_path, train_preprocessed_path, test_preprocessed_path,
   :type kwargs: dict
   """
 
-  # Is a classical method is more parameters are specified
+  # Is a classical method if more parameters are specified
   is_classical = len(kwargs) > 0
 
   if is_classical:
@@ -184,42 +185,46 @@ def execute(args, weights_path, train_preprocessed_path, test_preprocessed_path,
 
 if __name__ == '__main__':
 
-  # For the classical ML methods, when the "-lt" (load trained) option
+  # For the classical ML methods, when the '-lt' (load trained) option
   # is not specificied, we automatically perform a cross validation to find
   # the best hyperparameters for the model
   parser = argparse.ArgumentParser(
-    description="This script performs a classification task to predict if " \
-                "a tweet message used to contain a positive :) or negative " \
-                ":( smiley,by considering only the remaining text.",
+    description='This script performs a classification task to predict if ' \
+                'a tweet message used to contain a positive :) or negative ' \
+                ':( smiley,by considering only the remaining text.',
     formatter_class=RawTextHelpFormatter)
 
   # Required argument
   parser.add_argument(
-    "model",
+    'model',
     type=Models,
     choices=list(Models),
-    help="Specify the model you want to run.\nNote: for classical ML models " \
-         "(every model excluded Bert and GRU), if -lt is not specified, " \
-         "before the training phase we perform the hyperparameters tuning\n" \
-         "  bert: performs the classification with a Bert model (we suggest " \
-         "you to train this model on a cloud platform).\n  gru: performs the " \
-         "classification with a GRU bidirectional model.\n  mlp: performs the " \
-         "classification with a multi-layer perceptron neural network \n" \
-         "  knn: performs the classification with a K-nearest neighbors " \
-         "classifier\n  nbc: performs the classification with a Naive Bayes " \
-         "classifier\n  rf: performs the classification with a Random Forest " \
-         "classifier\n  lr: performs the classification with Logistic Regression")
+    help='Specify the model you want to run.\nNote: for classical ML models ' \
+         '(every model excluded Bert and GRU), if -lt is not specified, ' \
+         'before the training phase we perform the hyperparameters tuning\n' \
+         '  bert: performs the classification with a Bert model (we suggest ' \
+         'you to train this model on a cloud platform)\n  gru: performs the ' \
+         'classification with a GRU bidirectional model\n  ensemble: ' \
+         'performs the classification with an Ensemble out of all other ' \
+         'models based on a weighted voting scheme proportional with cross ' \
+         'validation score\n  mlp: performs the classification with a ' \
+         'multi-layer perceptron neural network \n  knn: performs the ' \
+         'classification with a K-nearest  neighbors classifier\n  nbc: ' \
+         'performs the classification with a Naive Bayes classifier\n  ' \
+         'rf: performs the classification with a Random Forest classifier\n' \
+         '  lr: performs the classification with Logistic Regression \n' \
+         '  svm: performs the classification with linear SVM classifier')
 
   # Optional arguments
   parser.add_argument(
-    "-lp",
+    '-lp',
     action='store_true',
-    help="Load already preprocessed data for a specified model")
+    help='Load already preprocessed data for a specified model')
 
   parser.add_argument(
-    "-lt",
+    '-lt',
     action='store_true',
-    help="Load an already trained model")
+    help='Load an already trained model')
 
   # Getting args namespace
   args = parser.parse_args()
@@ -241,28 +246,28 @@ if __name__ == '__main__':
   elif args.model == Models.ensemble:
     # Names of the models you want to use for ensembling
     model_names = [
-      "Gru",
-      "Bert_no_prep",
-      "Bert_with_prep",
-      "KNN",
-      "Logistic_Regression",
-      "Naive_Bayes",
-      "Random_Forest",
-      "Multilayer_Perceptron",
-      "SVM"]
+      'Gru',
+      'Bert_no_prep',
+      'Bert_with_prep',
+      'KNN',
+      'Logistic_Regression',
+      'Naive_Bayes',
+      'Random_Forest',
+      'Multilayer_Perceptron',
+      'SVM']
 
     # Dictionary with the submissions of those models
     # and their respective validation accuracy
     model_accuracies = {
-      f"{SUBMISSION_PATH_GRU}submission-2020-12-03_16:55:08.csv": 0.857,
-      f"{SUBMISSION_PATH_BERT}submission-2020-12-06_16:48:30.csv": 0.894,
-      f"{SUBMISSION_PATH_BERT}submission-2020-12-03_20:24:31.csv": 0.888,
-      f"{SUBMISSION_PATH_CLASSICAL}submission-KNN-2020-12-08_23:37:01.csv": 0.674,
-      f"{SUBMISSION_PATH_CLASSICAL}submission-Logistic Regression-2020-12-09_07:56:20.csv":0.765,
-      f"{SUBMISSION_PATH_CLASSICAL}submission-Naive Bayes-2020-12-08_20:28:39.csv":0.642,
-      f"{SUBMISSION_PATH_CLASSICAL}submission-Random Forest-2020-12-09_09:30:11.csv": 0.766,
-      f"{SUBMISSION_PATH_CLASSICAL}submission-Neural Network-2020-12-09_04:42:17.csv": 0.776,
-      f"{SUBMISSION_PATH_CLASSICAL}submission-SVM-2020-12-08_20:03:39.csv": 0.765
+      f'{SUBMISSION_PATH_GRU}submission-2020-12-03_16:55:08.csv': 0.857,
+      f'{SUBMISSION_PATH_BERT}submission-2020-12-06_16:48:30.csv': 0.894,
+      f'{SUBMISSION_PATH_BERT}submission-2020-12-03_20:24:31.csv': 0.888,
+      f'{SUBMISSION_PATH_CLASSICAL}submission-KNN-2020-12-08_23:37:01.csv': 0.674,
+      f'{SUBMISSION_PATH_CLASSICAL}submission-Logistic Regression-2020-12-09_07:56:20.csv': 0.765,
+      f'{SUBMISSION_PATH_CLASSICAL}submission-Naive Bayes-2020-12-08_20:28:39.csv':0.642,
+      f'{SUBMISSION_PATH_CLASSICAL}submission-Random Forest-2020-12-09_09:30:11.csv': 0.766,
+      f'{SUBMISSION_PATH_CLASSICAL}submission-Neural Network-2020-12-09_04:42:17.csv': 0.776,
+      f'{SUBMISSION_PATH_CLASSICAL}submission-SVM-2020-12-08_20:03:39.csv': 0.765
     }
 
     # Instantiating the model
