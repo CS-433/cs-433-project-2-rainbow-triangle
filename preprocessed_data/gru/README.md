@@ -1,5 +1,5 @@
-# PREPROCESSED FILES
+# GRU Preprocessed Tweets
 
 Different models require different preprocessing methods.
 
-All the preprocessed files (train and test sets) are here.
+2 files: `train_preprocessed.csv`, `test_preprocessed.csv`.

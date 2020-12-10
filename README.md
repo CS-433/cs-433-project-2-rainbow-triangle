@@ -42,17 +42,17 @@ baseline has been done in scikit-learn. In alphabetical order, you should have:
 This is scheleton we used when developing this project. We recommend this
 structure since all the files' locations are based on it.
 
-`classes`: contains all our implementation
+`classes/`: contains all our implementation
 
-`logs`: contains outputed logs during training
+`logs/`: contains outputed logs during training
 
-`preprocessed_data`: we are saving/loading the preprocessed data here/from here
+`preprocessed_data/`: we are saving/loading the preprocessed data here/from here
 
-`submissions`: contains AIcrowd submissions
+`submissions/`: contains AIcrowd submissions
 
-`utility`: contains helpful resources for preprocessing the tweets
+`utility/`: contains helpful resources for preprocessing the tweets
 
-`weights`: contains saved weights
+`weights/`: contains saved weights
 
 `Exploratory_data_analysis.ipynb`: extracts emoticons from tweets
 
@@ -91,7 +91,7 @@ to do your own preprocessing.
 
 If you want to download the preprocessed tweets then download them from 
 [this Drive link](https://drive.google.com/drive/folders/16izsD7W0SG3AF094cW0JpcfnPFRF1aXY?usp=sharing)
-and save them into the top level [`preprocessed_data`](https://github.com/mapaaa/ml-project2/tree/master/preprocessed_data)
+and save them into the top level [`preprocessed_data/`](https://github.com/mapaaa/ml-project2/tree/master/preprocessed_data)
 folder. So you should have something like this:
 ```
 ├── preprocessed_data
@@ -112,7 +112,7 @@ Skip this section if you want to re-train the models.
 
 If you want to download the pretrained models (HIGHLY RECOMMENDED for the
 deep learning models) then download them from [this Drive link](https://drive.google.com/drive/folders/1o_exDi-gA0X1kSBTl9qUPpEGWZBX-MFy?usp=sharing)
-and save them into the top level [`weights`](https://github.com/mapaaa/ml-project2/tree/master/weights)
+and save them into the top level [`weights/`](https://github.com/mapaaa/ml-project2/tree/master/weights)
 folder.
 So you should have something like this:
 ```
@@ -167,10 +167,10 @@ computationally expensive model, we recommend to download the preprocessed
 tweets and trained model.
 
 * Download preprocessed tweets from [this Drive link](https://drive.google.com/drive/folders/16izsD7W0SG3AF094cW0JpcfnPFRF1aXY?usp=sharing)
-in the top level [`preprocessed_data`](https://github.com/mapaaa/ml-project2/tree/master/preprocessed_data)
+in the top level [`preprocessed_data/`](https://github.com/mapaaa/ml-project2/tree/master/preprocessed_data)
 folder.
 * Download the model from [this Drive link](https://drive.google.com/drive/folders/1o_exDi-gA0X1kSBTl9qUPpEGWZBX-MFy?usp=sharing)
-in the top level [`weights`](https://github.com/mapaaa/ml-project2/tree/master/weights)
+in the top level [`weights/`](https://github.com/mapaaa/ml-project2/tree/master/weights)
 folder.
 * Run:
 ```
