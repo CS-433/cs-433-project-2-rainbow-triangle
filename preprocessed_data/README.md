@@ -9,10 +9,10 @@ You can download the already preprocessed data from
 
 `baseline\`: preprocessed tweets for KNN, Naive Bayes, Logistic Regression,
 SVM, Random Forest and Multi Layer Perceptron.  
-**Total required space**: 24 MB
+**Required space**: 24 MB
 
 `bert\`: preprocessed tweets for Bert.  
-**Total required space**: 164 MB
+**Required space**: 164 MB
 
 `gru\`: preprocessed tweets for GRU.  
-**Total required space**: 187 MB
+**Required space**: 187 MB
