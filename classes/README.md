@@ -1,3 +1,4 @@
-# Submissions
+# Classes
 
-All submissions made on AIcrowd are here.
+In here you can find the implementations of the models and the preprocessing
+of the data.

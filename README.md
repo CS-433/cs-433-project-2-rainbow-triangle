@@ -16,6 +16,7 @@ In short, we compared: K-Nearest Neighbors, Naive Bayes, Logistic Regression,
 Support Vector Machines (linear), Random Forest, Multi-layer Perceptron, Gated
 Recurrent Unit, Bert. Moreover, we also make an ensemble based on voting
 between all of them.  
+
 For more details, read the [report.pdf](https://github.com/mapaaa/ml-project2/tree/master/report.pdf).
 
 ### Results at a glance
@@ -92,7 +93,9 @@ to do your own preprocessing.
 If you want to download the preprocessed tweets then download them from 
 [this Drive link](https://drive.google.com/drive/folders/16izsD7W0SG3AF094cW0JpcfnPFRF1aXY?usp=sharing)
 and save them into the top level [`preprocessed_data/`](https://github.com/mapaaa/ml-project2/tree/master/preprocessed_data)
-folder. So you should have something like this:
+folder.  
+**Total required space**: 365 MB  
+So you should have something like this:
 ```
 ├── preprocessed_data
 │   ├── baseline
@@ -113,7 +116,8 @@ Skip this section if you want to re-train the models.
 If you want to download the pretrained models (HIGHLY RECOMMENDED for the
 deep learning models) then download them from [this Drive link](https://drive.google.com/drive/folders/1o_exDi-gA0X1kSBTl9qUPpEGWZBX-MFy?usp=sharing)
 and save them into the top level [`weights/`](https://github.com/mapaaa/ml-project2/tree/master/weights)
-folder.
+folder.  
+**Total required space**: ??  
 So you should have something like this:
 ```
 ├── weights
@@ -158,7 +162,7 @@ python3 run.py nbc -lp
 ```
 
 In all cases, the script will make a submission file and save it in the
-[`submissions`](https://github.com/mapaaa/ml-project2/tree/master/submissions).
+[`submissions/`](https://github.com/mapaaa/ml-project2/tree/master/submissions).
 
 
 ## Best submission on AIcrowd
@@ -168,10 +172,12 @@ tweets and trained model.
 
 * Download preprocessed tweets from [this Drive link](https://drive.google.com/drive/folders/16izsD7W0SG3AF094cW0JpcfnPFRF1aXY?usp=sharing)
 in the top level [`preprocessed_data/`](https://github.com/mapaaa/ml-project2/tree/master/preprocessed_data)
-folder.
+folder.  
+**Total required space**: 365 MB
 * Download the model from [this Drive link](https://drive.google.com/drive/folders/1o_exDi-gA0X1kSBTl9qUPpEGWZBX-MFy?usp=sharing)
 in the top level [`weights/`](https://github.com/mapaaa/ml-project2/tree/master/weights)
-folder.
+folder.  
+**Total required space**: ??
 * Run:
 ```
 python3 run.py bert -lp -lt

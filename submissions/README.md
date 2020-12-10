@@ -1,6 +1,6 @@
 # Submissions
 
-All submissions made on AIcrowd are here.
+All submissions made on AIcrowd are here and named appropriately.
 
 `baseline\`: predictions made by KNN, Naive Bayes, Logistic Regression,
 SVM, Random Forest and Multi Layer Perceptron.  
