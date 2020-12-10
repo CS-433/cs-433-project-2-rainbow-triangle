@@ -58,9 +58,10 @@ inference
 
 There are several ways to run it. You can either re-run everything from data
 preprocessing to training and inference. Or you can just load our already
-trained models and make predictions. If, you just want to reproduce our best
+trained models and make predictions.  
+**If, you just want to reproduce our best
 submission then skip to [Best submission on AIcrowd](#best-submission-on-AIcrowd)
-section.
+section.**
 
 ### Step 1. Download the raw data
 Skip this section if you only want to make predictions.
@@ -83,7 +84,7 @@ to do your own preprocessing.
 
 If you want to download the preprocessed tweets then download them from 
 [this Drive link](https://drive.google.com/drive/folders/16izsD7W0SG3AF094cW0JpcfnPFRF1aXY?usp=sharing)
-and save them into the top level `preprocessed_data` folder. So you should have 
+and save them into the top level [`preprocessed_data`](https://github.com/mapaaa/ml-project2/tree/master/preprocessed_data) folder. So you should have 
 something like this:
 ```
 ├── preprocessed_data
@@ -104,7 +105,7 @@ Skip this section if you want to re-train the models.
 
 If you want to download the pretrained models (HIGHLY RECOMMENDED for the
 deep learning models) then download them from [this Drive link](https://drive.google.com/drive/folders/1o_exDi-gA0X1kSBTl9qUPpEGWZBX-MFy?usp=sharing)
-and save them into the top level `weights` folder.
+and save them into the top level [`weights`](https://github.com/mapaaa/ml-project2/tree/master/weights) folder.
 So you should have something like this:
 ```
 ├── weights
