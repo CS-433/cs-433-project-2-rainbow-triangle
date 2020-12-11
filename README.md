@@ -23,6 +23,9 @@ For more details, read the [report.pdf](https://github.com/mapaaa/ml-project2/tr
 
 ### Results at a glance
 
+Our best model was based on Bert and had a 0.896 accuracy and 0.897 F1 score
+on AIcrowd.
+
 ## Dependencies
 To properly run our code you will have to install some dependencies. Our 
 suggestion is to use a Python environment (we used Anaconda). 
