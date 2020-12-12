@@ -14,5 +14,5 @@ SVM, Random Forest and Multi Layer Perceptron (Small dataset of 200,000 tweets).
 `bert\`: preprocessed tweets for Bert (large dataset of 2,500,000 tweets).  
 **Required space**: 164 MB
 
-`gru\`: preprocessed tweets for GRU (large dataset of 2,500,000 tweets).
+`gru\`: preprocessed tweets for GRU (large dataset of 2,500,000 tweets).   
 **Required space**: 187 MB
