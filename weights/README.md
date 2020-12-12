@@ -18,4 +18,4 @@ Trained on a NVIDIA Tesla P100 GPU.
 
 `gru\`: Gated Reccurent Unit  
 Trained on a 4 cores CPU.  
-**Required space**: ??
+**Required space**: 1.67 GB
