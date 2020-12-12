@@ -1,4 +1,5 @@
 import collections
+import multiprocessing
 import nltk
 import numpy as np
 import pandas as pd
@@ -70,9 +71,11 @@ class Baseline(AbstractModel):
                            random_state=SEED,
                            solver='sag',  # fast for large dataset
                            max_iter=10000,
-                           n_jobs=5,
                            verbose=1),
-        {'C': np.logspace(-3, 3, 11)}),
+        {
+          'C': np.logspace(-3, 3, 11),
+          'n_jobs': [5]
+        }),
       'SVM': (
         LinearSVC(class_weight='balanced',
                   # random folds so class frequencies are unexpected
@@ -85,14 +88,16 @@ class Baseline(AbstractModel):
         RandomForestClassifier(criterion='gini',
                                bootstrap=True,
                                verbose=1,
-                               n_jobs=5,
                                max_depth=25,
                                min_samples_split=2,
                                min_samples_leaf=4,
                                random_state=SEED,
                                max_features='auto'),
         # will do sqrt at each split
-        {'n_estimators': [10, 50, 100, 500, 1000]}),
+        {
+          'n_estimators': [10, 50, 100, 500, 1000],
+          'n_jobs': [5]
+        }),
       'Neural-Network': (
         MLPClassifier(solver='adam',
                       learning_rate='adaptive',
@@ -195,10 +200,18 @@ class Baseline(AbstractModel):
     print('Fit...')
     model, param_grid = self.__models[model_name]
     print(f'Grid searching for {model_name}...')
+    if NJOBS > multiprocessing.cpu_count():
+      total_cpu = max(1, multiprocessing.cpu_count() - 2)
+    else:
+      total_cpu = NJOBS
+    if 'n_jobs' in param_grid:
+      n_jobs = max(1, int(total_cpu / param_grid['n_jobs'][0]))
+    else:
+      n_jobs = total_cpu
     grid_search = GridSearchCV(estimator=model,
                                param_grid=param_grid,
                                scoring='accuracy',
-                               n_jobs=14,
+                               n_jobs=n_jobs,
                                verbose=10)
     grid_search.fit(X, Y)
     print(f'Done for {model_name}!')
