@@ -1,9 +1,12 @@
 # Emoticons from https://en.wikipedia.org/wiki/List_of_emoticons
 # Gathered on 22 Nov 2020
 # Eastern emoticons and Western emoticons
-# Merged with the 28 emoticons from 
-# https://repository.upenn.edu/cgi/viewcontent.cgi?article=1242&context=pwpl
 
+
+
+:d
+c:
+:-@
 =(
 (:
 ;P
