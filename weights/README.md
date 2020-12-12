@@ -5,7 +5,7 @@ Saved trained models.
 Even hyperparameter tuning with cross validation for non deep learning models
 can take hours without proper hardware. So it is recommended to download them
 from [this Drive link](https://drive.google.com/drive/folders/1o_exDi-gA0X1kSBTl9qUPpEGWZBX-MFy).  
-**Total required space**: ??
+**Total required space**: 5.3 GB
 
 `baseline\`: KNN, Naive Bayes, Logistic Regression, SVM, Random Forest and 
 Multi Layer Perceptron.  
