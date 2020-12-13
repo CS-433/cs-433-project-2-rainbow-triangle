@@ -183,8 +183,9 @@ folder.
 * Download the model from [this Drive link](https://drive.google.com/drive/folders/1o_exDi-gA0X1kSBTl9qUPpEGWZBX-MFy?usp=sharing)
 in the top level [`weights/`](https://github.com/mapaaa/ml-project2/tree/master/weights)
 folder.  
-**Total required space**: ??
+**Total required space**: 6.21 GB
 * Run:
 ```
 python3 run.py bert -lp -lt
 ```
+This will take between 30 minutes and one hour on a normal laptop.
