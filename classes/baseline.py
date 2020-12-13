@@ -165,7 +165,7 @@ class Baseline(AbstractModel):
       'remove_space_between_emoticons',
       'correct_spacing_indexing',
       'emoticons_to_tags',
-      'final_parenthesis',
+      'final_parenthesis_to_tags',
       'remove_numbers',
       'remove_punctuation',
       'to_lower',
