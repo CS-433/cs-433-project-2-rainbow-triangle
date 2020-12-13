@@ -20,10 +20,10 @@ class Bert(AbstractModel):
     # A tensorflow model of Bert base (uncased), pre-trained.
     # More on it on our report.
     self.__model = TFBertForSequenceClassification.from_pretrained(
-      'bert-base-uncased')
+      'bert-large-uncased')
 
     # Instanciating a proper tokenizer for Bert
-    self.__tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+    self.__tokenizer = BertTokenizer.from_pretrained('bert-large-uncased')
 
   def get_preprocessing_methods(self, istest=False):
     """
