@@ -72,7 +72,7 @@ inference
 
 There are several ways to run it. You can either re-run everything from data
 preprocessing to training and inference. Or you can just load our already
-trained models and make predictions.  
+trained models and make predictions. **Note**: all the requirements in terms of hardware are in the README in the weights folder.
 **If you just want to reproduce our best
 submission then skip to [Best submission on AIcrowd](#best-submission-on-aicrowd)
 section.**
