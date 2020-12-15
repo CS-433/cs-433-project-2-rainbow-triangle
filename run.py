@@ -249,6 +249,7 @@ if __name__ == '__main__':
       'Gru',
       'Bert_no_prep',
       'Bert_with_prep',
+      'Bert_large',
       'KNN',
       'Logistic_Regression',
       'Naive_Bayes',
@@ -259,9 +260,10 @@ if __name__ == '__main__':
     # Dictionary with the submissions of those models
     # and their respective validation accuracy
     model_accuracies = {
-      f'{SUBMISSION_PATH_GRU}submission-2020-12-03_16:55:08.csv': 0.857,
+      f'{SUBMISSION_PATH_GRU}submission-2020-12-10_12:06:04.csv': 0.853,
       f'{SUBMISSION_PATH_BERT}submission-2020-12-06_16:48:30.csv': 0.894,
       f'{SUBMISSION_PATH_BERT}submission-2020-12-03_20:24:31.csv': 0.888,
+      f'{SUBMISSION_PATH_BERT}submission-2020-12-13_11:13:01.csv': 0.897,
       f'{SUBMISSION_PATH_CLASSICAL}submission-KNN-2020-12-08_23:37:01.csv': 0.674,
       f'{SUBMISSION_PATH_CLASSICAL}submission-Logistic Regression-2020-12-09_07:56:20.csv': 0.765,
       f'{SUBMISSION_PATH_CLASSICAL}submission-Naive Bayes-2020-12-08_20:28:39.csv':0.642,
