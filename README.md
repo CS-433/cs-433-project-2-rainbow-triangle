@@ -23,7 +23,7 @@ For more details, read the [report.pdf](https://github.com/CS-433/cs-433-project
 
 ### Results at a glance
 
-Our best model was based on Bert and had a 0.896 accuracy and 0.897 F1 score
+Our best model was based on Bert (large-uncased) and had a 0.902 accuracy and 0.901 F1 score
 on AIcrowd.
 
 ## Dependencies
