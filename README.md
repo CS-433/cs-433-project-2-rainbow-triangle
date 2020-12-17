@@ -108,6 +108,7 @@ Otherwise, you should have only the `glove.twitter.27B.100d.txt` in the data fol
 Download:
 - Stanford: http://nlp.stanford.edu/data/glove.twitter.27B.zip (please use only the 100d file).
 - Alternative (faster): https://drive.google.com/file/d/15p0lHVX1UxL3K9hn4SFZde_2LLeTMquW/view?usp=sharing
+**Total required space**: 974 MB
 
 ### Step 3. Download the already preprocessed tweets
 Skip this section if you did [Step 1](#step-1-download-the-raw-data) and want
@@ -133,7 +134,7 @@ So you should have something like this:
 │   └── README.md
 ```
 
-### Step 3. Download the models
+### Step 4. Download the models
 Skip this section if you want to re-train the models.
 
 If you want to download the pretrained models (HIGHLY RECOMMENDED for the
@@ -157,7 +158,7 @@ So you should have something like this:
 │   └── README.md
 ```
 
-### Step 4. The actual run
+### Step 5. The actual run
 [`run.py`](https://github.com/CS-433/cs-433-project-2-rainbow-triangle/blob/master/run.py) is the
 main script which performs the data preprocessing, training (with hyperparameter
 tuning) and inference.
