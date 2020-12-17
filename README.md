@@ -108,6 +108,7 @@ Otherwise, you should have only the `glove.twitter.27B.100d.txt` in the data fol
 Download:
 - Stanford: http://nlp.stanford.edu/data/glove.twitter.27B.zip (please use only the 100d file).
 - Alternative (faster): https://drive.google.com/file/d/15p0lHVX1UxL3K9hn4SFZde_2LLeTMquW/view?usp=sharing
+
 **Total required space**: 974 MB
 
 ### Step 3. Download the already preprocessed tweets
