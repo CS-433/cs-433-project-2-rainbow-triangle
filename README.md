@@ -92,7 +92,24 @@ So you should have something like this:
 │   └── test_data.txt
 ```
 
-### Step 2. Download the already preprocessed tweets
+### Step 2. Download the GloVe File.
+For our Recurrent Neural Network based on GRU, we use a Pre-Trained Embedding Layer, where each 100-dimensional GloVe vector has been obtained by the Stanford University on twitter data. Please download the file and put it in the data folder. If you didn't skip the previous step, you should have a structure like this: 
+
+```
+├── data
+│   ├── train_pos.txt
+│   ├── train_neg.txt
+│   ├── train_pos_full.txt
+│   ├── train_neg_full.txt
+│   |── test_data.txt
+|   └── glove.twitter.27B.100d.txt
+```
+Otherwise, you should have only the `glove.twitter.27B.100d.txt` in the data folder. This file is necessary even if you do not want to train the model again.
+Download:
+- Stanford: http://nlp.stanford.edu/data/glove.twitter.27B.zip (please use only the 100d file).
+- Alternative (faster): https://drive.google.com/file/d/15p0lHVX1UxL3K9hn4SFZde_2LLeTMquW/view?usp=sharing
+
+### Step 3. Download the already preprocessed tweets
 Skip this section if you did [Step 1](#step-1-download-the-raw-data) and want
 to do your own preprocessing.
 
